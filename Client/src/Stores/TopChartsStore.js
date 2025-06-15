@@ -1,0 +1,54 @@
+import { create } from 'zustand'
+import http from '../../http'
+import useSongDetails from './SongDetailStore'
+import limit from 'p-limit';
+
+function parseCompactNumber(text) {
+  const units = {
+    K: 1_000,
+    M: 1_000_000,
+    B: 1_000_000_000,
+    T: 1_000_000_000_000
+  }
+
+  const match = text.match(/^([\d,.]+)([KMBT])?$/i)
+  if (!match) return NaN
+
+  const [, numStr, unit] = match
+  const num = parseFloat(numStr.replace(/,/g, ''))
+
+  return unit ? num * units[unit.toUpperCase()] : num
+}
+
+const useChartsStore = create((set) => ({
+  charts: [],
+  error: null,
+  isLoading: false,
+  getCharts: async () => {
+    set({ isLoading: true })
+    try {
+      const getSongDetails = useSongDetails.getState().getSongDetails
+      const result = await http.get('music/charts')
+      const data = result.data.videos.items.sort((a,b) => Number(parseCompactNumber(b.views)) - Number(parseCompactNumber(a.views)))
+      const limiter = limit(5);
+      set({ charts: data })
+      await Promise.all(
+        data.map((item) => 
+          limiter(async () => {
+            const detail = await getSongDetails(item.videoId)
+            item.songDetail = detail?.videoDetails || {}
+
+            set((state) => ({ charts: [...state.charts] }))
+          })
+        )
+      )
+    } catch (error) {
+      console.log(error)
+      set({ error: error.response.data.message })
+    } finally {
+        set({ isLoading: false })
+    }
+  }
+}))
+
+export default useChartsStore

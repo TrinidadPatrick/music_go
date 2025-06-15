@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4B5563 transparent; 
+}
+
+
+*::-webkit-scrollbar {
+  width: 6px;      
+  height: 0px;        
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #4B5563;
+  border-radius: 9999px;
+}
+
+
+/* Animations */
+@keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+    }
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+
+  @theme {
+    --breakpoint-xs: 480px;
+  }

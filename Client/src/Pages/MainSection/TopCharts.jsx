@@ -54,11 +54,11 @@ const TopCharts = () => {
                     </div>
 
                     {/* Time duration */}
-                    <div className='h-full flex items-center shrink-0 mr-10'>
+                    {/* <div className='h-full flex items-center shrink-0 mr-10'>
                         <span className='text-gray-200  '>
                             {formatTime(Number(chart?.songDetail?.lengthSeconds))}
                         </span>
-                    </div>
+                    </div> */}
 
                     {/* More button */}
                     <button className=' shrink-0'>

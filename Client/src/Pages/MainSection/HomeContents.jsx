@@ -53,6 +53,11 @@ const HomeContents = () => {
                       <div onClick={()=>handleSelect(track)} key={index} className='group cursor-pointer relative bg-gradient-to-br from-black/20 to-black/10 backdrop-blur-lg 
                 rounded-2xl p-3 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 overflow-hidden 
                 flex-shrink-0 w-60'>
+
+                  {/* Mobile more button */}
+                  <button className='cursor-pointer absolute right-5'>
+                            <MoreHorizontal size={20} className='text-gray-100 z-10 relative hover:text-gray-600' />
+                  </button>
                     
                     {/* Hover overlay */}
                     <div className='hidden group-hover:block w-full h-full opacity-50 bg-black absolute top-0 left-0'>

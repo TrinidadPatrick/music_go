@@ -22,6 +22,7 @@ load_dotenv()
 router = APIRouter()
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+BASE_URL = os.getenv("BASE_URL")
 
 CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
@@ -168,7 +169,7 @@ async def callback(request: Request, state: str, db: Session = Depends(get_db)):
     if user_data and user_data.auth_provider == "local":
             message = "Email is already registered to a local account"
             encoded_message = urllib.parse.quote(message)
-            redirect_url = f"http://localhost:5173/{state}?message={encoded_message}"
+            redirect_url = f"${BASE_URL}/{state}?message={encoded_message}"
             return RedirectResponse(url=redirect_url)
 
     # If not exist in DB
@@ -181,7 +182,7 @@ async def callback(request: Request, state: str, db: Session = Depends(get_db)):
         "iat" : datetime.datetime.utcnow(),
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     })
-    response = RedirectResponse("http://localhost:5173/")
+    response = RedirectResponse(f"${BASE_URL}/")
     response.set_cookie("access_token", token, httponly=True, secure=True, samesite="none")
     return response
 

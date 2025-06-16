@@ -181,7 +181,7 @@ const Signup = () => {
         {/* Social Login Buttons */}
         <div className="flex gap-3 mb-0">
           <a
-            href="http://127.0.0.1:8000/user/auth/login/google?provider=google&state=signup"
+            href={`${import.meta.env.VITE_BASE_URL}/user/auth/login/google?provider=google&state=signup`}
             className="flex-1 py-3 bg-white/5 border border-white/10 rounded-md text-white text-center font-medium text-sm hover:bg-white/10 hover:-translate-y-0.5 transition"
           >
             Google

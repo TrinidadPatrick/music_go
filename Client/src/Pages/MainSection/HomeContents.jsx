@@ -32,10 +32,9 @@ const HomeContents = () => {
   }
 
   const isSaved = (videoId) => {
-    return library.library_songs.some((song) => song.videoId === videoId)
+    return library?.library_songs?.some((song) => song.videoId === videoId)
   }
 
-  console.log(library)
 
   return (
     <main className='w-full flex flex-col gap-4 p-6'>

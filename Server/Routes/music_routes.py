@@ -5,11 +5,6 @@ from fastapi.responses import JSONResponse
 router = APIRouter()
 ytmusic = YTMusic()
 
-@router.get("/home")
-def get_homes():
-    results = ytmusic.get_home();
-    return results
-
 @router.get("/charts")
 def get_charts():
     try:
@@ -17,6 +12,11 @@ def get_charts():
         return results
     except Exception as e:
         print(e)
+
+@router.get("/home")
+def get_homes():
+    results = ytmusic.get_home();
+    return results
 
 @router.get("/autoComplete")
 def auto_complete_search(q: str = Query(...)):

@@ -16,6 +16,7 @@ const TopCharts = () => {
         getCharts()
     }, [])
 
+
   return (
      <div className='w-full h-fit max-w-full flex flex-col gap-4 p-6'>
         <div>

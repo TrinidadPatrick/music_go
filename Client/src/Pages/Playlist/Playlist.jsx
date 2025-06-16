@@ -4,6 +4,7 @@ import usePublicPlaylistStore from '../../Stores/PublicPlaylistStore'
 import { Heart, Plus, Play, Pause, MoreHorizontal, Clock, Download,Share, ShuffleIcon} from 'lucide-react';
 import useFormatTimeStore from '../../Stores/FormatTimeStore';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
+import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
   
 
 const Playlist = () => {
@@ -12,6 +13,7 @@ const Playlist = () => {
     const list = params.get('list')
     const {formatTime} = useFormatTimeStore()
     const {getPlaylist, playlist} = usePublicPlaylistStore()
+    const saveToLibrary = useLibraryStore(state => state.saveToLibrary)
     const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
     const setIsLoading = useMusicPlayerStore(state => state.setIsLoading)
     const currentSong = useMusicPlayerStore(state => state.currentSong)
@@ -52,6 +54,11 @@ const Playlist = () => {
         setIsLoading(true)
     }
 
+    const handleSaveSong = (track) => {
+        saveToLibrary(track)
+    }
+
+    // console.log(playlist)
     
     
   return (
@@ -157,7 +164,7 @@ const Playlist = () => {
                 </div>
                 
                 <div className="col-span-1 flex items-center justify-center space-x-2">
-                <button className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-white transition-all">
+                <button onClick={()=>handleSaveSong(track)} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-white transition-all">
                     <Heart size={16} />
                 </button>
                 <span className="text-sm text-gray-400">{formatTime(track.duration_seconds)}</span>

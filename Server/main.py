@@ -5,6 +5,7 @@ from starlette.middleware.sessions import SessionMiddleware
 import os
 from Routes.music_routes import router as music_router
 from Routes.user_routes import router as user_router
+from Routes.auth_music_routes import router as auth_music_router
 from middleware import AuthMiddleWare
 
 app = FastAPI()
@@ -36,3 +37,4 @@ def read_root():
 # Register routers
 app.include_router(music_router, prefix="/music")
 app.include_router(user_router, prefix="/user")
+app.include_router(auth_music_router, prefix="/auth/music")

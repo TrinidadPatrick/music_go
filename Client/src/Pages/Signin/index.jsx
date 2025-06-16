@@ -61,7 +61,7 @@ const Signin = () => {
   }
   
   return isAuthenticated === null ? "" : (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#2c3e50] via-[#34495e] to-[#2980b9] p-5 font-sans">
+    <div className="relative h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#2c3e50] via-[#34495e] to-[#2980b9] sm:p-5 font-sans">
       
       {/* Floating shapes */}
       <div className="pointer-events-none absolute  inset-0 z-10">
@@ -71,7 +71,7 @@ const Signin = () => {
       </div>
 
       {/* Container */}
-      <div className="relative flex flex-col gap-5 h-fit bg-[#2c3e50ef] backdrop-blur-[20px] rounded-3xl p-6 max-w-md w-full border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden">
+      <div className="relative flex flex-col gap-5 h-full sm:h-fit bg-[#2c3e50ef] backdrop-blur-[20px] sm:rounded-3xl p-6 sm:max-w-md w-full border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden">
         
         {/* Top border gradient */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>

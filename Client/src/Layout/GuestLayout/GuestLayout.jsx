@@ -34,14 +34,14 @@ const GuestLayout = () => {
 
   return (
     <main className='h-screen overflow-hidden flex flex-col bg-gradient-to-br from-gray-950 via-slate-950 to-black'>
-      <div className='h-full'>
+      <div className='h-screen '>
       {
         !isLoading && (
           <section className='flex'>
 
             {
               showSidebar && width >= 900 &&
-              <section className='w-[250px] xl:w-full max-w-xs h-screen z-30 flex-none hidden lg:block'>
+              <section className='w-[250px] xl:w-full max-w-xs h-screen z-[9999999] flex-none hidden lg:block'>
                 <Sidebar />
               </section>
             }

@@ -7,6 +7,7 @@ import Signin from './src/Pages/Signin'
 import Signup from './src/Pages/Signup'
 import Playlist from './src/Pages/Playlist/Playlist'
 import Album from './src/Pages/Album/Album'
+import UserLibary from './src/Pages/Library/UserLibrary'
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
             {
                 path: '/user/account',
                 element: <div></div>
+            },
+            {
+                path: '/user/library',
+                element: <UserLibary />
             }
         ]
     }

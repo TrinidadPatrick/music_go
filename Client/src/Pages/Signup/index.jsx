@@ -53,7 +53,7 @@ const Signup = () => {
   }
 
   return isAuthenticated === null ? "" : (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#2c3e50] via-[#34495e] to-[#2980b9] p-5 font-sans">
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#2c3e50] via-[#34495e] to-[#2980b9] sm:p-5 font-sans">
       
       {/* Floating shapes */}
       <div className="pointer-events-none absolute  inset-0 z-10">
@@ -63,14 +63,14 @@ const Signup = () => {
       </div>
 
       {/* Container */}
-      <div className="relative flex flex-col gap-5 h-fit bg-[#2c3e50ef] backdrop-blur-[20px] rounded-3xl p-6 max-w-md w-full border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden">
+      <div className="relative flex flex-col gap-3 h-screen sm:h-fit bg-[#2c3e50ef] backdrop-blur-[20px] sm:rounded-3xl p-3 md:p-6 sm:max-w-md w-full border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden">
         
         {/* Top border gradient */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
 
         {/* Logo */}
         <div className="text-center mb-4">
-          <h1 className="text-4xl font-semibold mb-2 bg-gradient-to-br from-purple-600 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-semibold mb-1 bg-gradient-to-br from-purple-600 to-purple-400 bg-clip-text text-transparent">
             MusicHub
           </h1>
           <p className="text-white/60 text-sm">Your music, your world</p>
@@ -78,10 +78,10 @@ const Signup = () => {
 
         {/* Form Toggle (static, no interactivity) */}
         <div className="flex bg-white/5 rounded-md p-1 relative select-none">
-        <div onClick={()=>navigate('/signin')} className=" flex-1 py-2.5 px-6 text-center text-white/60 font-medium rounded-md cursor-pointer z-10">
+        <div onClick={()=>navigate('/signin')} className=" flex-1 py-2 px-6 text-center text-white/60 font-medium rounded-md cursor-pointer z-10">
             Sign In
           </div>
-          <div className="flex-1 py-2.5 px-6 text-center text-white/60 font-medium rounded-md cursor-pointer z-10 bg-purple-600/80 shadow-md">
+          <div className="flex-1 py-2 px-6 text-center text-white/60 font-medium rounded-md cursor-pointer z-10 bg-purple-600/80 shadow-md">
             Sign Up
           </div>
         </div>
@@ -90,11 +90,11 @@ const Signup = () => {
         {errorMessage && <div className="text-red-400 rounded-md text-sm w-full text-center font-medium p-3 bg-[#f4727227]">{errorMessage}</div>}
 
         {/* Sign In Form (always visible) */}
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-3 md:gap-5">
 
           {/* Name */}
           <div className="">
-            <label htmlFor="signin-name" className="block mb-2 text-white/80 font-semibold text-sm">
+            <label htmlFor="signin-name" className="block mb-2 text-white/80 font-semibold text-[0.8rem]">
               Name
             </label>
             <input
@@ -104,7 +104,7 @@ const Signup = () => {
               required
               value={userInfo.name}
               onChange={(e)=>{setUserInfo({...userInfo, name: e.target.value})}}
-              className="w-full px-2 py-3 bg-white/5 border border-white/10 rounded-md text-white text-base placeholder-white/40 
+              className="w-full px-2 py-3 bg-white/5 border border-white/10 rounded-md text-white text-sm placeholder-white/40 
               focus:border-[#8b45ff]
               focus:shadow-[0 0 0 3px rgba(139, 69, 255, 0.1)]
               border-color: #8b45ff;
@@ -115,7 +115,7 @@ const Signup = () => {
           </div>
 
           <div className="">
-            <label htmlFor="signin-email" className="block mb-2 text-white/80 font-semibold text-sm">
+            <label htmlFor="signin-email" className="block mb-2 text-white/80 font-semibold text-[0.8rem]">
               Email
             </label>
             <input
@@ -125,7 +125,7 @@ const Signup = () => {
               required
               value={userInfo.email}
               onChange={(e)=>{setUserInfo({...userInfo, email: e.target.value})}}
-              className="w-full px-2 py-3 bg-white/5 border border-white/10 rounded-md text-white text-base placeholder-white/40 
+              className="w-full px-2 py-3 bg-white/5 border border-white/10 rounded-md text-white text-sm placeholder-white/40 
               focus:border-[#8b45ff]
               focus:shadow-[0 0 0 3px rgba(139, 69, 255, 0.1)]
               border-color: #8b45ff;
@@ -136,7 +136,7 @@ const Signup = () => {
           </div>
 
           <div className="">
-            <label htmlFor="signin-password" className="block mb-2 text-white/80 font-semibold text-sm">
+            <label htmlFor="signin-password" className="block mb-2 text-white/80 font-semibold text-[0.8rem]">
               Password
             </label>
             <input
@@ -146,7 +146,7 @@ const Signup = () => {
               required
               value={userInfo.password}
               onChange={(e)=>{setUserInfo({...userInfo, password: e.target.value})}}
-              className="w-full px-2 py-3 bg-white/5 border border-white/10 rounded-md text-white text-base placeholder-white/40 
+              className="w-full px-2 py-3 bg-white/5 border border-white/10 rounded-md text-white text-sm placeholder-white/40 
               focus:border-[#8b45ff]
               focus:shadow-[0 0 0 3px rgba(139, 69, 255, 0.1)]
               border-color: #8b45ff;
@@ -165,7 +165,7 @@ const Signup = () => {
           <button
             onClick={(e)=>handleSignup(e)}
             type="submit"
-            className="w-full py-2 bg-gradient-to-br from-purple-600 to-purple-400 rounded-md text-white text-lg font-semibold cursor-pointer hover:shadow-[0_8px_30px_rgba(139,69,255,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition"
+            className="w-full py-3 bg-gradient-to-br from-purple-600 to-purple-400 rounded-md text-white text-sm font-semibold cursor-pointer hover:shadow-[0_8px_30px_rgba(139,69,255,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition"
           >
             Sign Up
           </button>
@@ -179,7 +179,7 @@ const Signup = () => {
         </div>
 
         {/* Social Login Buttons */}
-        <div className="flex gap-3 mb-4">
+        <div className="flex gap-3 mb-0">
           <a
             href="http://127.0.0.1:8000/user/auth/login/google?provider=google&state=signup"
             className="flex-1 py-3 bg-white/5 border border-white/10 rounded-md text-white text-center font-medium text-sm hover:bg-white/10 hover:-translate-y-0.5 transition"

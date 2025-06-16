@@ -13,7 +13,6 @@ const HomeContents = () => {
   const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
   const getSongRecommendation = useGetSongRecommendation(state => state.getSongRecommendation)
   const library = useLibraryStore(state => state.library)
-
   useEffect(() => {
     getHome()
   }, [])
@@ -30,6 +29,10 @@ const HomeContents = () => {
         setSongList(songList.tracks)
       }
     }
+  }
+
+  const isSaved = (videoId) => {
+    return library.library_songs.some((song) => song.videoId === videoId)
   }
 
   console.log(library)
@@ -72,7 +75,7 @@ const HomeContents = () => {
                     {/* Actions buttons */}
                     <div className='hidden group-hover:flex w-full justify-between mt-5'>
                         <button className='cursor-pointer'>
-                            <Heart size={20} className='text-gray-400 z-10 relative hover:text-red-400' />
+                            <Heart fill={`${isSaved(track.videoId) ? 'red' : ''}`} size={20} className='text-gray-400 z-10 relative hover:text-red-400' />
                         </button>
                         <button className='cursor-pointer'>
                             <MoreHorizontal size={20} className='text-gray-400 z-10 relative hover:text-gray-600' />

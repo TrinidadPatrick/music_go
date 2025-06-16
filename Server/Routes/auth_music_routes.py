@@ -39,7 +39,7 @@ async def save_song(request: Request, db: Session = Depends(get_db)):
                 artists = ", ".join(artist["name"] for artist in data["artists"]),
                 album = data["album"],
                 duration_seconds = data["duration_seconds"],
-                thumbnail = data["thumbnails"][0]["url"],
+                thumbnail = data["thumbnails"][0]["url"] if data["thumbnails"] else None,
             )
             db.add(song)
             db.commit()
@@ -57,7 +57,9 @@ async def save_song(request: Request, db: Session = Depends(get_db)):
             db.refresh(library_song)
             return JSONResponse(content={"message": "song saved"}, status_code=200)
         else:
-            return JSONResponse(content={"message": "song already saved"}, status_code=400)
+            db.delete(library_song)
+            db.commit()
+            return JSONResponse(content={"message": "song deleted"}, status_code=200)
 
     else:
         return JSONResponse(content={"message": "invalid credentials"}, status_code=400)

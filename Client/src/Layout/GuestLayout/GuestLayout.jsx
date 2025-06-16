@@ -39,8 +39,8 @@ const GuestLayout = () => {
   const showSidebar = path !== '/signin' && path !== '/signup';
 
   return (
-    <main className='h-screen overflow-hidden flex flex-col bg-gradient-to-br from-gray-950 via-slate-950 to-black'>
-      <div className='h-screen '>
+    <main className='h-[100svh] overflow-hidden flex flex-col bg-gradient-to-br from-gray-950 via-slate-950 to-black'>
+      <div className='h-[100svh] '>
       {
         !isLoading && (
           <section className='flex'>
@@ -52,7 +52,7 @@ const GuestLayout = () => {
               </section>
             }
 
-            <section className='h-screen overflow-auto w-full flex-1 flex flex-col relative'>
+            <section className='h-[100svh] overflow-auto w-full flex-1 flex flex-col relative'>
               {/* Navbar */}
               {showNavbar && <Navbar />}
 

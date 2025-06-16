@@ -1,20 +1,18 @@
 import { create } from 'zustand'
 import http from '../../../http'
 
-const useLibraryStore = create((set) => ({
+const useLibraryStore = create((set, get) => ({
   library: null,
   error: null,
   isLoading: false,
   saveToLibrary: async (song, navigate) => {
-    console.log(song)
     set({ isLoading: true })
     try {
       const result = await http.post('auth/music/save_song', song)
-      console.log(result.data)
-    //   set({ album: result.data })
+      get().getLibrary()
     } catch (error) {
       console.log(error)
-    //   navigate('/home')
+      // navigate('/')
       set({ error: error.response.data.message })
     } finally {
         set({ isLoading: false })

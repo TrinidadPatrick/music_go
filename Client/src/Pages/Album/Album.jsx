@@ -6,6 +6,7 @@ import useFormatTimeStore from '../../Stores/FormatTimeStore';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
 import usePublicAlbumStore from '../../Stores/PublicAlbumStore';
 import useScreenSize from '../../Auth/ScreenSizeProvider';
+import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
   
 
 const Album = () => {
@@ -22,6 +23,12 @@ const Album = () => {
     const setIsPlaying = useMusicPlayerStore(state => state.setIsPlaying)
     const setSongList = useMusicPlayerStore(state => state.setSongList)
     const toggleShuffle = useMusicPlayerStore(state => state.toggleShuffle)
+    const library = useLibraryStore(state => state.library)
+    const saveToLibrary = useLibraryStore(state => state.saveToLibrary)
+
+    const isSaved = (videoId) => {
+        return library?.library_songs?.some((song) => song.videoId === videoId)
+    }
 
     useEffect(()=>{
         getAlbum(list, navigate)
@@ -53,6 +60,10 @@ const Album = () => {
         setCurrentSong(track)
         setIsPlaying(true)
         setIsLoading(true)
+    }
+
+    const handleSaveSong = (track) => {
+        saveToLibrary(track)
     }
     
     
@@ -164,10 +175,10 @@ const Album = () => {
                 {/* Duration & Heart – only More shown on mobile */}
                 <div className="col-span-1 flex items-center justify-center md:justify-center space-x-2">
                     <button
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {e.stopPropagation(); handleSaveSong(track)}}
                     className="text-gray-400 hidden md:group-hover:flex justify-center items-center hover:text-white transition-all group-hover:opacity-100"
                     >
-                    <Heart size={16} />
+                    <Heart fill={`${isSaved(track.videoId) ? 'white' : ''}`} size={16} />
                     </button>
                     <p className="hidden sm:block text-sm text-gray-400">
                     {formatTime(track.duration_seconds)}

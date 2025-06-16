@@ -4,8 +4,9 @@ import { Play, Volume2, Headphones } from 'lucide-react';
 import TopCharts from './TopCharts'
 import Navbar from '../Navbar/Navbar'
 import HomeContents from './HomeContents'
+import useChartsStore from '../../Stores/TopChartsStore';
 
-const Home = ({charts}) => {
+const Home = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [animateText, setAnimateText] = useState(false);
 
@@ -108,7 +109,8 @@ const Home = ({charts}) => {
         <section className='w-full h-fit flex'>
             <TopCharts />
         </section>
-        {/* Top Charts */}
+
+        {/* Home */}
         <section className='w-full h-full flex'>
             <HomeContents />
         </section>

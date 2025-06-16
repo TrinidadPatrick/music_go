@@ -10,14 +10,13 @@ const TopCharts = () => {
     const {charts,getCharts, isLoading, error} = useChartsStore()
     const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
     const setIsLoading = useMusicPlayerStore(state => state.setIsLoading)
-    const {formatTime} = useFormatTimeStore()
 
     useEffect(() => {
         getCharts()
     }, [])
 
 
-  return (
+  return charts?.length > 0 && (
      <div className='w-full h-fit max-w-full flex flex-col gap-4 p-6'>
         <div>
             <h2 className='text-2xl font-bold text-white'>Top Charts</h2>
@@ -36,8 +35,6 @@ const TopCharts = () => {
                     <div className='hidden group-hover:block w-full h-full opacity-50 bg-black absolute top-0 left-0'>
                     </div>
                     
-
-                    
                     <div className='flex gap-3 flex-1 min-w-0'>
                     <div className='flex gap-3 items-center h-full'>
                         <span className='text-gray-200'>{index + 1}</span>
@@ -53,13 +50,6 @@ const TopCharts = () => {
                         <p className='text-gray-400 text-sm line-clamp-1'>{chart.artists.map((artist) => artist.name).join(', ')}</p>
                     </div>
                     </div>
-
-                    {/* Time duration */}
-                    {/* <div className='h-full flex items-center shrink-0 mr-10'>
-                        <span className='text-gray-200  '>
-                            {formatTime(Number(chart?.songDetail?.lengthSeconds))}
-                        </span>
-                    </div> */}
 
                     {/* More button */}
                     <button className=' shrink-0'>

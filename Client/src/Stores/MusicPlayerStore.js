@@ -40,13 +40,13 @@ const useMusicPlayerStore = create((set, get) => ({
   },
 
   playNextSong: async () => {
+    console.log(get().songList)
     const getSongRecommendation = useGetSongRecommendation.getState().getSongRecommendation
     const currentSongIndex = get().songList.findIndex((song) => song.videoId === get().currentSong.videoId)
     const nextSong = get().songList[currentSongIndex + 1]
 
     if(get().songList.length === 0){
       const songRecommendations = await getSongRecommendation(get().currentSong.videoId)
-      console.log(songRecommendations)
       if(songRecommendations){
         set({ songList: songRecommendations.tracks })
       }

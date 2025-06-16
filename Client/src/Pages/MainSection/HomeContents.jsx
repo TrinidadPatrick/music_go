@@ -4,6 +4,7 @@ import { Play, Pause, Heart, MoreHorizontal, Music, Search, Home, Library, Plus,
 import { useNavigate } from 'react-router-dom';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
 import useGetSongRecommendation from '../../Stores/NextSongRecommendationStore';
+import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
 
 const HomeContents = () => {
   const navigate = useNavigate()
@@ -11,6 +12,7 @@ const HomeContents = () => {
   const setSongList = useMusicPlayerStore(state => state.setSongList)
   const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
   const getSongRecommendation = useGetSongRecommendation(state => state.getSongRecommendation)
+  const library = useLibraryStore(state => state.library)
 
   useEffect(() => {
     getHome()
@@ -22,15 +24,15 @@ const HomeContents = () => {
     }else if(track?.type === 'Album' && track?.browseId){
       navigate(`/public/album?list=${track.browseId}`)
     }else if(track?.videoId){
+      setCurrentSong(track)
       const songList = await getSongRecommendation(track.videoId)
       if(songList){
         setSongList(songList.tracks)
       }
-      setCurrentSong(track)
     }
   }
 
-  
+  console.log(library)
 
   return (
     <main className='w-full flex flex-col gap-4 p-6'>

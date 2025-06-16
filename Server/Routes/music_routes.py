@@ -9,6 +9,7 @@ ytmusic = YTMusic()
 def get_charts():
     try:
         results = ytmusic.get_charts(country="ZZ");
+        print(results)
         return results
     except Exception as e:
         print(e)

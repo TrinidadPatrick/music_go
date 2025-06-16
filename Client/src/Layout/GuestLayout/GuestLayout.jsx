@@ -5,11 +5,13 @@ import Navbar from '../../Pages/Navbar/Navbar'
 import useScreenSize from '../../Auth/ScreenSizeProvider'
 import Sidebar from '../../Components/Sidebar'
 import MusicPlayer from '../../Pages/MusicPlayer'
+import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore'
 
 const GuestLayout = () => {
   const navigate = useNavigate()
   const {isAuthenticated} = useAuth()
   const {width} = useScreenSize()
+  const getLibrary = useLibraryStore(state => state.getLibrary)
   const path = window.location.pathname
   const [isLoading, setIsLoading] = useState(true)
 
@@ -24,6 +26,10 @@ const GuestLayout = () => {
 
     return setIsLoading(false);
   }, [isAuthenticated, path, navigate]);
+
+  useEffect(() => {
+    getLibrary()
+  }, [])
 
   if (isLoading) {
     return null;

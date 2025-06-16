@@ -28,7 +28,7 @@ const useChartsStore = create((set) => ({
     set({ isLoading: true })
     try {
       const result = await http.get('music/charts')
-      if(result.status === 200){
+      if(result.status === 200 && result.data){
         set({ charts: result.data.videos.items.sort((a,b) => Number(parseCompactNumber(b.views)) - Number(parseCompactNumber(a.views))) })
       }
     } catch (error) {

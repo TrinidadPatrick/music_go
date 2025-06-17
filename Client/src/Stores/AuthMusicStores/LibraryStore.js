@@ -5,11 +5,13 @@ const useLibraryStore = create((set, get) => ({
   library: null,
   error: null,
   isLoading: false,
-  saveToLibrary: async (song, navigate) => {
+  saveToLibrary: async (song, notify) => {
     set({ isLoading: true })
     try {
       const result = await http.post('auth/music/save_song', song)
+      notify(result.data.message)
       get().getLibrary()
+
     } catch (error) {
       console.log(error)
       // navigate('/')

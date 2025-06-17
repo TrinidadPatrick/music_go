@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
 import useGetSongRecommendation from '../../Stores/NextSongRecommendationStore';
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
+import useSongDetails from '../../Stores/SongDetailStore';
+import toast, { Toaster } from 'react-hot-toast';
 
 const HomeContents = () => {
   const navigate = useNavigate()
@@ -14,9 +16,14 @@ const HomeContents = () => {
   const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
   const getSongRecommendation = useGetSongRecommendation(state => state.getSongRecommendation)
   const library = useLibraryStore(state => state.library)
+  const saveToLibrary = useLibraryStore(state => state.saveToLibrary)
+  const getSongDetails = useSongDetails(state => state.getSongDetails)
+
   useEffect(() => {
     getHome()
   }, [])
+
+  const notify = (message) => toast.success(message);
 
   const handleSelect = async (track) => {
     if(track?.playlistId){
@@ -43,12 +50,11 @@ const HomeContents = () => {
   const isSaved = (videoId) => {
     return library?.library_songs?.some((song) => song.videoId === videoId)
   }
-
   const DropDown = () => {
     return (
       <div className="absolute right-0 top-full mt-2 w-48 bg-gray-800 rounded-lg shadow-lg z-90">
         <ul className="text-sm text-white p-2 space-y-2">
-          <li className="hover:bg-gray-700 p-2 rounded">Add to Library</li>
+          <li onClick={()=>handleSaveToLibrary(selectedDropdown)} className="hover:bg-gray-700 p-2 rounded">{isSaved(selectedDropdown?.videoId) ? 'Remove from Library' : 'Add to Library'}</li>
           <li className="hover:bg-gray-700 p-2 rounded">Add to Playlist</li>
           <li className="hover:bg-gray-700 p-2 rounded">Share</li>
         </ul>
@@ -58,6 +64,23 @@ const HomeContents = () => {
 
   const showDropdown = (track) => {
     return track === selectedDropdown
+  }
+
+  const handleSaveToLibrary = async (track) => {
+    if(track?.videoId){
+      const songDetails = await getSongDetails(track.videoId)
+      const data = songDetails.videoDetails
+      // console.log(data.thumbnail)
+      const songData = {
+        videoId : data.videoId,
+        title : data.title,
+        artists : [{name : data.author}],
+        album : null,
+        duration_seconds : data.lengthSeconds,
+        thumbnails : data.thumbnail ? data.thumbnail.thumbnails : null,
+      }
+      saveToLibrary(songData, notify)
+    }
   }
 
   return (
@@ -80,8 +103,8 @@ const HomeContents = () => {
                       flex-shrink-0 w-60'>
 
                         {/* more button */}
-                        <button className='md:hidden md:group-hover:block hover:bg-gray-500 hover:rounded-full p-1 cursor-pointer absolute right-5 z-50'>
-                                  <MoreHorizontal onClick={(e)=>{e.stopPropagation();handleMoreOption(track)}} size={20} className='text-white  z-10 relative ' />
+                        <button onClick={(e)=>{e.stopPropagation();handleMoreOption(track)}} className='md:hidden md:group-hover:block hover:bg-gray-500 hover:rounded-full p-1 cursor-pointer absolute right-5 z-50'>
+                                  <MoreHorizontal size={20} className='text-white  z-10 relative ' />
                                   {
                                     showDropdown(track) &&
                                     <DropDown />
@@ -116,6 +139,7 @@ const HomeContents = () => {
           )
         })
       }
+      <Toaster position='bottom-right' />
     </main>
   )
 }

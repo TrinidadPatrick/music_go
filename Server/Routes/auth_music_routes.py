@@ -55,7 +55,7 @@ async def save_song(request: Request, db: Session = Depends(get_db)):
             db.add(library_song)
             db.commit()
             db.refresh(library_song)
-            return JSONResponse(content={"message": "song saved"}, status_code=200)
+            return JSONResponse(content={"message": "song saved to library"}, status_code=200)
         else:
             db.delete(library_song)
             db.commit()

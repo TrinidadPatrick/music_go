@@ -27,11 +27,11 @@ const Sidebar = () => {
             <Search size={20} />
             <span>Search</span>
           </a>
-          <button onClick={()=>navigate('/user/library')} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} flex w-full cursor-pointer items-center space-x-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-colors`}>
+          <button onClick={()=>navigate('/user/library')} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} flex w-full cursor-pointer items-center space-x-3 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
             <Library size={20} />
             <span>Your Library</span>
           </button>
-          <a href="#" className="flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-colors">
+          <a href="#" className="flex items-center space-x-3 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
             <Heart size={20} />
             <span className=' whitespace-nowrap'>Your Liked Songs</span>
           </a>

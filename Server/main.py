@@ -18,7 +18,7 @@ origins = [
 ]
 
 # Add SessionMiddleware first
-app.add_middleware(SessionMiddleware, secret_key=os.urandom(24))
+# app.add_middleware(SessionMiddleware, secret_key=os.urandom(24))
 
 app.add_middleware(AuthMiddleWare)
 

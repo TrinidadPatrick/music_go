@@ -13,8 +13,7 @@ app = FastAPI()
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://music-go.vercel.app",
-    "http://192.168.100.31:5173"
+    "https://music-go.vercel.app"
 ]
 
 # Add SessionMiddleware first
@@ -37,5 +36,5 @@ def read_root():
 
 # Register routers
 app.include_router(music_router, prefix="/music")
-app.include_router(user_router, prefix="/user")
+# app.include_router(user_router, prefix="/user")
 app.include_router(auth_music_router, prefix="/auth/music")

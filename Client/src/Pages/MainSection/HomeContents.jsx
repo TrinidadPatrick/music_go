@@ -54,7 +54,10 @@ const HomeContents = () => {
     return (
       <div className="absolute right-0 top-full mt-2 w-48 bg-gray-800 rounded-lg shadow-lg z-90">
         <ul className="text-sm text-white p-2 space-y-2">
-          <li onClick={()=>handleSaveToLibrary(selectedDropdown)} className="hover:bg-gray-700 p-2 rounded">{isSaved(selectedDropdown?.videoId) ? 'Remove from Library' : 'Add to Library'}</li>
+          {
+            selectedDropdown?.videoId &&
+            <li onClick={()=>handleSaveToLibrary(selectedDropdown)} className="hover:bg-gray-700 p-2 rounded">{isSaved(selectedDropdown?.videoId) ? 'Remove from Library' : 'Add to Library'}</li>
+          }
           <li className="hover:bg-gray-700 p-2 rounded">Add to Playlist</li>
           <li className="hover:bg-gray-700 p-2 rounded">Share</li>
         </ul>
@@ -70,7 +73,6 @@ const HomeContents = () => {
     if(track?.videoId){
       const songDetails = await getSongDetails(track.videoId)
       const data = songDetails.videoDetails
-      // console.log(data.thumbnail)
       const songData = {
         videoId : data.videoId,
         title : data.title,

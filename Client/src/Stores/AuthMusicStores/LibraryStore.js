@@ -4,7 +4,7 @@ import http from '../../../http'
 const useLibraryStore = create((set, get) => ({
   library: null,
   error: null,
-  isLoading: false,
+  isLoading: true,
   saveToLibrary: async (song, notify) => {
     set({ isLoading: true })
     try {

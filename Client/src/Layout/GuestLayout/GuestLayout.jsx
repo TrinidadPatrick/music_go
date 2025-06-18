@@ -39,38 +39,46 @@ const GuestLayout = () => {
   const showSidebar = path !== '/signin' && path !== '/signup';
 
   return (
-    <main className='h-[100svh] overflow-hidden flex flex-col bg-gradient-to-br from-gray-950 via-slate-950 to-black'>
-      <div className='h-[100svh] '>
-      {
-        !isLoading && (
-          <section className='flex'>
-
-            {
-              showSidebar && width >= 900 &&
-              <section className='w-[250px] xl:w-full max-w-xs h-screen z-[9999999] flex-none hidden lg:block'>
-                <Sidebar />
-              </section>
-            }
-
-            <section className='h-[100svh] overflow-auto w-full flex-1 flex flex-col relative'>
-              {/* Navbar */}
-              {showNavbar && <Navbar />}
-
-              {/* Children */}
-              <Outlet />
-              {/* Music Player */}
-              <div className=' w-full h-fit relative z-40 bottom-0 mt-1'>
-                <MusicPlayer />
-              </div>
+    // Fix: Use h-full and proper flex structure
+    <main className='h-full flex flex-col bg-gradient-to-br from-gray-950 via-slate-950 to-black'>
+      <section className='flex-1 min-h-0 flex m-1'>
+          {showSidebar && width >= 900 && (
+            <section className='w-[250px] xl:w-full max-w-xs flex-none  z-[9999999] hidden lg:block'>
+              <Sidebar />
             </section>
-              
-          </section>
-        )
-      }
-      </div>
-      
+          )}
+        <section className='flex-1 min-h-0 flex flex-col'>
+          {/* Navbar */}
+          {showNavbar && <Navbar />}
+
+          {/* Children - Fix: Ensure proper height flow */}
+          <div className='flex-1 min-h-0 flex over'>
+            <Outlet />
+          </div>
+        </section>
+      </section>
     </main>
   )
 }
 
 export default GuestLayout
+
+// {!isLoading && (
+//   <section className='flex flex-1'>
+
+//     {showSidebar && width >= 900 && (
+//       <section className='w-[250px] xl:w-full max-w-xs flex-1  z-[9999999] hidden lg:block'>
+//         <Sidebar />
+//       </section>
+//     )}
+
+//     <section className='flex-1 flex flex-col overflow-y-auto'>
+//       {/* Navbar */}
+//       {showNavbar && <Navbar />}
+
+//       {/* Children */}
+//       <Outlet />
+//     </section>
+
+//   </section>
+// )}

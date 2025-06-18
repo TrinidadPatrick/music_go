@@ -15,7 +15,7 @@ const Playlist = () => {
     const [params] = useSearchParams()
     const list = params.get('list')
     const {formatTime} = useFormatTimeStore()
-    const {getPlaylist, playlist} = usePublicPlaylistStore()
+    const {getPlaylist, playlist, isLoading} = usePublicPlaylistStore()
     const saveToLibrary = useLibraryStore(state => state.saveToLibrary)
     const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
     const setIsLoading = useMusicPlayerStore(state => state.setIsLoading)
@@ -281,9 +281,6 @@ const Playlist = () => {
     
           </div>
         }
-        {/* Main Content */}
-
-      
     </div>
   )
 }

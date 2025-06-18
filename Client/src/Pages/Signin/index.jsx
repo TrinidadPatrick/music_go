@@ -61,7 +61,7 @@ const Signin = () => {
   }
   
   return isAuthenticated === null ? "" : (
-    <div className="relative h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#2c3e50] via-[#34495e] to-[#2980b9] sm:p-5 font-sans">
+    <div className="top-0 left-0 w-screen h-screen absolute overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#2c3e50] via-[#34495e] to-[#2980b9] sm:p-5 font-sans">
       
       {/* Floating shapes */}
       <div className="pointer-events-none absolute  inset-0 z-10">

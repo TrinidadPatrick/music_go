@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Play, Volume2, Headphones } from 'lucide-react';
-// import hero_bg from '../../utilities/images/hero_bg.jpg'
 import TopCharts from './TopCharts'
 import Navbar from '../Navbar/Navbar'
 import HomeContents from './HomeContents'
@@ -18,9 +17,10 @@ const Home = () => {
   const hero_bg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23764ba2;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='400' fill='url(%23bg)'/%3E%3Cg opacity='0.1'%3E%3Ccircle cx='200' cy='100' r='60' fill='white'/%3E%3Ccircle cx='800' cy='200' r='80' fill='white'/%3E%3Ccircle cx='1000' cy='80' r='40' fill='white'/%3E%3C/g%3E%3C/svg%3E";
 
   return (
-    <div className='w-full h-full flex flex-col'>
-        {/* Hero section */}
-        <div className='p-5 relative z-0'>
+    <div className='w-full h-full overflow-y-auto min-w-0 min-h-0'>
+      <div className='grid grid-cols-1'>
+                {/* Hero section */}
+                <div className='p-5 relative z-0'>
           <div className=" rounded-3xl h-fit w-full flex flex-1 bg-gradient-to-br from-slate-900 to-black shadow-2xl">
           <div 
           style={{backgroundImage: `url(${hero_bg})`}} 
@@ -104,16 +104,27 @@ const Home = () => {
           
           </div>
         </div>
-        
-        {/* Top Charts */}
-        <section className='w-full h-fit flex'>
-            <TopCharts />
+
+        {/* TopCharts Section - no individual scrolling */}
+        <section className='flex-shrink-0'>
+          <TopCharts />
         </section>
 
-        {/* Home */}
-        <section className='w-full h-full flex'>
-            <HomeContents />
+        {/* HomeContents Section - no individual scrolling */}
+        <section className='flex-shrink-0 flex gap-3 overflow-x-scroll'>
+          {/* <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
+          <div className='min-w-[200px] h-[50px] bg-red-100'></div> */}
+          <HomeContents />
         </section>
+      </div>
     </div>
   )
 }

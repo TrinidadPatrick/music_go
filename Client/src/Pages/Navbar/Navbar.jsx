@@ -159,7 +159,7 @@ const Navbar = () => {
                   isAuthenticated === false &&
                   (
                     <div className='flex gap-3 items-center'>
-                      <button onClick={()=>{navigate("/signin")}} className='text-gray-400 cursor-pointer hover:text-gray-500'>Sign In</button>
+                      <button onClick={()=>{window.location.href = '/signin'}} className='text-gray-400 cursor-pointer hover:text-gray-500'>Sign In</button>
                     </div>
                   )
                 }

@@ -7,13 +7,17 @@ import useGetSongRecommendation from '../../Stores/NextSongRecommendationStore';
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
 import useSongDetails from '../../Stores/SongDetailStore';
 import toast, { Toaster } from 'react-hot-toast';
+import EqualizerAnimation from '../../Components/EqualizerAnimation';
+import { useAuth } from '../../Auth/AuthProvider';
 
 const HomeContents = () => {
   const navigate = useNavigate()
+  const {isAuthenticated} = useAuth()
   const [selectedDropdown, setSelectedDropdown] = useState(null)
   const {homeContents, getHome} = useHomeContentStore()
   const setSongList = useMusicPlayerStore(state => state.setSongList)
   const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
+  const currentSong = useMusicPlayerStore(state => state.currentSong)
   const getSongRecommendation = useGetSongRecommendation(state => state.getSongRecommendation)
   const library = useLibraryStore(state => state.library)
   const saveToLibrary = useLibraryStore(state => state.saveToLibrary)
@@ -31,10 +35,12 @@ const HomeContents = () => {
     }else if(track?.type === 'Album' && track?.browseId){
       navigate(`/public/album?list=${track.browseId}`)
     }else if(track?.videoId){
-      setCurrentSong(track)
-      const songList = await getSongRecommendation(track.videoId)
-      if(songList){
-        setSongList(songList.tracks)
+      if(currentSong?.videoId !== track.videoId){
+        setCurrentSong(track)
+        const songList = await getSongRecommendation(track.videoId)
+        if(songList){
+          setSongList(songList.tracks)
+        }
       }
     }
   }
@@ -95,36 +101,43 @@ const HomeContents = () => {
                 <h2 className='text-2xl font-bold text-white'>{content.title}</h2>
               </div>
               {/* Track lists */}
-              <div className='flex gap-3 w-full overflow-auto p-3'>
+              <div className='flex gap-3 overflow-x-auto p-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent'>
+              <div className='flex gap-3 w-max p-3'>
                 {
                   content?.contents?.map((track, index) => {
                     const show = showDropdown(track)
+                    const isCurrentSong = track?.videoId && currentSong?.videoId === track.videoId
                     return (
                       <div onClick={()=>handleSelect(track)} key={index} className='group cursor-pointer relative bg-gradient-to-br from-black/20 to-black/10 backdrop-blur-lg 
                       rounded-2xl p-3 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 overflow-show 
                       flex-shrink-0 w-60'>
 
                         {/* more button */}
-                        <button onClick={(e)=>{e.stopPropagation();handleMoreOption(track)}} className='md:hidden md:group-hover:block hover:bg-gray-500 hover:rounded-full p-1 cursor-pointer absolute right-5 z-50'>
+                        {
+                          isAuthenticated &&
+                          <button onClick={(e)=>{e.stopPropagation();handleMoreOption(track)}} className='md:hidden md:group-hover:block hover:bg-gray-500 hover:rounded-full p-1 cursor-pointer absolute right-5 z-50'>
                                   <MoreHorizontal size={20} className='text-white  z-10 relative ' />
                                   {
                                     showDropdown(track) &&
                                     <DropDown />
                                   }
                         </button>
+                        }
 
-                        <button className='p-3 hidden group-hover:flex rounded-full bg-white absolute z-40 left-1/2 transform -translate-x-1/2 top-24'>
-                                <Play  className='text-gray-700 flex items-center justify-center cursor-pointer transition-transform duration-200' />
+                        <button className={`p-3 ${isCurrentSong ? 'block' : 'hidden'} cursor-pointer w-14 h-14 justify-center items-center group-hover:flex rounded-full bg-white/80 shadow-2xl absolute z-40 left-1/2 transform -translate-x-1/2 top-24`}>
+                                {
+                                  isCurrentSong ?
+                                  <EqualizerAnimation /> :
+                                  <Play  className='text-gray-700 flex items-center justify-center cursor-pointer transition-transform duration-200' />
+                                }
+                                
                         </button>
                     
                         {/* Hover overlay */}
-                        <div className='hidden group-hover:block w-full h-full opacity-50 brightness-0 z-20 bg-black absolute top-0 left-0'>
-                        </div>
+                        <div className={`${isCurrentSong ? 'block' : 'hidden'} group-hover:block w-full h-full opacity-50 brightness-0 z-20 bg-black absolute top-0 left-0`} />
                     
-                        {/* Image and Playbutton */}
-                        <div className='w-full flex items-center justify-center aspect-square bg-cover bg-center opacity-75 bg-no-repeat rounded-lg' style={{backgroundImage: `url(${track?.thumbnails[1]?.url || track?.thumbnails[0]?.url})`}}>
-                            
-                        </div>
+                        {/* Image */}
+                        <div className='w-full flex items-center justify-center aspect-square bg-cover bg-center opacity-75 bg-no-repeat rounded-lg' style={{backgroundImage: `url(${track?.thumbnails[1]?.url || track?.thumbnails[0]?.url})`}} />
 
                         {/* Title and artists */}
                         <div className='mt-2 flex flex-col gap-1'>
@@ -136,6 +149,7 @@ const HomeContents = () => {
                     )
                   })
                 }
+                </div>
               </div>
             </div>
           )

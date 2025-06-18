@@ -9,7 +9,6 @@ ytmusic = YTMusic()
 def get_charts():
     try:
         results = ytmusic.get_charts(country="ZZ");
-        print(results)
         return results
     except Exception as e:
         print(e)
@@ -41,7 +40,6 @@ def get_song(videoId: str = Query(...)):
 def get_watch_playlist(videoId: str = Query(...)):
     try:
         results = ytmusic.get_watch_playlist(videoId)
-        print(results)
         return results
     except Exception as e:
         print(f"Error in get_album: {e}")

@@ -12,7 +12,7 @@ import useScreenSize from '../../Auth/ScreenSizeProvider';
 const UserLibary = () => {
     const {width} = useScreenSize()
     const {formatTime} = useFormatTimeStore()
-    const {getLibrary, library} = useLibraryStore()
+    const {getLibrary, library, isLoading} = useLibraryStore()
     const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
     const setIsLoading = useMusicPlayerStore(state => state.setIsLoading)
     const currentSong = useMusicPlayerStore(state => state.currentSong)
@@ -56,7 +56,7 @@ const UserLibary = () => {
   return (
     <div className=" text-white h-full w-full overflow-hidden flex">
         {/* Main Content */}
-      <div className="flex-1 h-full overflow-auto">
+      <div className="flex-1 h-full overflow-auto flex flex-col">
 
         {/* Playlist Header */}
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900  p-3 sm:p-8 sm: h-fith-60 flex w-full">
@@ -72,15 +72,20 @@ const UserLibary = () => {
                 <div className="flex flex-row items-start sm:items-center space-x-2 text-sm text-gray-300">
                     <span className='hidden sm:block text-green-500'>•</span>
                     <span>{library?.total_songs} songs</span>
-                    <span className='hidden sm:block'>•</span>
-                    <span>about {library?.total_duration}</span>
+                    {
+                        library?.total_songs > 0 &&
+                        <>
+                        <span className='hidden sm:block'>•</span>
+                        <span>about {library?.total_duration}</span>
+                        </>
+                    }
                 </div>
                 {/* Controls */}
                 <div className="flex items-center space-x-3">
-                    <button onClick={()=>playAll()} className="w-12 h-12 cursor-pointer bg-green-500 rounded-full flex items-center justify-center hover:bg-green-400 transition-colors hover:scale-105 transform">
+                    <button disabled={library?.total_songs === 0} onClick={()=>playAll()} className="w-12 h-12 cursor-pointer bg-green-500 disabled:bg-green-300 rounded-full flex items-center justify-center hover:bg-green-400 transition-colors hover:scale-105 transform">
                         <Play size={20} className="ml-1" />
                     </button>
-                    <button onClick={()=>playAllShuffled()} className="text-white bg-white/10 p-2 rounded-full hover:text-white transition-colors">
+                    <button disabled={library?.total_songs === 0} onClick={()=>playAllShuffled()} className="text-white hover:bg-white/30 bg-white/10 p-2 rounded-full hover:text-white transition-colors cursor-pointer">
                         <ShuffleIcon size={20} />
                     </button>
                 </div>
@@ -88,10 +93,18 @@ const UserLibary = () => {
         </div>
         </div>
 
+        {
+            library?.total_songs == 0 && 
+            <div className='text-center text-gray-200 text-sm h-full flex justify-center items-center flex-col'>
+                <h1 className='text-lg'>Your music library is empty</h1>
+                <p className='text-gray-400 text-shadow-amber-600'>Add songs to your library to see them here</p>
+            </div>
+        }
 
         {/* Track List */}
+        {
+            library?.total_songs > 0 &&
         <div className="px-4 sm:px-6 mt-10">
-        {/* Table Header – Hidden on mobile */}
         <div className="hidden sm:grid grid-cols-11 md:grid-cols-12 gap-4 px-4 py-2 text-xs text-gray-400 uppercase tracking-wide border-b border-gray-800 mb-4">
             <div className="col-span-1">#</div>
             <div className="col-span-8">Title</div>
@@ -197,6 +210,7 @@ const UserLibary = () => {
             })}
         </div>
         </div>
+        }
 
 
       </div>

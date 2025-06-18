@@ -3,14 +3,11 @@ import http from '../../../http'
 import Home from './Home'
 
 const MainSection = () => {
-
   return (
-    <div className='h-full flex flex-col overflow-auto'>
-      <div className='w-full h-full overflow-x-auto'>
-        <Home />
-      </div>
+    // Fix: Use h-full instead of calc height
+    <div className='w-full h-full flex flex-col'>
+      <Home />
     </div>
-
   )
 }
 

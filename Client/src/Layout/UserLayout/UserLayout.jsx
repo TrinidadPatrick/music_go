@@ -34,9 +34,9 @@ const UserLayout = () => {
               {/* Children */}
               <Outlet />
               {/* Music Player */}
-              <div className=' w-full h-fit relative z-40 bottom-0 mt-1'>
+              {/* <div className=' w-full h-fit relative z-40 bottom-0 mt-1'>
                 <MusicPlayer />
-              </div>
+              </div> */}
             </section>
           </section>
         }

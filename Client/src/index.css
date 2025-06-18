@@ -68,4 +68,5 @@ html, body, #root {
 
   @theme {
     --breakpoint-xs: 480px;
+    --breakpoint-semiSmall: 640px;
   }

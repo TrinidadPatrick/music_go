@@ -81,14 +81,14 @@ const TopCharts = () => {
     }
 
   return charts?.length > 0 && (
-     <div className='w-full h-full flex flex-col gap-4 p-6'>
+     <div className='w-full h-full flex flex-col gap-4 p-2 md:p-6'>
 
         <div className='flex-shrink-0'>
             <h2 className='text-2xl font-bold text-white'>Top Charts</h2>
         </div>
         
         <div className='flex-1 min-h-0  '>
-          <div className='grid grid-cols-2 gap-3 p-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-3 md:p-4'>
           {
             charts?.length > 0 && charts?.map((chart, index) => {
                 const isCurrentSong = currentSong?.videoId === chart.videoId

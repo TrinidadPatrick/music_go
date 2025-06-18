@@ -92,17 +92,17 @@ const HomeContents = () => {
   }
 
   return (
-    <main className='w-full flex flex-col gap-4 p-6'>
+    <main className='w-full flex flex-col gap-4 p-2 md:p-6'>
       {
         homeContents.length > 0 && homeContents?.map((content, index) => {
           return (
-            <div key={index} className='flex flex-col'>
+            <div key={index} className='flex flex-col gap-3'>
               <div>
                 <h2 className='text-2xl font-bold text-white'>{content.title}</h2>
               </div>
               {/* Track lists */}
-              <div className='flex gap-3 overflow-x-auto p-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent'>
-              <div className='flex gap-3 w-max p-3'>
+              <div className='flex gap-3 overflow-x-auto md:p-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent'>
+              <div className='flex gap-3 w-max'>
                 {
                   content?.contents?.map((track, index) => {
                     const show = showDropdown(track)

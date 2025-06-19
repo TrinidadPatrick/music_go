@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import jwt
 import datetime
 from db import get_db
-from models import User
+from models import User, Playlist, PlaylistSong
 from Schemas.user import UserCreate
 from passlib.context import CryptContext
 import urllib.parse
@@ -65,12 +65,29 @@ def get_user_info(request: Request, db: Session = Depends(get_db)):
      user_id = request.state.user_id
      if user_id:
           user = db.query(User).filter(User.id == user_id).first()
+          playlist_count = db.query(
+              PlaylistSong.playlist_id,
+              func.count(PlaylistSong.playlist_id).label("song_count")
+          ).group_by(PlaylistSong.playlist_id).all()
 
+          playlist_song_counts = {pid: count for pid, count in playlist_count}
           if user:
                data = {
                "name" : user.name,
                "email" : user.email,
-               "profile_image" : user.profile_image
+               "profile_image" : user.profile_image,
+               "playlists" : [
+                   {
+                       "playlist_id" : playlist.playlist_id,
+                       "title" : playlist.title,
+                       "description" : playlist.description,
+                       "thumbnail" : playlist.thumbnail,
+                       "privacy" : playlist.privacy,
+                       "created_at" : playlist.created_at.isoformat(),
+                       "song_count": playlist_song_counts.get(playlist.playlist_id, 0)
+                   }
+                   for playlist in user.playlists
+               ]
                }
                response = JSONResponse(content={"user" : data }, status_code=200)
                return response

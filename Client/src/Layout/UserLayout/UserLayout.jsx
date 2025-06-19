@@ -17,26 +17,22 @@ const UserLayout = () => {
   }, [isAuthenticated])
 
   return (
-    <main className='h-screen overflow-hidden flex flex-col bg-gradient-to-br from-gray-950 via-slate-950 to-black'>
+    <main className='h-screen overflow-hidden flex flex-col'>
         {
           isAuthenticated === true &&
           <section className='flex'>
           {
             width >= 900 &&
-            <section className='w-[250px] xl:w-full max-w-xs h-screen z-[9999999] flex-none hidden lg:block'>
+            <section className=' h-screen z-[9999999] flex-none hidden lg:block'>
               <Sidebar />
             </section>
           }
-          <section className='h-screen overflow-auto w-full flex-1 flex flex-col relative '>
+          <section className='h-screen overflow-auto w-full flex-1 flex flex-col relative'>
               {/* Navbar */}
               <Navbar />
 
               {/* Children */}
               <Outlet />
-              {/* Music Player */}
-              {/* <div className=' w-full h-fit relative z-40 bottom-0 mt-1'>
-                <MusicPlayer />
-              </div> */}
             </section>
           </section>
         }

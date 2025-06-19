@@ -19,16 +19,13 @@ const Home = () => {
   return (
     <div className='w-full h-full overflow-y-auto min-w-0 min-h-0'>
       <div className='grid grid-cols-1'>
-                {/* Hero section */}
-                <div className='p-5 relative z-0'>
-          <div className=" rounded-3xl h-fit w-full flex flex-1 bg-gradient-to-br from-slate-900 to-black shadow-2xl">
+        {/* Hero section */}
+        <div className='p-5 relative z-0'>
+          <div className=" rounded-3xl h-fit w-full flex flex-1 bg-gradient-to-br from-black/80 via-purple-900/30 to-cyan-900/20  backdrop-blur-xl">
           <div 
           style={{backgroundImage: `url(${hero_bg})`}} 
           className="relative w-full bg-cover bg-center bg-no-repeat overflow-hidden rounded-3xl"
         >
-          {/* Enhanced gradient overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-purple-900/30"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
           
           {/* Animated background elements */}
           <div className="absolute inset-0 opacity-20">
@@ -52,22 +49,22 @@ const Home = () => {
             {/* Enhanced typography */}
             <div className=" max-w-4xl relative z-10">
               <div className="hidden sm:block mb-4">
-                <span className="inline-block px-4 py-2 bg-green-500/20 text-green-300 text-sm font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
-                  DISCOVER THE POWER
+                <span className="inline-block px-4 py-2 bg-gradient-to-r from-cyan-400 to-purple-600 text-sm font-semibold rounded-full border  backdrop-blur-sm">
+                  <span className='text-white'>DISCOVER THE POWER</span>
                 </span>
               </div>
               
               <h1 className={`text-lg sm:text-3xl lg:text-4xl text-center sm:text-left text-white font-black mb-4 leading-6 sm:leading-10 transform transition-all duration-1000 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                <span className="block sm:hidden bg-gradient-to-r from-white via-green-100 to-green-200 bg-clip-text text-transparent">
+                <span className="block sm:hidden bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
                   MUSIC CHANGES THE WORLD BECAUSE IT CHANGES PEOPLE
                 </span>
-                <span className="hidden sm:block bg-gradient-to-r from-white via-green-100 to-green-200 bg-clip-text text-transparent">
+                <span className="hidden sm:block ">
                   MUSIC CHANGES THE
                 </span>
-                <span className="hidden sm:block bg-gradient-to-r from-green-300 via-green-200 to-white bg-clip-text text-transparent mt-1">
+                <span className="hidden sm:block bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent mt-1">
                   WORLD BECAUSE IT
                 </span>
-                <span className="hidden sm:block bg-gradient-to-r from-green-400 via-green-300 to-green-200 bg-clip-text text-transparent mt-1">
+                <span className="hidden sm:block bg-gradient-to-r from-cyan-300 to-purple-400 bg-clip-text text-transparent  mt-1">
                   CHANGES PEOPLE
                 </span>
               </h1>
@@ -77,30 +74,13 @@ const Home = () => {
               </p>
 
               {/* Enhanced CTA button */}
-              <div className={`flex justify-center sm:justify-start transform transition-all duration-1000 delay-500 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                <button 
-                  className="group relative bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold px-8 py-3 rounded-full text-base transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-green-500/25 transform hover:scale-105 active:scale-95"
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  <div className="flex items-center w-full gap-3">
-                    <Play className={`w-4 h-4 sm:w-6 sm:h-6 transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`} fill="currentColor" />
-                    <span className="font-black tracking-wide text-xs sm:text-base">LISTEN NOW</span>
-                  </div>
-                  
-                  {/* Button glow effect */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 to-green-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl"></div>
-                  
-                  {/* Ripple effect */}
-                  <div className="absolute inset-0 rounded-full border-2 border-green-300 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
-                </button>
-              </div>
+              <button className="bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-white px-5 py-3 rounded-full text-lg font-bold flex items-center gap-3 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-400/50">
+                <Play className="w-6 h-6" />
+                LISTEN NOW
+              </button>
             </div>
           </div>
           </div>
-
-          {/* Decorative elements */}
-          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/40 to-transparent"></div>
           
           </div>
         </div>
@@ -112,16 +92,6 @@ const Home = () => {
 
         {/* HomeContents Section - no individual scrolling */}
         <section className='flex-shrink-0 flex gap-3 overflow-x-scroll'>
-          {/* <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div>
-          <div className='min-w-[200px] h-[50px] bg-red-100'></div> */}
           <HomeContents />
         </section>
       </div>

@@ -1,20 +1,21 @@
 import { create } from 'zustand'
 import http from '../../../http'
+import toast, { Toaster } from 'react-hot-toast';
 
 const useLibraryStore = create((set, get) => ({
   library: null,
   error: null,
   isLoading: true,
-  saveToLibrary: async (song, notify) => {
+  saveToLibrary: async (song) => {
     set({ isLoading: true })
     try {
       const result = await http.post('auth/music/save_song', song)
-      notify(result.data.message)
+      toast.success(result.data.message);
       get().getLibrary()
 
     } catch (error) {
       console.log(error)
-      // navigate('/')
+      toast.error(error.response.data.message);
       set({ error: error.response.data.message })
     } finally {
         set({ isLoading: false })
@@ -27,7 +28,6 @@ const useLibraryStore = create((set, get) => ({
       set({ library: result.data.data })
     } catch (error) {
       console.log(error)
-    //   navigate('/home')
       set({ error: error.response.data.message })
     } finally {
         set({ isLoading: false })

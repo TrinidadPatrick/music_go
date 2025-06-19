@@ -8,6 +8,7 @@ import Signup from './src/Pages/Signup'
 import Playlist from './src/Pages/Playlist/Playlist'
 import Album from './src/Pages/Album/Album'
 import UserLibary from './src/Pages/Library/UserLibrary'
+import UserPlaylist from './src/Pages/Playlist/UserPlaylist'
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
             {
                 path: '/user/library',
                 element: <UserLibary />
+            },
+            {
+                path: '/user/playlist',
+                element: <UserPlaylist />
             }
         ]
     }

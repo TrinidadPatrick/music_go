@@ -39,11 +39,10 @@ const GuestLayout = () => {
   const showSidebar = path !== '/signin' && path !== '/signup';
 
   return (
-    // Fix: Use h-full and proper flex structure
-    <main className='h-full flex flex-col bg-gradient-to-br from-gray-950 via-slate-950 to-black'>
-      <section className='flex-1 min-h-0 flex m-1'>
+    <main className='h-full flex flex-col'>
+      <section className='flex-1 min-h-0 flex'>
           {showSidebar && width >= 900 && (
-            <section className='w-[250px] xl:w-full max-w-xs flex-none  z-[9999999] hidden lg:block'>
+            <section className=' flex-none z-[9999999] hidden lg:block'>
               <Sidebar />
             </section>
           )}
@@ -62,23 +61,3 @@ const GuestLayout = () => {
 }
 
 export default GuestLayout
-
-// {!isLoading && (
-//   <section className='flex flex-1'>
-
-//     {showSidebar && width >= 900 && (
-//       <section className='w-[250px] xl:w-full max-w-xs flex-1  z-[9999999] hidden lg:block'>
-//         <Sidebar />
-//       </section>
-//     )}
-
-//     <section className='flex-1 flex flex-col overflow-y-auto'>
-//       {/* Navbar */}
-//       {showNavbar && <Navbar />}
-
-//       {/* Children */}
-//       <Outlet />
-//     </section>
-
-//   </section>
-// )}

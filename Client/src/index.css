@@ -34,6 +34,15 @@ html, body, #root {
   border-radius: 9999px;
 }
 
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Chrome, Safari, Edge */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 
 /* Animations */
   @keyframes float {

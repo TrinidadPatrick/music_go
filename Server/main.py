@@ -41,8 +41,7 @@ app.include_router(music_router, prefix="/music")
 app.include_router(user_router, prefix="/user")
 app.include_router(auth_music_router, prefix="/auth/music")
 
-# ✅ For Railway deployment: run with the correct port
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.environ.get("PORT", 8000))  # Use Railway's assigned port
+    port = int(os.environ.get("PORT", 8000))
     uvicorn.run("main:app", host="0.0.0.0", port=port)

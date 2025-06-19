@@ -6,6 +6,7 @@ import { useAuth } from '../../Auth/AuthProvider';
 import Sidebar from '../../Components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import useScreenSize from '../../Auth/ScreenSizeProvider';
+import MobileSidebar from '../../Components/MobileSidebar';
 
 const Navbar = () => {
   const {width} = useScreenSize()
@@ -83,7 +84,7 @@ const Navbar = () => {
   }, [searchQuery]);
 
   return (
-    <div className="bg-transparent  z-10 p-4 flex items-center justify-between lg:justify-end border-b border-gray-700 w-full">
+    <div className="bg-transparent z-0 p-4 flex items-center justify-between lg:justify-end gray-700 w-full">
       {/* Hamburger */}
       <button className='lg:hidden' onClick={()=>{setIsAnimating(true);setTimeout(()=>setIsSidebarOpen(true), 10)}}>
         <Menu size={30} className="text-gray-400 hover:text-white " />
@@ -98,14 +99,15 @@ const Navbar = () => {
             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           `}
         >
-          <button
+          {/* <button
             onClick={closeSidebar}
             className='absolute top-7 right-5 z-[99999]'
           >
             <X size={20} className="text-gray-400 hover:text-white" />
-          </button>
+          </button> */}
 
-          <Sidebar />
+          {/* <Sidebar /> */}
+          <MobileSidebar closeSidebar={closeSidebar} />
         </div>
       )}
       
@@ -128,7 +130,7 @@ const Navbar = () => {
                       }}
                       }
                       placeholder="Search for songs, artists..."
-                      className=" placeholder:text-gray-400 text-white w-full bg-gray-950 border border-gray-600 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className=" placeholder:text-gray-400 text-white w-full bg-gray-900 border border-gray-600 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />

@@ -10,7 +10,7 @@ import MusicPlayer from './Pages/MusicPlayer/index.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <div className='h-[100svh] flex flex-col overflow-hidden'>
+      <div className='h-[100svh] flex flex-col overflow-hidden bg-[linear-gradient(135deg,_rgba(0,0,0,0.9)_0%,_rgba(26,26,46,0.9)_100%)]'>
         <div className='flex-1 min-h-0 flex flex-col'>
           <RouterProvider router={router} />
         </div>

@@ -54,12 +54,12 @@ const UserLibary = () => {
     }
     
   return (
-    <div className=" text-white h-full w-full overflow-hidden flex">
+    <div className=" text-white h-full w-full overflow-hidden flex px-5">
         {/* Main Content */}
       <div className="flex-1 h-full overflow-auto flex flex-col">
 
         {/* Playlist Header */}
-        <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900  p-3 sm:p-8 sm: h-fith-60 flex w-full">
+        <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900  p-3 sm:p-8 sm: h-fith-60 flex w-full rounded">
         <div className="flex flex-row items-center sm:items-end gap-6 w-full">
             <div  className="h-full aspect-square hidden sm:w-44 sm:h-44 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg shadow-2xl sm:flex items-center bg-cover justify-center"> 
                 <Music size={width >= 640 ? 110 : 25} className="text-white" />

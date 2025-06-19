@@ -84,7 +84,7 @@ const Navbar = () => {
   }, [searchQuery]);
 
   return (
-    <div className="bg-transparent z-0 p-4 flex items-center justify-between lg:justify-end gray-700 w-full">
+    <div className="bg-transparent z-90 p-4 flex items-center justify-between lg:justify-end gray-700 w-full">
       {/* Hamburger */}
       <button className='lg:hidden' onClick={()=>{setIsAnimating(true);setTimeout(()=>setIsSidebarOpen(true), 10)}}>
         <Menu size={30} className="text-gray-400 hover:text-white " />
@@ -94,19 +94,11 @@ const Navbar = () => {
       {isAnimating && width < 1024 && (
         <div
           className={`
-            sm:max-w-xs h-screen absolute bg-[#06080e] z-[9999] w-full top-0 left-0
+            sm:max-w-xs h-screen absolute bg-[#06080e] z-90 w-full top-0 left-0
             transform transition-transform duration-300 ease-in-out
             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           `}
         >
-          {/* <button
-            onClick={closeSidebar}
-            className='absolute top-7 right-5 z-[99999]'
-          >
-            <X size={20} className="text-gray-400 hover:text-white" />
-          </button> */}
-
-          {/* <Sidebar /> */}
           <MobileSidebar closeSidebar={closeSidebar} />
         </div>
       )}

@@ -42,11 +42,11 @@ const GuestLayout = () => {
     <main className='h-full flex flex-col'>
       <section className='flex-1 min-h-0 flex'>
           {showSidebar && width >= 900 && (
-            <section className=' flex-none z-[9999999] hidden lg:block'>
+            <section className=' flex-none z-90 hidden lg:block'>
               <Sidebar />
             </section>
           )}
-        <section className='flex-1 min-h-0 flex flex-col'>
+        <section className='flex-1 min-h-0 flex flex-col z-0'>
           {/* Navbar */}
           {showNavbar && <Navbar />}
 

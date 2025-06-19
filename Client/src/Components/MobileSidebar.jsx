@@ -12,9 +12,9 @@ const MobileSidebar = ({closeSidebar}) => {
   const homePaths = ['/', '/public/playlist', '/public/album', '/', '/home']
 
   return (
-    <main className={`h-full w-full transition-all duration-300 ease-in-out bg-red-100 overflow-hidden`}>
+    <main className={`h-full w-full transition-all duration-300 ease-in-out z-90 overflow-hidden`}>
     <div className='h-full w-full bg-[linear-gradient(180deg,_#0f0f0f_0%,_#1a1a1a_190%)] relative z-[999] border-r border-[#333]'>
-        <div className="w-full h-full backdrop-blur-lg shadow-2xl border-white/10 flex flex-col">
+        <div className="w-full h-full backdrop-blur-lg shadow-2xl border-white/10 flex flex-col z-90">
         {/* Logo */}
         <div className={` p-6`}>
             <div className='w-full flex justify-between'>

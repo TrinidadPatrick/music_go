@@ -20,13 +20,13 @@ const UserLayout = () => {
     <main className='h-screen overflow-hidden flex flex-col'>
         {
           isAuthenticated === true &&
-          <section className='flex'>
+          <section className='flex-1 min-h-0 flex'>
           {
-            width >= 900 &&
-            <section className=' h-screen z-[9999999] flex-none hidden lg:block'>
+          width >= 900 && (
+            <section className=' flex-none z-[9999999] hidden lg:block'>
               <Sidebar />
             </section>
-          }
+          )}
           <section className='h-screen overflow-auto w-full flex-1 flex flex-col relative'>
               {/* Navbar */}
               <Navbar />

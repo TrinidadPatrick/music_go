@@ -22,9 +22,9 @@ const Sidebar = () => {
           {
             sidebarOpen ?
             <div className='w-full flex justify-between'>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <button onClick={()=>navigate('/')} className="text-2xl cursor-pointer font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             MusicHub
-            </h1>
+            </button>
             <button onClick={()=>setIsSidebarOpen(false)} className='cursor-pointer' >
             <Menu size={30} className="text-gray-400 hover:text-white " />
             </button>

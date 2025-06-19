@@ -18,9 +18,9 @@ const MobileSidebar = ({closeSidebar}) => {
         {/* Logo */}
         <div className={` p-6`}>
             <div className='w-full flex justify-between'>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <button onClick={()=>navigate('/')} className="cursor-pointer text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             MusicHub
-            </h1>
+            </button>
             <button onClick={()=>closeSidebar()} className='' >
             <Menu size={30} className="text-gray-400 hover:text-white " />
             </button>

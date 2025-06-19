@@ -7,6 +7,7 @@ import Sidebar from '../../Components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import useScreenSize from '../../Auth/ScreenSizeProvider';
 import MobileSidebar from '../../Components/MobileSidebar';
+import useSidebarStore from '../../Stores/sidebarStore';
 
 const Navbar = () => {
   const {width} = useScreenSize()
@@ -16,8 +17,9 @@ const Navbar = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [searchQuery, setSearchQuery] = useState('')
   const [suggestions, setSuggestions] = useState([])
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false);
+  const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
 
   const handleSearch = async (searchValue) => {
     if(searchQuery !== ''){
@@ -38,18 +40,18 @@ const Navbar = () => {
 
   const closeSidebar = () => {
     setIsAnimating(true);
-    setIsSidebarOpen(false);
+    setIsMobileSidebarOpen(false);
   };
 
   useEffect(() => {
     // Automatically unmount after animation ends (300ms)
-    if (!isSidebarOpen && isAnimating) {
+    if (!isMobileSidebarOpen && isAnimating) {
       const timer = setTimeout(() => {
         setIsAnimating(false);
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [isSidebarOpen, isAnimating]);
+  }, [isMobileSidebarOpen, isAnimating]);
 
   useEffect(() => {
     if (debounceRef.current) {
@@ -62,6 +64,7 @@ const Navbar = () => {
         if (searchQuery !== '') {
           try {
             const response = await http.get(`music/autoComplete?q=${searchQuery}`);
+            console.log(response)
             const data = response.data.slice(0, 10);
             setSuggestions(data);
           } catch (error) {
@@ -84,11 +87,20 @@ const Navbar = () => {
   }, [searchQuery]);
 
   return (
-    <div className="bg-transparent z-90 p-4 flex items-center justify-between lg:justify-end gray-700 w-full">
+    <div className="bg-transparent z-90 p-4 flex items-center justify-between gray-700 w-full">
+      <div className='flex items-center gap-2'>
       {/* Hamburger */}
-      <button className='lg:hidden' onClick={()=>{setIsAnimating(true);setTimeout(()=>setIsSidebarOpen(true), 10)}}>
+      <button className='lg:hidden' onClick={()=>{setIsAnimating(true);setTimeout(()=>setIsMobileSidebarOpen(true), 10)}}>
         <Menu size={30} className="text-gray-400 hover:text-white " />
       </button>
+
+      {
+        !isSidebarOpen &&
+        <button onClick={()=>navigate('/')} className="text-2xl hidden md:block cursor-pointer font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          MusicHub
+        </button>
+      }
+      </div>
 
       {/* Sidebar mobile */}
       {isAnimating && width < 1024 && (
@@ -96,7 +108,7 @@ const Navbar = () => {
           className={`
             sm:max-w-xs h-screen absolute bg-[#06080e] z-90 w-full top-0 left-0
             transform transition-transform duration-300 ease-in-out
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+            ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           `}
         >
           <MobileSidebar closeSidebar={closeSidebar} />
@@ -116,7 +128,7 @@ const Navbar = () => {
                       onKeyDown={
                         (e)=>{if(e.key === 'Enter') {
                           setIsTyping(false)
-                        handleSearch(searchQuery)
+                          handleSearch(searchQuery)
                       }else{
                         setIsTyping(true)
                       }}

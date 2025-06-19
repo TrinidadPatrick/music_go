@@ -74,7 +74,7 @@ const Home = () => {
               </p>
 
               {/* Enhanced CTA button */}
-              <button className="bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-white px-5 py-3 rounded-full text-lg font-bold flex items-center gap-3 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-400/50">
+              <button className="mx-auto sm:mx-0 bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-white px-5 py-3 rounded-full text-sm md:text-lg font-bold flex items-center gap-3 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-400/50">
                 <Play className="w-6 h-6" />
                 LISTEN NOW
               </button>

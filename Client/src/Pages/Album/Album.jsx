@@ -68,12 +68,12 @@ const Album = () => {
     
     
   return (
-    <div className=" text-white h-full w-full overflow-hidden flex">
+    <div className=" text-white h-full w-full overflow-hidden flex px-5">
         {/* Main Content */}
       <div className="flex-1 h-full overflow-auto">
 
         {/* Album Header */}
-        <div className="bg-gradient-to-br from-green-600 via-blue-900 to-indigo-900 p-3 sm:p-8 sm: h-fith-60 flex w-full">
+        <div className="bg-gradient-to-br from-green-600 via-blue-900 to-indigo-900 rounded p-3 sm:p-8 sm: h-fith-60 flex w-full">
         <div className="flex flex-row items-center sm:items-end gap-6 w-full">
             <div 
                 style={{backgroundImage: `url(${ album?.thumbnails ? (album?.thumbnails[2]?.url || album?.thumbnails[1]?.url || album?.thumbnails[0]?.url) : ''})`}} 
@@ -111,7 +111,6 @@ const Album = () => {
         <div className="hidden sm:grid grid-cols-11 md:grid-cols-12 gap-4 px-4 py-2 text-xs text-gray-400 uppercase tracking-wide border-b border-gray-800 mb-4">
             <div className="col-span-1">#</div>
             <div className="col-span-8">Title</div>
-            <div className="hidden md:block col-span-2">Date added</div>
             <div className="col-span-1 flex justify-center">
             <Clock size={16} />
             </div>
@@ -121,7 +120,9 @@ const Album = () => {
 
         {/* Track Rows */}
         <div className="space-y-1">
-            {album?.tracks?.map((track, index) => (
+            {album?.tracks?.map((track, index) => {
+                console.log(track)
+                return (
                 <div
                 onClick={() => handleSelectSong(track)}
                 key={track.videoId}
@@ -167,11 +168,6 @@ const Album = () => {
                     </div>
                 </div>
 
-                {/* Date added – hidden on mobile */}
-                <div className="hidden md:flex col-span-2 items-center">
-                    <p className="text-sm text-gray-400">5 days ago</p>
-                </div>
-
                 {/* Duration & Heart – only More shown on mobile */}
                 <div className="col-span-1 flex items-center justify-center md:justify-center space-x-2">
                     <button
@@ -199,7 +195,7 @@ const Album = () => {
                     <MoreHorizontal size={16} />
                     </button>
                 </div>
-            ))}
+            )})}
         </div>
         </div>
 

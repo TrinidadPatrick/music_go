@@ -29,19 +29,19 @@ const MobileSidebar = ({closeSidebar}) => {
 
         {/* Navigation */}
         <nav className={` px-6 space-y-2`}>
-          <button onClick={()=>navigate('/')} className={` ${homePaths.includes(window.location.pathname) && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg  text-gray-400 hover:bg-white/10 transition-colors`}>
+          <button onClick={()=>{navigate('/');closeSidebar()}} className={` ${homePaths.includes(window.location.pathname) && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg  text-gray-400 hover:bg-white/10 transition-colors`}>
             <Home size={20} />
                 <span>Home</span>
           </button>
-          <button className={`w-full flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors`}>
+          <button onClick={()=>{navigate('/search');closeSidebar()}} className={`${window.location.pathname === '/search' && 'bg-white/10'} w-full flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors`}>
             <Search size={20} />
                <span>Search</span>
           </button>
-          <button onClick={()=>navigate('/user/library')} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
+          <button onClick={()=>{navigate('/user/library');closeSidebar()}} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
             <Library size={20} />
              <span>Your Library</span>
           </button>
-          <button onClick={()=> navigate('/user/playlist')} className={`${(window.location.pathname === '/user/playlist' || window.location.pathname === '/user/playlist/view' ) && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
+          <button onClick={()=> {navigate('/user/playlist');closeSidebar()}} className={`${(window.location.pathname === '/user/playlist' || window.location.pathname === '/user/playlist/view' ) && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
             <Disc size={20} />
               <span className=' whitespace-nowrap'>Your Playlists</span>
           </button>

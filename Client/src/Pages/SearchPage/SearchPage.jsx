@@ -8,6 +8,7 @@ import MainSongs from './MainSongs'
 import SearchPageLoader from './SearchPageLoader'
 import MainVideos from './MainVideos'
 import VideosTab from './VideosTab'
+import { SearchIcon } from 'lucide-react'
 
 const SearchPage = () => {
     // Stores
@@ -53,7 +54,16 @@ const SearchPage = () => {
 
   return (
     <main className='flex-1 flex flex-col p-5'>
-        {/* Tabs */}
+      {
+        q === '' ?
+        <section className='flex-1  flex justify-center items-center'>
+          <div className='flex flex-col gap-2 items-center'>
+          <h1 className='text-4xl font-bold text-white text-center'>Whats on your mind?</h1>
+          <p className='text-gray-400 text-sm text-center'>Enter a song, artist, album, or playlist to get started</p>
+          </div>
+        </section>
+        :
+        <>
         <Tabs />
         {
           isSearching ? <SearchPageLoader />
@@ -76,6 +86,8 @@ const SearchPage = () => {
                 }
         </section>
         }
+        </>
+      }
     </main>
   )
 }

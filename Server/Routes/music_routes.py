@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Query
 from ytmusicapi import YTMusic
 from fastapi.responses import JSONResponse
+from typing import Optional
 
 router = APIRouter()
 ytmusic = YTMusic()
@@ -21,15 +22,15 @@ def get_homes():
 @router.get("/autoComplete")
 def auto_complete_search(q: str = Query(...)):
     try:
-        results = ytmusic.get_search_suggestions(q)
+        results = ytmusic.get_search_suggestions(q,)
         return results
     except Exception as e:
         print(e)
 
 @router.get("/search")
-def search_music(q: str = Query(...)):
-    results = ytmusic.search(q, filter="songs")
-    return results
+def search_music(q: str = Query(...), filter=Query(...), limit : int =Query(...)):
+    filtered_results = ytmusic.search(query=q, filter=filter, limit=limit)
+    return filtered_results
 
 @router.get("/song")
 def get_song(videoId: str = Query(...)):

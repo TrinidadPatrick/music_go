@@ -4,38 +4,29 @@ import { Hamburger, Menu, Search, SidebarOpenIcon, SquareMenu, X } from 'lucide-
 import http from '../../../http'
 import { useAuth } from '../../Auth/AuthProvider';
 import Sidebar from '../../Components/Sidebar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import useScreenSize from '../../Auth/ScreenSizeProvider';
 import MobileSidebar from '../../Components/MobileSidebar';
 import useSidebarStore from '../../Stores/sidebarStore';
+import useSearchPageStore from '../../Stores/SearchPageStore';
 
 const Navbar = () => {
+  const [params, setParams] = useSearchParams()
   const {width} = useScreenSize()
   const {user, isAuthenticated} = useAuth()
   const navigate = useNavigate()
   const debounceRef = useRef(null);
   const [isTyping, setIsTyping] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState(params.get('q') || '')
   const [suggestions, setSuggestions] = useState([])
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false);
   const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
 
-  const handleSearch = async (searchValue) => {
-    if(searchQuery !== ''){
-      try {
-        const response = await http.get(`/music/search?q=${searchValue}`)
-        console.log(response.data);
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  };
-
   const handleSelectSuggestion = (suggestion) => {
     setIsTyping(false)
     setSearchQuery(suggestion);
-    handleSearch(suggestion);
+    navigate(`/search?q=${suggestion}`)
   }
 
   const closeSidebar = () => {
@@ -64,7 +55,6 @@ const Navbar = () => {
         if (searchQuery !== '') {
           try {
             const response = await http.get(`music/autoComplete?q=${searchQuery}`);
-            console.log(response)
             const data = response.data.slice(0, 10);
             setSuggestions(data);
           } catch (error) {
@@ -128,7 +118,7 @@ const Navbar = () => {
                       onKeyDown={
                         (e)=>{if(e.key === 'Enter') {
                           setIsTyping(false)
-                          handleSearch(searchQuery)
+                          navigate(`/search?q=${searchQuery}`)
                       }else{
                         setIsTyping(true)
                       }}

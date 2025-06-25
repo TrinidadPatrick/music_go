@@ -226,7 +226,7 @@ const UserLibrary = () => {
   }, [modalIsOpen, selectedTrack])
   
   return (
-    <div className="text-white h-full w-full overflow-hidden flex px-5">
+    <div className="text-white w-full h-full overflow-hidden flex px-5 pb-4">
       <Modal />
       
       {/* Main Content */}
@@ -404,7 +404,6 @@ const UserLibrary = () => {
         )}
 
       </div>
-      <Toaster position='top-right' />
     </div>
   )
 }

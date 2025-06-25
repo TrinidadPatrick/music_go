@@ -116,7 +116,7 @@ const Playlist = () => {
         playlistId: playlist.playlist_id,
         title: track.title,
         artists: track.artists,
-        album: track.album || null,
+        album: null,
         duration_seconds: data.lengthSeconds,
         thumbnails: data.thumbnail ? data.thumbnail.thumbnails : null,
       }
@@ -454,7 +454,6 @@ const Playlist = () => {
           </div>
         </div>
       )}
-      <Toaster position='top-right' />
     </div>
   )
 }

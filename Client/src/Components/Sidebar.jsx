@@ -44,7 +44,7 @@ const Sidebar = () => {
               sidebarOpen && <span>Home</span>
             }
           </button>
-          <button className={`${sidebarOpen ? 'w-full' : 'w-fit'} flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors`}>
+          <button onClick={()=>navigate('/search')} className={`${window.location.pathname === '/search' && 'bg-white/10'} ${sidebarOpen ? 'w-full' : 'w-fit'} cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors`}>
             <Search size={20} />
             {
               sidebarOpen && <span>Search</span>

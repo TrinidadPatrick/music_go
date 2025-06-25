@@ -9,6 +9,7 @@ import Playlist from './src/Pages/Playlist/Playlist'
 import Album from './src/Pages/Album/Album'
 import UserLibary from './src/Pages/Library/UserLibrary'
 import UserPlaylist from './src/Pages/Playlist/UserPlaylist'
+import SearchPage from './src/Pages/SearchPage/SearchPage'
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: 'public/album',
                 element: <Album />
+            },
+            {
+                path: 'search',
+                element: <SearchPage />
             },
             {
                 path: '/signin',

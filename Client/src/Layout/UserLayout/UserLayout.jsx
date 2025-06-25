@@ -27,7 +27,7 @@ const UserLayout = () => {
               <Sidebar />
             </section>
           )}
-          <section className='h-screen overflow-auto w-full flex-1 flex flex-col relative'>
+          <section className='flex-1 overflow-auto w-full flex flex-col relative'>
               {/* Navbar */}
               <Navbar />
 

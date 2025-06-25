@@ -163,8 +163,8 @@ const Player = memo(({
             <Music className="text-white" />
           )}
         </div>
-        <div className="flex flex-col min-w-0 flex-1">
-          <h3 className="text-lg line-clamp-1 text-white font-medium">
+        <div className="flex flex-col min-w-0 flex-1 ">
+          <h3 className="text-base md:text-lg line-clamp-1 text-white font-medium">
             {currentSong.title}
           </h3>
           <p className="text-gray-400 text-sm truncate">
@@ -174,7 +174,7 @@ const Player = memo(({
       </div>
 
       {/* Controls */}
-      <div className="flex flex-col-reverse flex-1 sm:min-w-sm">
+      <div className="flex flex-col-reverse sm:flex-1 sm:min-w-sm">
         <ProgressSlider
           currentTime={currentTime}
           duration={duration}

@@ -9,7 +9,7 @@ import http from '../../../http'
 import { useSearchParams } from 'react-router-dom'
 import SpinnerLoader from '../../Components/SpinnerLoader'
 
-const VideosTab = () => {
+const AlbumsTab = () => {
         const [params, setParams] = useSearchParams()
         const q = params.get('q') || ''
         const fetchIdRef = useRef(0);
@@ -47,7 +47,7 @@ const VideosTab = () => {
             }
         }
 
-        const getAllVideos = async (step, query) => {
+        const getAllSongs = async (step, query) => {
             const thisFetchId = ++fetchIdRef.current;
             let fetch_results = [];
             let limit = 200;
@@ -57,7 +57,7 @@ const VideosTab = () => {
                 
                 try {
                     setFethchedAllSongs(false)
-                    const results = await http.get(`/music/search?q=${query}&filter=videos&limit=${limit}`)
+                    const results = await http.get(`/music/search?q=${query}&filter=albums&limit=${limit}`)
                     const data = results.data;
 
                     if (thisFetchId !== fetchIdRef.current) {
@@ -70,7 +70,7 @@ const VideosTab = () => {
 
                     const new_data = data.slice(fetch_results.length);
                     fetch_results.push(...new_data);
-                    setResults({ videos: { all: data } });
+                    setResults({ albums: { all: data } });
                     step++
                     limit+=50
                 } catch (error) {
@@ -81,22 +81,17 @@ const VideosTab = () => {
             setFethchedAllSongs(true)
         }
 
-        // useEffect(()=>{
-        //     if(activeTab === 'videos'){
-        //         getAllVideos(1, q)
-        //     }
-        // }, [activeTab, q])
-
 
       return (
         <div className="space-y-2 flex flex-col flex-1">
-            {(results?.videos?.all?.length > 0 ? results?.videos?.all : results?.videos?.partial)?.map((song, index) => {
-            const isCurrentSong = currentSong?.videoId === song.videoId
+            <h2 className="text-2xl font-bold mb-4 text-white">Albums</h2>
+            {(results?.albums?.all?.length > 0 ? results?.albums?.all : results?.albums?.partial)?.map((album, index) => {
+            const isCurrentSong = false
             return (
-                <div onClick={() => handleSelectSong(song)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelectSong(album)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
                     {
-                        selectedItem === song &&
-                        <div className='absolute right-56 top-5'>
+                        selectedItem === album &&
+                        <div className='absolute right-56 top-0'>
                         <SelectedDropdown />
                         </div>
                     }
@@ -114,17 +109,8 @@ const VideosTab = () => {
                     {/* Image */}
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-700 rounded overflow-hidden flex items-center justify-center relative">
                         {
-                            isCurrentSong &&
-                            <>
-                                <div className='w-full h-full bg-black absolute opacity-65 flex items-center justify-center' />
-                                <div className='absolute h-6'>
-                                <EqualizerAnimation />
-                                </div>
-                            </>
-                        }
-                        {
-                            song.thumbnails ?
-                            <img referrerPolicy='no-referrer' src={song.thumbnails[0].url} alt={song.title} className="w-full h-full object-cover" />
+                            album.thumbnails ?
+                            <img referrerPolicy='no-referrer' src={album.thumbnails[0].url} alt={album.title} className="w-full h-full object-cover" />
                             :
                             <div className="w-6 h-6 bg-gray-600 rounded"></div>
                         }
@@ -132,35 +118,23 @@ const VideosTab = () => {
 
                     {/* Title and artists */}
                     <div className="flex-1">
-                          <p className="text-xs sm:text-sm font-medium text-gray-100">{song.title}</p>
-                          <p className="text-xs sm:text-sm text-gray-400">{song.artists ? song.artists.map((artist) => artist.name).join(', ') : ''}</p>
+                          <p className="text-xs sm:text-sm font-medium text-gray-100">{album.title}</p>
+                          <div>
+                          <p className="text-xs sm:text-sm text-gray-400">{album.artists ? album.artists.map((artist) => artist.name).join(', ') : ''} • {album?.year}</p>
+                          </div>
                     </div>
 
-                    {/* Album */}
-                    <div className="text-sm text-gray-400 hidden md:block">
-                          {song.album ? song.album.name : ''}
-                    </div>
-                    
-                    {/* Duration */}
-                    <div className="text-xs sm:text-sm text-gray-400 w-12 text-right">
-                          {song.duration}
-                    </div>
+                
 
                     {/* More button */}
-                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(song)}} className="hidden md:block p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
+                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(album)}} className="hidden md:block p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
                           <MoreHorizontal className="w-5 h-5 text-gray-400" />
                     </button>
                 </div>
             )})}
-            {
-                !fethchedAllSongs && 
-                <div className='w-full flex justify-center'>
-                    <SpinnerLoader />
-                </div>
-            }
         </div>
       )
     }
 
 
-export default VideosTab
+export default AlbumsTab

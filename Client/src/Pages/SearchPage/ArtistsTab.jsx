@@ -9,7 +9,7 @@ import http from '../../../http'
 import { useSearchParams } from 'react-router-dom'
 import SpinnerLoader from '../../Components/SpinnerLoader'
 
-const VideosTab = () => {
+const ArtistsTab = () => {
         const [params, setParams] = useSearchParams()
         const q = params.get('q') || ''
         const fetchIdRef = useRef(0);
@@ -57,7 +57,7 @@ const VideosTab = () => {
                 
                 try {
                     setFethchedAllSongs(false)
-                    const results = await http.get(`/music/search?q=${query}&filter=videos&limit=${limit}`)
+                    const results = await http.get(`/music/search?q=${query}&filter=artists&limit=${limit}`)
                     const data = results.data;
 
                     if (thisFetchId !== fetchIdRef.current) {
@@ -70,7 +70,7 @@ const VideosTab = () => {
 
                     const new_data = data.slice(fetch_results.length);
                     fetch_results.push(...new_data);
-                    setResults({ videos: { all: data } });
+                    setResults({ artists: { all: data } });
                     step++
                     limit+=50
                 } catch (error) {
@@ -82,7 +82,7 @@ const VideosTab = () => {
         }
 
         // useEffect(()=>{
-        //     if(activeTab === 'videos'){
+        //     if(activeTab === 'artists'){
         //         getAllVideos(1, q)
         //     }
         // }, [activeTab, q])
@@ -90,12 +90,12 @@ const VideosTab = () => {
 
       return (
         <div className="space-y-2 flex flex-col flex-1">
-            {(results?.videos?.all?.length > 0 ? results?.videos?.all : results?.videos?.partial)?.map((song, index) => {
-            const isCurrentSong = currentSong?.videoId === song.videoId
+            {(results?.artists?.all?.length > 0 ? results?.artists?.all : results?.artists?.partial)?.map((artist, index) => {
+            const isCurrentSong = currentSong?.videoId === artist.videoId
             return (
-                <div onClick={() => handleSelectSong(song)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelectSong(artist)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
                     {
-                        selectedItem === song &&
+                        selectedItem === artist &&
                         <div className='absolute right-56 top-5'>
                         <SelectedDropdown />
                         </div>
@@ -123,8 +123,8 @@ const VideosTab = () => {
                             </>
                         }
                         {
-                            song.thumbnails ?
-                            <img referrerPolicy='no-referrer' src={song.thumbnails[0].url} alt={song.title} className="w-full h-full object-cover" />
+                            artist.thumbnails ?
+                            <img referrerPolicy='no-referrer' src={artist.thumbnails[0].url} alt={artist.artist} className="w-full h-full object-cover" />
                             :
                             <div className="w-6 h-6 bg-gray-600 rounded"></div>
                         }
@@ -132,22 +132,11 @@ const VideosTab = () => {
 
                     {/* Title and artists */}
                     <div className="flex-1">
-                          <p className="text-xs sm:text-sm font-medium text-gray-100">{song.title}</p>
-                          <p className="text-xs sm:text-sm text-gray-400">{song.artists ? song.artists.map((artist) => artist.name).join(', ') : ''}</p>
-                    </div>
-
-                    {/* Album */}
-                    <div className="text-sm text-gray-400 hidden md:block">
-                          {song.album ? song.album.name : ''}
-                    </div>
-                    
-                    {/* Duration */}
-                    <div className="text-xs sm:text-sm text-gray-400 w-12 text-right">
-                          {song.duration}
+                          <p className="text-xs sm:text-sm font-medium text-gray-100">{artist.artist}</p>
                     </div>
 
                     {/* More button */}
-                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(song)}} className="hidden md:block p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
+                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(artist)}} className="p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
                           <MoreHorizontal className="w-5 h-5 text-gray-400" />
                     </button>
                 </div>
@@ -163,4 +152,4 @@ const VideosTab = () => {
     }
 
 
-export default VideosTab
+export default ArtistsTab

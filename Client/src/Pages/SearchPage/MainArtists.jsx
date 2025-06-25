@@ -6,7 +6,7 @@ import SelectedDropdown from './SelectedDropdown'
 import useGetSongRecommendation from '../../Stores/NextSongRecommendationStore'
 import EqualizerAnimation from '../../Components/EqualizerAnimation'
 
-const MainVideos = () => {
+const MainArtists = () => {
     const setSelectedItem = useSearchPageStore( state => state.setSelectedItem)
     const selectedItem = useSearchPageStore( state => state.selectedItem)
     const currentSong = useMusicPlayerStore( state => state.currentSong)
@@ -37,53 +37,38 @@ const MainVideos = () => {
         }
     }
 
-  return results?.videos?.partial?.length > 0 && (
+  return results?.artists?.partial?.length > 0 && (
     <div className="space-y-2 flex flex-col flex-1">
-        <h2 className="text-2xl font-bold mb-4 text-white">Videos</h2>
-        <div  className=' hide-scrollbar overflow-x-scroll flex gap-3 '>
+        <h2 className="text-2xl font-bold mb-4 text-white">Artists</h2>
+        <div className=' hide-scrollbar overflow-x-scroll flex gap-3 '>
             {
-                results?.videos?.partial?.slice(0, 10)?.map((video, index) => {
-                    const thumbnal = video.thumbnails && (video.thumbnails[1]?.url || video.thumbnails[0]?.url)
-                    const isCurrentSong = currentSong?.videoId === video.videoId
+                results?.artists?.partial?.slice(0, 10)?.map((artist, index) => {
+                    const thumbnal = artist.thumbnails && (artist.thumbnails[1]?.url || artist.thumbnails[0]?.url)
                     return (
-                        <div key={index} onClick={()=>handleSelectSong(video)} className={`${isCurrentSong && 'bg-gray-900'} h-fit  p-2 rounded group cursor-pointer flex flex-col gap-1 md:gap-2 justify-between relative`}>
+                        <div key={index} onClick={()=>handleSelectSong(artist)} className={` p-2 rounded group cursor-pointer flex flex-col gap-2 justify-between relative`}>
                             {
-                                selectedItem === video &&
+                                selectedItem === artist &&
                                 <div className='absolute -right-1 bottom-35 z-90'>
                                 <SelectedDropdown />
                                 </div>
                             }
                             {/* Image */}
                             <>
-                            <div className='min-w-40 md:min-w-56 aspect-video  rounded overflow-hidden relative'>
-                                {
-                                    isCurrentSong &&
-                                    <>
-                                        <div className='w-full h-full bg-black absolute opacity-65 flex items-center justify-center' />
-                                        {/* Center this */}
-                                        <div className='absolute h-[40px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                                        <EqualizerAnimation />
-                                        </div>
-                                    </>
-                                }
-                                <img referrerPolicy='no-referrer' src={thumbnal} alt={video.title} className="w-full h-full object-cover" />
+                            <div className='min-w-20 sm:min-w-30 md:min-w-40 aspect-square  rounded-full overflow-hidden relative'>
+                                <img referrerPolicy='no-referrer' src={thumbnal} alt={artist.title} className="w-full h-full object-cover" />
                             </div>
 
                             {/* Title and artists */}
-                            <div className="flex flex-col md:gap-1">
-                                <p className="text-sm line-clamp-2 font-medium text-gray-100">{video.title}</p>
-                                <p className="text-xs md:text-sm text-gray-400">{video.artists ? video.artists.map((artist) => artist.name).join(', ') : ''}</p>
+                            <div className="flex flex-col gap-2">
+                                <p className="text-xs md:text-sm line-clamp-2 font-medium text-gray-100 text-center">{artist.artist}</p>
                             </div>
                             </>
 
                             {/* More button */}
                             <div className='w-full flex gap-2 items-center'>
-                            <span className='text-gray-400 text-xs md:text-sm w-full'>
-                                {video?.duration} • {video?.views} views
-                            </span>
-                            <button onClick={(e)=>{e.stopPropagation();handleMoreOption(video)}} className="w-fit p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-950">
+                            {/* <button onClick={(e)=>{e.stopPropagation();handleMoreOption(artist)}} className="w-fit p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-950">
                                 <MoreHorizontal className="w-5 h-5 text-gray-400" />
-                            </button>
+                            </button> */}
                             </div>
                         </div>
                     )})
@@ -93,4 +78,4 @@ const MainVideos = () => {
   )
 }
 
-export default MainVideos
+export default MainArtists

@@ -81,16 +81,9 @@ const SongsTab = () => {
             setFethchedAllSongs(true)
         }
 
-        useEffect(()=>{
-            if(activeTab === 'songs'){
-                getAllSongs(1, q)
-            }
-        }, [activeTab, q])
-
-
-      return results.songs?.all?.length > 0 && (
+      return  (
         <div className="space-y-2 flex flex-col flex-1">
-            {results?.songs?.all?.map((song, index) => {
+            {(results?.songs?.all?.length > 0 ? results?.songs?.all : results?.songs?.partial)?.map((song, index) => {
             const isCurrentSong = currentSong?.videoId === song.videoId
             return (
                 <div onClick={() => handleSelectSong(song)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
@@ -99,7 +92,7 @@ const SongsTab = () => {
                         <SelectedDropdown />
                     }
                     {/* Number */}
-                    <div className="w-10 text-center flex justify-center">
+                    <div className="hidden w-10 text-center md:flex justify-center">
                           {
                             !isCurrentSong &&
                             <span className="text-gray-400 text-sm group-hover:hidden">{index + 1}</span>
@@ -110,7 +103,7 @@ const SongsTab = () => {
                     </div>
 
                     {/* Image */}
-                    <div className="w-12 h-12 bg-gray-700 rounded overflow-hidden flex items-center justify-center relative">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-700 rounded overflow-hidden flex items-center justify-center relative">
                         {
                             isCurrentSong &&
                             <>
@@ -130,8 +123,8 @@ const SongsTab = () => {
 
                     {/* Title and artists */}
                     <div className="flex-1">
-                          <p className="font-medium text-gray-100">{song.title}</p>
-                          <p className="text-sm text-gray-400">{song.artists ? song.artists.map((artist) => artist.name).join(', ') : ''}</p>
+                          <p className="text-xs sm:text-sm font-medium text-gray-100">{song.title}</p>
+                          <p className="text-xs sm:text-sm text-gray-400">{song.artists ? song.artists.map((artist) => artist.name).join(', ') : ''}</p>
                     </div>
 
                     {/* Album */}
@@ -140,12 +133,12 @@ const SongsTab = () => {
                     </div>
                     
                     {/* Duration */}
-                    <div className="text-sm text-gray-400 w-12 text-right">
+                    <div className="text-xs sm:text-sm text-gray-400 w-12 text-right">
                           {song.duration}
                     </div>
 
                     {/* More button */}
-                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(song)}} className="p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
+                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(song)}} className="hidden md:block p-2 md:opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
                           <MoreHorizontal className="w-5 h-5 text-gray-400" />
                     </button>
                 </div>

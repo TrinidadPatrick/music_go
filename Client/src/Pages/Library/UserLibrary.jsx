@@ -80,10 +80,12 @@ const UserLibrary = () => {
   };
 
   const handleSelectSong = (track) => {
-    setSongList(library.library_songs)
+    if(track?.videoId !== currentSong?.videoId){
+      setSongList(library.library_songs)
     setCurrentSong(track)
     setIsPlaying(true)
     setIsLoading(true)
+    }
   }
 
   const handleRemoveFromLibrary = (track) => {

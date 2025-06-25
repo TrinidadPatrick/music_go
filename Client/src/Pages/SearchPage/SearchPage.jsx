@@ -9,9 +9,17 @@ import SearchPageLoader from './SearchPageLoader'
 import MainVideos from './MainVideos'
 import VideosTab from './VideosTab'
 import { SearchIcon } from 'lucide-react'
+import MainArtists from './MainArtists'
+import ArtistsTab from './ArtistsTab'
+import MainAlbums from './MainAlbums'
+import AlbumsTab from './AlbumsTab'
+import MainPlaylists from './MainPlaylists'
+import PlaylistsTab from './PlaylistsTab'
+import useScreenSize from '../../Auth/ScreenSizeProvider'
 
 const SearchPage = () => {
     // Stores
+    const {width} = useScreenSize()
     const setResults = useSearchPageStore( state => state.setResults)
     const results = useSearchPageStore( state => state.results)
     const activeTab = useSearchPageStore( state => state.activeTab)
@@ -22,6 +30,21 @@ const SearchPage = () => {
     const [params, setParams] = useSearchParams()
     const q = params.get('q') || ''
 
+    const handleGetAllResults = async (searchValue) => {
+        const filters = ["videos", "songs", "albums", "featured_playlists", "playlists", "artists"]
+
+        filters.forEach(async (filter) => {
+            try {
+                const response = await http.get(`/music/search?q=${searchValue}&filter=${filter}&limit=100`)
+                setResults({ [filter]: {all : response.data} })
+            } catch (error) {
+                console.log(error)
+            }
+        })
+
+        
+    }
+
     const handleSearch = async (searchValue) => {
         const filters = ["videos", "songs", "albums", "featured_playlists", "playlists", "artists", "playlists"]
         if(searchValue !== ''){
@@ -30,12 +53,12 @@ const SearchPage = () => {
             try {
                 const response = await http.get(`/music/search?q=${searchValue}&filter=${filter}&limit=20`)
                 setResults({ [filter]: {partial : response.data} })
-                setResults({ [filter]: {all : response.data} })
                 setIsSearching(false)
               } catch (error) {
                 console.log(error)
               }
           }
+          handleGetAllResults(searchValue)
         }else{
             setResults({
                 videos: [],
@@ -52,8 +75,10 @@ const SearchPage = () => {
         handleSearch(q)
     }, [q])
 
+    // console.log(results)
+
   return (
-    <main className='flex-1 flex flex-col p-5'>
+    <main style={{width: width <= 1023 ? '100vw' : '93.5vw'}} className='flex-1 flex flex-col p-5'>
       {
         q === '' ?
         <section className='flex-1  flex justify-center items-center'>
@@ -68,7 +93,7 @@ const SearchPage = () => {
         {
           isSearching ? <SearchPageLoader />
           :
-          <section className='flex-1 overflow-auto w-full flex flex-col gap-3'>
+          <section className=' overflow-auto w-full flex flex-col gap-3'>
                 {
                   activeTab === 'songs' ?
                   <SongsTab />
@@ -76,10 +101,22 @@ const SearchPage = () => {
                   activeTab === 'videos' ?
                   <VideosTab />
                   :
+                  activeTab === 'artists' ?
+                  <ArtistsTab />
+                  :
+                  activeTab === 'albums' ?
+                  <AlbumsTab />
+                  :
+                  activeTab === 'playlists' ?
+                  <PlaylistsTab />
+                  :
                   activeTab === 'all' ?
                   <>
                   <MainVideos />
                   <MainSongs />
+                  <MainPlaylists />
+                  <MainArtists />
+                  <MainAlbums />
                   </>
                   :
                   ""

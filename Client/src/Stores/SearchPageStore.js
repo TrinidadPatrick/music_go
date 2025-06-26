@@ -11,16 +11,34 @@ const useSearchPageStore = create((set, get) => ({
     results: {
         videos: {
           partial: null,
-            all : null
+            all : null,
+            isFetching: null,
+            hasData: null,
         },
         songs: {
             partial: null,
-            all : null
+            all : null,
+            isFetching: null,
+            hasData: null,
         },
-        albums: [],
-        artists: [],
-        playlists: [],
-        featured_playlists: []
+        albums: {
+          partial: null,
+            all : null,
+            isFetching: null,
+            hasData: null,
+        },
+        artists: {
+          partial: null,
+            all : null,
+            isFetching: null,
+            hasData: null,
+        },
+        playlists: {
+          partial: null,
+            all : null,
+            isFetching: null,
+            hasData: null,
+        }
     },
     setResults: (results) => {
         set((state) => ({

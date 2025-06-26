@@ -369,7 +369,7 @@ const Playlist = () => {
               {playlist?.tracks?.map((track, index) => (
                 <div
                   onClick={() => handleSelectSong(track)}
-                  key={track.videoId}
+                  key={index}
                   className={`${
                     (currentSong?.videoId || "") === track?.videoId ? "bg-gray-800" : ""
                   } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer`}

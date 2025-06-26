@@ -4,6 +4,7 @@ import useSearchPageStore from '../../Stores/SearchPageStore';
 const Tabs = () => {
     const activeTab = useSearchPageStore( state => state.activeTab)
     const setActiveTab = useSearchPageStore( state => state.setActiveTab)
+    const results = useSearchPageStore( state => state.results)
 
     const tabs = [
         { id: 'all', label: 'All' },
@@ -16,7 +17,7 @@ const Tabs = () => {
     
   return (
     <div className="flex space-x-6 mb-8 border-b border-gray-700 w-full overflow-x-scroll min-h-[30px]  hide-scrollbar">
-            {tabs.map((tab) => (
+            {tabs.map((tab) => (results[tab.id]?.hasData || tab.id === 'all') && (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}

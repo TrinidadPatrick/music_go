@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import http from '../../../http'
 import Tabs from './Tabs'
@@ -29,14 +29,21 @@ const SearchPage = () => {
     // Params
     const [params, setParams] = useSearchParams()
     const q = params.get('q') || ''
+    const searchedRef = useRef(new Set());
 
     const handleGetAllResults = async (searchValue) => {
         const filters = ["videos", "songs", "albums", "featured_playlists", "playlists", "artists"]
 
         filters.forEach(async (filter) => {
             try {
-                const response = await http.get(`/music/search?q=${searchValue}&filter=${filter}&limit=100`)
-                setResults({ [filter]: {all : response.data} })
+                setResults({ [filter]: { isFetching : true} })
+                const response = await http.get(`/music/search?q=${searchValue}&filter=${filter}&limit=200`)
+                if(response.data.length > 0){
+                    setResults({ [filter]: {all : response.data, hasData : true} })
+                }else{
+                    setResults({ [filter]: {all : [], hasData : false} })
+                }
+                setResults({ [filter]: { isFetching : false} })
             } catch (error) {
                 console.log(error)
             }
@@ -52,13 +59,16 @@ const SearchPage = () => {
           for (const filter of filters){
             try {
                 const response = await http.get(`/music/search?q=${searchValue}&filter=${filter}&limit=20`)
-                setResults({ [filter]: {partial : response.data} })
+                if(response.data.length > 0){
+                  setResults({ [filter]: {partial : response.data, hasData : true} })
+                }else{
+                    setResults({ [filter]: {partial : [], hasData : false} })
+                }
                 setIsSearching(false)
               } catch (error) {
                 console.log(error)
               }
           }
-          handleGetAllResults(searchValue)
         }else{
             setResults({
                 videos: [],
@@ -72,10 +82,12 @@ const SearchPage = () => {
     };
 
     useEffect(()=>{
-        handleSearch(q)
-    }, [q])
+        if(!q || searchedRef.current.has(q)) return;
 
-    // console.log(results)
+        searchedRef.current.add(q)
+        handleSearch(q)
+        handleGetAllResults(q)
+    }, [q])
 
   return (
     <main style={{width: width <= 1023 ? '100vw' : '93.5vw'}} className='flex-1 flex flex-col p-5'>
@@ -112,11 +124,11 @@ const SearchPage = () => {
                   :
                   activeTab === 'all' ?
                   <>
-                  <MainVideos />
-                  <MainSongs />
-                  <MainPlaylists />
-                  <MainArtists />
-                  <MainAlbums />
+                  {results?.videos?.hasData && <MainVideos />}
+                  {results?.songs?.hasData && <MainSongs />}
+                  {results?.playlists?.hasData && <MainPlaylists />}
+                  {results?.artists?.hasData && <MainArtists />}
+                  {results?.albums?.hasData && <MainAlbums />}
                   </>
                   :
                   ""

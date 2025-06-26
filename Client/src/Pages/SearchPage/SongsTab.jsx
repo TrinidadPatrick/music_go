@@ -23,11 +23,12 @@ const SongsTab = () => {
         const getSongRecommendation = useGetSongRecommendation( state => state.getSongRecommendation)
 
         const setSelectedItem = useSearchPageStore( state => state.setSelectedItem)
-        const activeTab = useSearchPageStore( state => state.activeTab)
         const results = useSearchPageStore( state => state.results)
         const setResults = useSearchPageStore( state => state.setResults)
 
         const [fethchedAllSongs, setFethchedAllSongs] = useState(false)
+
+        const showLoading = results?.songs.isFetching === false ? false : results?.songs.isFetching === true && true
 
         const handleMoreOption = (song) => {
             if(song === selectedItem){
@@ -45,40 +46,6 @@ const SongsTab = () => {
               const songlist = await getSongRecommendation(track.videoId)
               setSongList(songlist.tracks)
             }
-        }
-
-        const getAllSongs = async (step, query) => {
-            const thisFetchId = ++fetchIdRef.current;
-            let fetch_results = [];
-            let limit = 200;
-
-            // Used loop incase i want to increase step in future
-            while(step <= 1){
-                
-                try {
-                    setFethchedAllSongs(false)
-                    const results = await http.get(`/music/search?q=${query}&filter=songs&limit=${limit}`)
-                    const data = results.data;
-
-                    if (thisFetchId !== fetchIdRef.current) {
-                        return;
-                    }
-
-                    if (data.length <= fetch_results.length) {
-                    break;
-                    }
-
-                    const new_data = data.slice(fetch_results.length);
-                    fetch_results.push(...new_data);
-                    setResults({ songs: { all: data } });
-                    step++
-                    limit+=50
-                } catch (error) {
-                    console.log(error)
-                    break;
-                } 
-            }
-            setFethchedAllSongs(true)
         }
 
       return  (
@@ -144,7 +111,7 @@ const SongsTab = () => {
                 </div>
             )})}
             {
-                !fethchedAllSongs && 
+                showLoading && 
                 <div className='w-full flex justify-center'>
                     <SpinnerLoader />
                 </div>

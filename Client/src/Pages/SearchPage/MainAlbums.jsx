@@ -5,16 +5,11 @@ import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
 import useGetSongRecommendation from '../../Stores/NextSongRecommendationStore'
 import EqualizerAnimation from '../../Components/EqualizerAnimation'
 import SelectedDropdown from './SelectedDropdown'
+import { useNavigate } from 'react-router-dom'
 
 const MainAlbums = () => {
+        const navigate = useNavigate()
         const selectedItem = useSearchPageStore( state => state.selectedItem)
-        const currentSong = useMusicPlayerStore( state => state.currentSong)
-        const setSongList = useMusicPlayerStore( state => state.setSongList)
-        const setCurrentSong = useMusicPlayerStore( state => state.setCurrentSong)
-        const setIsPlaying = useMusicPlayerStore( state => state.setIsPlaying)
-        const setIsLoading = useMusicPlayerStore( state => state.setIsLoading)
-
-        const getSongRecommendation = useGetSongRecommendation( state => state.getSongRecommendation)
 
         const setSelectedItem = useSearchPageStore( state => state.setSelectedItem)
         const results = useSearchPageStore( state => state.results)
@@ -29,13 +24,7 @@ const MainAlbums = () => {
         }
 
         const handleSelectSong = async (track) => {
-            if (currentSong?.videoId !== track.videoId) {
-              setCurrentSong(track)
-              setIsPlaying(true)
-              setIsLoading(true)
-              const songlist = await getSongRecommendation(track.videoId)
-              setSongList(songlist.tracks)
-            }
+            navigate(`/public/album?list=${track.browseId}`)
         }
 
         

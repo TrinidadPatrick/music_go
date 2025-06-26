@@ -11,22 +11,10 @@ import SpinnerLoader from '../../Components/SpinnerLoader'
 
 const PlaylistsTab = () => {
         const navigate = useNavigate()
-        const [params, setParams] = useSearchParams()
-        const q = params.get('q') || ''
-        const fetchIdRef = useRef(0);
         const selectedItem = useSearchPageStore( state => state.selectedItem)
-        const currentSong = useMusicPlayerStore( state => state.currentSong)
-        const setSongList = useMusicPlayerStore( state => state.setSongList)
-        const setCurrentSong = useMusicPlayerStore( state => state.setCurrentSong)
-        const setIsPlaying = useMusicPlayerStore( state => state.setIsPlaying)
-        const setIsLoading = useMusicPlayerStore( state => state.setIsLoading)
-
-        const getSongRecommendation = useGetSongRecommendation( state => state.getSongRecommendation)
 
         const setSelectedItem = useSearchPageStore( state => state.setSelectedItem)
-        const activeTab = useSearchPageStore( state => state.activeTab)
         const results = useSearchPageStore( state => state.results)
-        const setResults = useSearchPageStore( state => state.setResults)
 
         const [fethchedAllSongs, setFethchedAllSongs] = useState(false)
 
@@ -43,38 +31,8 @@ const PlaylistsTab = () => {
             navigate(`/public/playlist?list=${track.browseId}`)
         }
 
-        const getAllSongs = async (step, query) => {
-            const thisFetchId = ++fetchIdRef.current;
-            let fetch_results = [];
-            let limit = 20;
+        const showLoading = results?.songs.isFetching === false ? false : results?.songs.isFetching === true && true
 
-            // Used loop incase i want to increase step in future
-            while(step <= 2){
-                
-                try {
-                    setFethchedAllSongs(false)
-                    const results = await http.get(`/music/search?q=${query}&filter=playlists&limit=${limit}`)
-                    const data = results.data;
-                    if (thisFetchId !== fetchIdRef.current) {
-                        return;
-                    }
-
-                    if (data.length <= fetch_results.length) {
-                    break;
-                    }
-
-                    const new_data = data.slice(fetch_results.length);
-                    fetch_results.push(...new_data);
-                    setResults({ playlists: { all: data } });
-                    step++
-                    limit+=180
-                } catch (error) {
-                    console.log(error)
-                    break;
-                } 
-            }
-            setFethchedAllSongs(true)
-        }
 
 
       return (
@@ -123,7 +81,7 @@ const PlaylistsTab = () => {
                 </div>
             )})}
             {
-                !fethchedAllSongs && 
+                showLoading && 
                 <div className='w-full flex justify-center'>
                     <SpinnerLoader />
                 </div>

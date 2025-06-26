@@ -22,10 +22,12 @@ const Navbar = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false);
   const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
+  const setActiveTab = useSearchPageStore((state) => state.setActiveTab)
 
   const handleSelectSuggestion = (suggestion) => {
     setIsTyping(false)
     setSearchQuery(suggestion);
+    setActiveTab('all')
     navigate(`/search?q=${suggestion}`)
   }
 
@@ -117,6 +119,7 @@ const Navbar = () => {
                       type="text"
                       onKeyDown={
                         (e)=>{if(e.key === 'Enter') {
+                          setActiveTab('all')
                           setIsTyping(false)
                           navigate(`/search?q=${searchQuery}`)
                       }else{

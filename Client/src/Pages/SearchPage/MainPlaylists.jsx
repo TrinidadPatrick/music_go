@@ -5,8 +5,10 @@ import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
 import useGetSongRecommendation from '../../Stores/NextSongRecommendationStore'
 import EqualizerAnimation from '../../Components/EqualizerAnimation'
 import SelectedDropdown from './SelectedDropdown'
+import { useNavigate } from 'react-router-dom'
 
 const MainPlaylists = () => {
+        const navigate = useNavigate()
         const selectedItem = useSearchPageStore( state => state.selectedItem)
         const currentSong = useMusicPlayerStore( state => state.currentSong)
         const setSongList = useMusicPlayerStore( state => state.setSongList)
@@ -29,13 +31,7 @@ const MainPlaylists = () => {
         }
 
         const handleSelectSong = async (track) => {
-            if (currentSong?.videoId !== track.videoId) {
-              setCurrentSong(track)
-              setIsPlaying(true)
-              setIsLoading(true)
-              const songlist = await getSongRecommendation(track.videoId)
-              setSongList(songlist.tracks)
-            }
+            navigate(`/public/playlist?list=${track.browseId}`)
         }
 
         

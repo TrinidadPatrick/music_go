@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, HTTPException
 from ytmusicapi import YTMusic
 from fastapi.responses import JSONResponse
 from typing import Optional
+import logging
 
 router = APIRouter()
 ytmusic = YTMusic()
@@ -9,7 +10,7 @@ ytmusic = YTMusic()
 @router.get("/charts")
 def get_charts():
     try:
-        results = ytmusic.get_charts(country="ZZ");
+        results = ytmusic.get_charts(country="US");
         return results
     except Exception as e:
         print(e)
@@ -48,11 +49,15 @@ def get_watch_playlist(videoId: str = Query(...)):
 
 @router.get("/playlist")
 def get_playlist(playlistId: str = Query(...)):
-    results = ytmusic.get_playlist(playlistId=playlistId);
-    if results["privacy"] == "PUBLIC":
-        return results
-    else:
-        return JSONResponse(content={"message", "this is a private playlist"}, status_code=401)
+    try:
+        results = ytmusic.get_playlist(playlistId=playlistId);
+        if results["privacy"] == "PUBLIC":
+            return results
+        else:
+            return JSONResponse(content={"message", "this is a private playlist"}, status_code=401)
+    except Exception as e:
+        print(f"Error in get_playlist: {e}")
+        return JSONResponse(content={"error": "Failed to fetch playlist"}, status_code=500)
 
 @router.get("/album")
 def get_album(browseId: str = Query(...)):
@@ -63,3 +68,20 @@ def get_album(browseId: str = Query(...)):
         print(f"Error in get_album: {e}")
         return JSONResponse(content={"error": "Failed to fetch album"}, status_code=500)
 
+@router.get('/artist')
+def get_artist(artistId: str = Query(...)):
+    try:
+        results = ytmusic.get_artist(artistId)
+        return results
+    except Exception as e:
+        print(f"Error in get_artist: {e}")
+        return JSONResponse(content={"error": "Failed to fetch artist"}, status_code=500)
+    
+@router.get('/artist/albums')
+def get_artist_albums(channelId: str = Query(...), params: str = Query(...)):
+    try:
+        results = ytmusic.get_artist_albums(channelId=channelId, params=params)
+        return results
+    except Exception as e:
+        print(f"Error in get_artist_albums: {e}")
+        return JSONResponse(content={"error": "Failed to fetch artist albums"}, status_code=500)

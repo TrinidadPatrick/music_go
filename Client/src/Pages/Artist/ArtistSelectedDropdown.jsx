@@ -7,8 +7,9 @@ import ModalComponent from '../../Components/Modal'
 import { useAuth } from '../../Auth/AuthProvider'
 import useSongDetails from '../../Stores/SongDetailStore'
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore'
+import useArtistDetailStore from '../../Stores/ArtistDetailStore'
 
-const SelectedDropdown = () => {
+const ArtistSelectedDropdown = () => {
     const {user, isAuthenticated, getUser} = useAuth()
     const selectedItem = useSearchPageStore( state => state.selectedItem)
     const setSelectedItem = useSearchPageStore( state => state.setSelectedItem)
@@ -16,8 +17,8 @@ const SelectedDropdown = () => {
     const saveToUserPlaylist = useUserPlaylistStore( state => state.saveToUserPlaylist)
     const batchSaveToUserPlaylist = useUserPlaylistStore( state => state.batchSaveToUserPlaylist)
     const library = useLibraryStore( state => state.library)
-    const setModalIsOpen = useSearchPageStore( state => state.setModalIsOpen)
-    const modalIsOpen = useSearchPageStore( state => state.modalIsOpen)
+    const setModalIsOpen = useArtistDetailStore( state => state.setModalIsOpen)
+    const modalIsOpen = useArtistDetailStore( state => state.modalIsOpen)
     const getSongDetails = useSongDetails(state => state.getSongDetails)
 
     const selectPlaylist = async (track) => {
@@ -30,8 +31,9 @@ const SelectedDropdown = () => {
         return library?.library_songs?.some((song) => song.videoId === videoId)
     }
 
-    const handleSaveSong = (track) => {
-        const data = { ...track, album: null }
+    const handleSaveSong = async (track) => {
+        const songDetails = await getSongDetails(track.videoId)
+        const data = { ...track, album: null, duration_seconds: Number(songDetails?.videoDetails?.lengthSeconds) || 0 }
         setSelectedItem(null)
         saveToLibrary(data)
     }
@@ -79,25 +81,25 @@ const SelectedDropdown = () => {
     
                 <div className='flex items-center gap-2 text-sm'>
                   <span className='text-gray-400 line whitespace-nowrap'>{selectedItem?.title}</span>
-                  <div className='w-1 h-1 rounded-full bg-gray-400' />
+                  <div className='w-1 h-1 bg-gray-400 rounded-full' />
                   <span className='text-gray-400 line-clamp-1'>
                     {selectedItem?.artists ? selectedItem?.artists.map((artist) => artist.name).join(', ') : ''}
                   </span>
                 </div>
     
-                <button className='absolute right-3 top-3 cursor-pointer' onClick={(e) => {e.stopPropagation(); setModalIsOpen(false)}}>
+                <button className='absolute cursor-pointer right-3 top-3' onClick={(e) => {e.stopPropagation(); setModalIsOpen(false)}}>
                   <X size={20} className="text-slate-400 hover:text-white" />
                 </button>
               </header>
     
               {/* Search playlist */}
-              <div className="border-b border-slate-700 flex-shrink-0 p-5">
+              <div className="flex-shrink-0 p-5 border-b border-slate-700">
                 <div className="relative">
-                  <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                  <Search size={20} className="absolute transform -translate-y-1/2 left-3 top-1/2 text-slate-400" />
                   <input
                     type="text"
                     placeholder="Search playlists..."
-                    className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full py-2 pl-10 pr-4 text-white transition-all border rounded-lg bg-slate-700 border-slate-600 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -109,20 +111,20 @@ const SelectedDropdown = () => {
                     <button 
                       key={index} 
                       onClick={(e) => {e.stopPropagation(); handleSaveToPlaylist(selectedItem, playlist)}}
-                      className='w-full flex gap-2 cursor-pointer hover:bg-gray-700 p-1 rounded'
+                      className='flex w-full gap-2 p-1 rounded cursor-pointer hover:bg-gray-700'
                     >
                       {/* Thumbnail */}
                       <div className='h-[40px] aspect-square bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center rounded'>
                         {playlist.thumbnal ? (
-                          <img src={playlist.thumbnail} alt={playlist.title} className='w-full h-full object-cover' />
+                          <img src={playlist.thumbnail} alt={playlist.title} className='object-cover w-full h-full' />
                         ) : (
                           <Music size={25} className='text-white' />
                         )}
                       </div>
                       {/* Title */}
                       <div className='flex-1 min-w-0'>
-                        <p className='text-white text-start text-sm font-medium'>{playlist.title}</p>
-                        <p className='text-gray-400 text-start text-sm'>{playlist.song_count} songs</p>
+                        <p className='text-sm font-medium text-white text-start'>{playlist.title}</p>
+                        <p className='text-sm text-gray-400 text-start'>{playlist.song_count} songs</p>
                       </div>
                     </button>
                   )
@@ -134,9 +136,9 @@ const SelectedDropdown = () => {
       }, [modalIsOpen, selectedItem])
 
   return (
-    <div className='absolute text-white shadow-lg bg-gray-800 rounded w-48 z-90'>
+    <div className='absolute w-48 text-white bg-gray-800 rounded shadow-lg z-90'>
         <Modal />
-        <ul className="text-sm text-white p-2 space-y-2">
+        <ul className="p-2 space-y-2 text-sm text-white">
           {selectedItem?.videoId && isAuthenticated && (
             <li 
               onClick={(e) => { e.stopPropagation(); handleSaveSong(selectedItem) }} 
@@ -153,14 +155,14 @@ const SelectedDropdown = () => {
             isAuthenticated && (
               <li 
             onClick={(e) => { e.stopPropagation(); selectPlaylist(selectedItem) }} 
-            className="hover:bg-gray-700 p-2 rounded flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2 p-2 rounded cursor-pointer hover:bg-gray-700"
           >
             <Disc size={16} className='text-gray-400' />
             Add to Playlist
           </li>
             )
           }
-          <li className="hover:bg-gray-700 p-2 rounded flex items-center gap-2 cursor-pointer">
+          <li className="flex items-center gap-2 p-2 rounded cursor-pointer hover:bg-gray-700">
             <Share size={16} className='text-gray-400' />
             Share
           </li>
@@ -169,4 +171,4 @@ const SelectedDropdown = () => {
   )
 }
 
-export default SelectedDropdown
+export default ArtistSelectedDropdown

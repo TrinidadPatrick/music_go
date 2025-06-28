@@ -53,7 +53,7 @@ const SearchPage = () => {
     }
 
     const handleSearch = async (searchValue) => {
-        const filters = ["videos", "songs", "albums", "featured_playlists", "playlists", "artists", "playlists"]
+        const filters = ["videos", "songs", "playlists", "artists", "albums"]
         if(searchValue !== ''){
           setIsSearching(true)
           for (const filter of filters){
@@ -90,13 +90,13 @@ const SearchPage = () => {
     }, [q])
 
   return (
-    <main style={{width: width <= 1023 ? '100vw' : '93.5vw'}} className='flex-1 flex flex-col p-5'>
+    <main style={{width: width <= 1023 ? '100vw' : '93.5vw'}} className='flex flex-col flex-1 p-5'>
       {
         q === '' ?
-        <section className='flex-1  flex justify-center items-center'>
-          <div className='flex flex-col gap-2 items-center'>
-          <h1 className='text-4xl font-bold text-white text-center'>Whats on your mind?</h1>
-          <p className='text-gray-400 text-sm text-center'>Enter a song, artist, album, or playlist to get started</p>
+        <section className='flex items-center justify-center flex-1'>
+          <div className='flex flex-col items-center gap-2'>
+          <h1 className='text-4xl font-bold text-center text-white'>Whats on your mind?</h1>
+          <p className='text-sm text-center text-gray-400'>Enter a song, artist, album, or playlist to get started</p>
           </div>
         </section>
         :
@@ -105,7 +105,7 @@ const SearchPage = () => {
         {
           isSearching ? <SearchPageLoader />
           :
-          <section className=' overflow-auto w-full flex flex-col gap-3'>
+          <section className='flex flex-col w-full gap-3 overflow-auto '>
                 {
                   activeTab === 'songs' ?
                   <SongsTab />

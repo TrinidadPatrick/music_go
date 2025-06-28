@@ -228,7 +228,7 @@ const UserLibrary = () => {
   }, [modalIsOpen, selectedTrack])
   
   return (
-    <div className="text-white w-full h-full overflow-hidden flex px-5 pb-4">
+    <div className="text-white w-full h-full overflow-hidden flex px-2 sm:px-5 pb-4">
       <Modal />
       
       {/* Main Content */}
@@ -241,9 +241,9 @@ const UserLibrary = () => {
               <Music size={width >= 640 ? 110 : 25} className="text-white" />
             </div>
             
-            <div className="h-full w-full justify-center sm:justify-end flex flex-col gap-4">
+            <div className="h-full w-full justify-center sm:justify-end flex flex-col gap-2 md:gap-4">
               {/* Title */}
-              <p className="text-4xl sm:text-[2.5rem] md:text-[2.9rem] font-medium">MY MUSIC LIBRARY</p>
+              <p className="text-3xl sm:text-[2.5rem] md:text-[2.9rem] font-medium">MY MUSIC LIBRARY</p>
               
               {/* Additional Info */}
               <div className="flex flex-row items-start sm:items-center space-x-2 text-sm text-gray-300">
@@ -262,7 +262,7 @@ const UserLibrary = () => {
                 <button 
                   disabled={library?.total_songs === 0} 
                   onClick={() => playAll()} 
-                  className="w-12 h-12 cursor-pointer bg-green-500 disabled:bg-green-300 rounded-full flex items-center justify-center hover:bg-green-400 transition-colors hover:scale-105 transform"
+                  className="w-10 h-10 sm:w-12 sm:h-12 cursor-pointer bg-green-500 disabled:bg-green-300 rounded-full flex items-center justify-center hover:bg-green-400 transition-colors hover:scale-105 transform"
                 >
                   <Play size={20} className="ml-1" />
                 </button>
@@ -271,7 +271,7 @@ const UserLibrary = () => {
                   onClick={() => playAllShuffled()} 
                   className="text-white hover:bg-white/30 bg-white/10 p-2 rounded-full hover:text-white transition-colors cursor-pointer"
                 >
-                  <ShuffleIcon size={20} />
+                  <ShuffleIcon size={17} />
                 </button>
               </div>
             </div>
@@ -288,7 +288,7 @@ const UserLibrary = () => {
 
         {/* Track List */}
         {library?.total_songs > 0 && (
-          <div className="px-4 sm:px-6 mt-10">
+          <div className=" sm:px-6 mt-10">
             {/* Table Header */}
             <div className="hidden sm:grid grid-cols-11 md:grid-cols-12 gap-4 px-4 py-2 text-xs text-gray-400 uppercase tracking-wide border-b border-gray-800 mb-4">
               <div className="col-span-1">#</div>
@@ -323,7 +323,8 @@ const UserLibrary = () => {
                     key={track.videoId}
                     className={`${
                       (currentSong?.videoId || "") === track?.videoId ? "bg-gray-800" : ""
-                    } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer`}
+                    } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 
+                    rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer`}
                   >
                     {/* Index - hidden on mobile */}
                     <div className="hidden sm:flex items-center col-span-1">
@@ -344,7 +345,7 @@ const UserLibrary = () => {
                     </div>
 
                     {/* Title – always visible */}
-                    <div className="col-span-10 sm:col-span-8 md:col-span-8 flex items-center space-x-3 min-w-0">
+                    <div className="col-span-11 sm:col-span-8 md:col-span-8 flex items-center space-x-3 min-w-0">
                       <div className="min-w-0">
                         <p
                           className={`font-medium ${
@@ -369,35 +370,22 @@ const UserLibrary = () => {
                     </div>
 
                     {/* Duration & More – only More shown on mobile */}
-                    <div className="relative col-span-1 flex items-center justify-center md:justify-center space-x-2">
+                    <div className="relative col-span-1 flex items-center justify-center md:justify-center space-x-2 ">
                       <p className="hidden sm:block text-sm text-gray-400">
                         {formatTime(track.duration_seconds)}
                       </p>
-                      <button
-                        onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }}
-                        className="text-gray-400 hidden md:group-hover:flex justify-center items-center hover:text-white transition-all group-hover:opacity-100 cursor-pointer p-1 hover:bg-gray-900 rounded-full"
-                      >
+                      <button onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }} className="text-gray-400 md:hidden md:group-hover:flex justify-center items-center hover:text-white transition-all group-hover:opacity-100 cursor-pointer p-1 hover:bg-gray-900 rounded-full">
                         <MoreHorizontal size={16} />
                       </button>
-                      {showDropdown(track) && (
-                        <div className='absolute z-[10] hidden md:block right-10 bottom-0 origin-bottom'>
+                      {
+                      showDropdown(track) && 
+                      (
+                        <div className='absolute z-[10] block right-10 bottom-0 origin-bottom'>
                           <DropDown />
                         </div>
-                      )}
+                      )
+                      }
                     </div>
-
-                    {/* More - Mobile only */}
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }}
-                      className="text-gray-400 md:hidden flex justify-center items-center hover:text-white transition-all group-hover:opacity-100 p-1 min-w-[30px] cursor-pointer relative"
-                    >
-                      <MoreHorizontal size={16} />
-                      {showDropdown(track) && (
-                        <div className='absolute z-[10] right-7 bottom-0 origin-bottom'>
-                          <DropDown />
-                        </div>
-                      )}
-                    </button>
                   </div>
                 );
               })}

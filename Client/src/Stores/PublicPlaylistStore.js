@@ -10,9 +10,9 @@ const usePublicPlaylistStore = create((set) => ({
     try {
       const result = await http.get('music/playlist?playlistId=' + playlistId)
       set({ playlist: result.data })
+      return result.data
     } catch (error) {
       console.log(error)
-      navigate('/home')
       set({ error: error.response.data.message })
     } finally {
         set({ isLoading: false })

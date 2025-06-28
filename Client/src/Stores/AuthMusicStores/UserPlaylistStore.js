@@ -1,12 +1,25 @@
 import { create } from 'zustand'
 import http from '../../../http'
 import toast, { Toaster } from 'react-hot-toast';
+import usePublicPlaylistStore from '../PublicPlaylistStore';
+import usePublicAlbumStore from '../PublicAlbumStore';
 
 const useUserPlaylistStore = create((set, get) => ({
+  playlistDetail: null,
   userPlaylist: null,
   error: null,
   isLoading: true,
-
+  getPlaylistDetail: async (playlistId) => {
+    set({playlistDetail: null, playlistSongs: null})
+    try {
+      const result = await http.get(`auth/music/get_playlist_details?playlistId=${playlistId}`)
+      set({ playlistDetail: result.data.data })
+      return result.data
+    } catch (error) {
+      console.log(error)
+      set({ error: error.response.data.message })
+    }
+  },
   saveToUserPlaylist: async (song) => {
     set({ isLoading: true })
     try {
@@ -16,7 +29,31 @@ const useUserPlaylistStore = create((set, get) => ({
 
     } catch (error) {
       console.log(error)
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message || 'Something went wrong, try again later');
+      set({ error: error.response.data.message })
+      return 'error'
+    } finally {
+        set({ isLoading: false })
+    }
+  },
+
+  batchSaveToUserPlaylist: async (id, userPlaylistId, type) => {
+    const {getPlaylist} = usePublicPlaylistStore.getState()
+    const {getAlbum} = usePublicAlbumStore.getState()
+    set({ isLoading: true })
+    try {
+      const songs =  type === 'playlist' ? await getPlaylist(id) : await getAlbum(id)
+      const data = {
+        playlistId: userPlaylistId,
+        songs: songs.tracks
+      }
+      const result = await http.post('auth/music/batch_add_to_playlist', data)
+      toast.success(result.data.message);
+      return 'success'
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.message || 'Something went wrong, try again later');
       set({ error: error.response.data.message })
       return 'error'
     } finally {
@@ -55,7 +92,24 @@ const useUserPlaylistStore = create((set, get) => ({
     } finally {
         set({ isLoading: false })
     }
-  }
+  },
+
+  removeFromPlaylist: async (videoId, playlistId) => {
+    set({ isLoading: true })
+    try {
+      const result = await http.delete(`auth/music/remove_from_playlist?songId=${videoId}&playlistId=${playlistId}`)
+      toast.success(result.data.message);
+      return 'success'
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.message || 'Something went wrong, try again later');
+      set({ error: error.response.data.message })
+      return 'error'
+    } finally {
+        set({ isLoading: false })
+    }
+  },
   }))
 
 export default useUserPlaylistStore

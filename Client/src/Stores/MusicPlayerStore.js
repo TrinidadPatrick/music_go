@@ -31,6 +31,11 @@ const useMusicPlayerStore = create((set, get) => ({
   
   // Actions
   setCurrentSong: (song) => {
+    if(get().currentSong === song) {
+      get().playerRef.current.seekTo(0, true)
+        get().playerRef.current.playVideo()
+        return
+    };
     set({ 
       currentSong: song, 
       isLoading: true,
@@ -40,7 +45,6 @@ const useMusicPlayerStore = create((set, get) => ({
   },
 
   playNextSong: async () => {
-    console.log(get().songList)
     const getSongRecommendation = useGetSongRecommendation.getState().getSongRecommendation
     const currentSongIndex = get().songList.findIndex((song) => song.videoId === get().currentSong.videoId)
     const nextSong = get().songList[currentSongIndex + 1]

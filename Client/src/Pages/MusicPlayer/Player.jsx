@@ -18,7 +18,7 @@ const ProgressSlider = memo(({ currentTime, duration, onSeek }) => {
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className=" flex-row gap-2 w-full items-center hidden md:flex">
+    <div className="flex-row items-center hidden w-full gap-2 md:flex">
       <span className="text-sm text-gray-500 min-w-[40px] text-right">
         {formatTime(currentTime)}
       </span>
@@ -64,7 +64,7 @@ const VolumeControl = memo(({ volume, onVolumeChange }) => {
   return (
     <div className="flex items-center gap-2">
       <Volume2 className="w-4 h-4 text-gray-400" />
-      <div className="w-20 flex items-center">
+      <div className="flex items-center w-20">
         <input
           type="range"
           min="0"
@@ -118,9 +118,7 @@ const PlayButton = memo(({ isReady, isPlaying, isLoading, onToggle }) => {
     <button
       onClick={onToggle}
       disabled={!isReady}
-      className="p-3 bg-blue-600 cursor-pointer hover:bg-blue-500 disabled:bg-gray-600 
-        disabled:cursor-not-allowed rounded-full font-medium transition-all duration-200 
-        transform hover:scale-105 shadow-lg disabled:transform-none"
+      className="p-3 font-medium transition-all duration-200 transform bg-blue-600 rounded-full shadow-lg cursor-pointer hover:bg-blue-500 disabled:bg-gray-600 disabled:cursor-not-allowed hover:scale-105 disabled:transform-none"
     >
       {renderIcon()}
     </button>
@@ -145,29 +143,29 @@ const Player = memo(({
   const repeatSetting = useMusicPlayerStore(state => state.repeatSetting)
   const shuffleOn = useMusicPlayerStore(state => state.shuffleOn)
   const toggleShuffle = useMusicPlayerStore(state => state.toggleShuffle)
-  const artistNames = currentSong?.artists?.map(artist => artist.name).join(', ') || 'Unknown Artist'
+  const artistNames = Array.isArray(currentSong?.artists) ? currentSong?.artists?.map(artist => artist.name).join(', ') : currentSong?.artists || 'Unknown Artist'
   const thumbnailUrl = currentSong?.thumbnails?.[0]?.url
 
   return (
-    <div className="bg-gray-950 p-3 flex justify-between gap-3 w-full">
+    <div className="flex justify-between w-full gap-3 p-3 bg-gray-950">
       {/* Music Info */}
-      <div className="flex gap-2 items-center flex-1">
-        <div className="h-10 aspect-square bg-gradient-to-br from-purple-500 to-pink-500 rounded overflow-hidden flex items-center justify-center">
+      <div className="flex items-center flex-1 gap-2">
+        <div className="flex items-center justify-center h-10 overflow-hidden rounded aspect-square bg-gradient-to-br from-purple-500 to-pink-500">
           {thumbnailUrl ? (
             <img 
               src={thumbnailUrl} 
               alt={currentSong.title}
-              className="w-full h-full object-cover" 
+              className="object-cover w-full h-full" 
             />
           ) : (
             <Music className="text-white" />
           )}
         </div>
-        <div className="flex flex-col min-w-0 flex-1 ">
-          <h3 className="text-base md:text-lg line-clamp-1 text-white font-medium">
+        <div className="flex flex-col flex-1 min-w-0 ">
+          <h3 className="text-base font-medium text-white md:text-lg line-clamp-1">
             {currentSong.title}
           </h3>
-          <p className="text-gray-400 text-sm truncate">
+          <p className="text-sm text-gray-400 truncate">
             {artistNames}
           </p>
         </div>
@@ -181,7 +179,7 @@ const Player = memo(({
           onSeek={onSeek}
         />
 
-        <div className="flex items-center justify-end xs:justify-center gap-2">
+        <div className="flex items-center justify-end gap-2 xs:justify-center">
           <button onClick={()=>toggleShuffle()} className={` ${shuffleOn && 'bg-gray-700/50'} p-2 rounded-full hidden sm:block transition-all duration-200 hover:bg-gray-700/50 cursor-pointer`}>
             {
               shuffleOn ?
@@ -190,7 +188,7 @@ const Player = memo(({
             }
           </button>
 
-          <button className="p-2 hidden xs:block text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-full transition-all duration-200">
+          <button className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
             <SkipBack className="w-5 h-5" />
           </button>
 
@@ -201,7 +199,7 @@ const Player = memo(({
             onToggle={onTogglePlayPause}
           />
 
-          <button className="p-2 hidden xs:block text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-full transition-all duration-200">
+          <button className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
             <SkipForward className="w-5 h-5" />
           </button>
 
@@ -219,7 +217,7 @@ const Player = memo(({
       </div>
 
       {/* Volume Control */}
-      <div className=" items-center hidden md:flex justify-end flex-1">
+      <div className="items-center justify-end flex-1 hidden md:flex">
         <VolumeControl volume={volume} onVolumeChange={onVolumeChange} />
       </div>
     </div>

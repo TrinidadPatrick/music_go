@@ -6,21 +6,13 @@ import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
 import useGetSongRecommendation from '../../Stores/NextSongRecommendationStore'
 import EqualizerAnimation from '../../Components/EqualizerAnimation'
 import http from '../../../http'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import SpinnerLoader from '../../Components/SpinnerLoader'
 
 const ArtistsTab = () => {
-        const [params, setParams] = useSearchParams()
-        const q = params.get('q') || ''
-        const fetchIdRef = useRef(0);
+        const navigate = useNavigate()
         const selectedItem = useSearchPageStore( state => state.selectedItem)
-        const currentSong = useMusicPlayerStore( state => state.currentSong)
-        const setSongList = useMusicPlayerStore( state => state.setSongList)
-        const setCurrentSong = useMusicPlayerStore( state => state.setCurrentSong)
-        const setIsPlaying = useMusicPlayerStore( state => state.setIsPlaying)
-        const setIsLoading = useMusicPlayerStore( state => state.setIsLoading)
 
-        const getSongRecommendation = useGetSongRecommendation( state => state.getSongRecommendation)
 
         const setSelectedItem = useSearchPageStore( state => state.setSelectedItem)
         const results = useSearchPageStore( state => state.results)
@@ -35,22 +27,16 @@ const ArtistsTab = () => {
             }
         }
 
-        const handleSelectSong = async (track) => {
-            if (currentSong?.videoId !== track.videoId) {
-              setCurrentSong(track)
-              setIsPlaying(true)
-              setIsLoading(true)
-              const songlist = await getSongRecommendation(track.videoId)
-              setSongList(songlist.tracks)
-            }
+        const handleSelect = async (artist) => {
+            navigate(`/artist?id=${artist.browseId}`)
         }
 
 
       return (
-        <div className="space-y-2 flex flex-col flex-1">
+        <div className="flex flex-col flex-1 space-y-2">
             {(results?.artists?.all?.length > 0 ? results?.artists?.all : results?.artists?.partial)?.map((artist, index) => {
             return (
-                <div onClick={() => handleSelectSong(artist)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelect(artist)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
                     {
                         selectedItem === artist &&
                         <div className='absolute right-56 top-5'>
@@ -58,15 +44,15 @@ const ArtistsTab = () => {
                         </div>
                     }
                     {/* Number */}
-                    <div className="hidden w-10 text-center md:flex justify-center">
-                            <span className="text-gray-400 text-sm group-hover:hidden">{index + 1}</span>
+                    <div className="justify-center hidden w-10 text-center md:flex">
+                            <span className="text-sm text-gray-400 group-hover:hidden">{index + 1}</span>
                     </div>
 
                     {/* Image */}
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-700 rounded overflow-hidden flex items-center justify-center relative">
+                    <div className="relative flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-700 rounded sm:w-12 sm:h-12">
                         {
                             artist.thumbnails ?
-                            <img referrerPolicy='no-referrer' src={artist.thumbnails[0].url} alt={artist.artist} className="w-full h-full object-cover" />
+                            <img referrerPolicy='no-referrer' src={artist.thumbnails[0].url} alt={artist.artist} className="object-cover w-full h-full" />
                             :
                             <div className="w-6 h-6 bg-gray-600 rounded"></div>
                         }
@@ -74,18 +60,18 @@ const ArtistsTab = () => {
 
                     {/* Title and artists */}
                     <div className="flex-1">
-                          <p className="text-xs sm:text-sm font-medium text-gray-100">{artist.artist}</p>
+                          <p className="text-xs font-medium text-gray-100 sm:text-sm">{artist.artist}</p>
                     </div>
 
                     {/* More button */}
-                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(artist)}} className="p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
+                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(artist)}} className="p-2 transition-opacity rounded-full opacity-0 cursor-pointer group-hover:opacity-100 hover:bg-gray-900">
                           <MoreHorizontal className="w-5 h-5 text-gray-400" />
                     </button>
                 </div>
             )})}
             {
                 showLoading && 
-                <div className='w-full flex justify-center'>
+                <div className='flex justify-center w-full'>
                     <SpinnerLoader />
                 </div>
             }

@@ -1,7 +1,7 @@
 import datetime
 from fastapi import FastAPI, Request, APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from sqlalchemy import func
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session, aliased
 from fastapi.responses import RedirectResponse, HTMLResponse
 from starlette.middleware.sessions import SessionMiddleware
@@ -43,11 +43,15 @@ def generate_random_string(length=20):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choices(characters, k=length))
 
-def format_total_duration(total_duration):
-    # print(total_duration)
-    minutes, seconds = divmod(total_duration, 60)
+def format_total_duration(total_seconds):
+    minutes, seconds = divmod(total_seconds, 60)
     hours, minutes = divmod(minutes, 60)
-    return f"{hours:02d} hours and {minutes:02d} minutes" if hours > 1200 else f"{minutes:02d} minutes and {seconds:02d} seconds"
+
+    if hours > 0:
+        return f"{hours:02d} hours and {minutes:02d} minutes"
+    else:
+        return f"{minutes:02d} minutes and {seconds:02d} seconds"
+
 
 @router.post("/save_song")
 async def save_song(request: Request, db: Session = Depends(get_db)):
@@ -201,6 +205,90 @@ def get_playlists(request : Request, db: Session = Depends(get_db)):
     else:
         return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
     
+@router.get("/get_playlist_details")
+def get_playlist_details(request : Request, db: Session = Depends(get_db)):
+    user_id = request.state.user_id
+    playlist_id = request.query_params.get("playlistId")
+
+    if user_id:
+        song_counts_subquery = (
+                        db.query(
+                            PlaylistSong.playlist_id,
+                            func.count(PlaylistSong.id).label("song_count")
+                        )
+                        .group_by(PlaylistSong.playlist_id)
+                        .subquery()
+        )
+
+        # Subquery: total duration
+        total_duration_subquery = (
+            db.query(
+                PlaylistSong.playlist_id,
+                func.sum(Songs.duration_seconds).label("total_duration")
+            )
+            .join(Songs, Songs.song_id == PlaylistSong.song_id)
+            .group_by(PlaylistSong.playlist_id)
+            .subquery()
+        )
+
+        # Main query with outer joins
+        playlist = (
+            db.query(
+                Playlist,
+                song_counts_subquery.c.song_count,
+                total_duration_subquery.c.total_duration
+            )
+            .outerjoin(song_counts_subquery, Playlist.playlist_id == song_counts_subquery.c.playlist_id)
+            .outerjoin(total_duration_subquery, Playlist.playlist_id == total_duration_subquery.c.playlist_id)
+            .filter(Playlist.playlist_id == playlist_id)
+            .first()
+        )
+
+        # Response formatting
+        if playlist:
+            playlist_obj, song_count, total_duration = playlist
+            data = {
+                "playlist_id": playlist_obj.playlist_id,
+                "title": playlist_obj.title,
+                "description": playlist_obj.description,
+                "thumbnail": playlist_obj.thumbnail,
+                "privacy": playlist_obj.privacy,
+                "created_at": playlist_obj.created_at.isoformat(),
+                "song_count": song_count or 0,
+                "total_duration": format_total_duration(int(total_duration or 0)),
+                "duration": int(total_duration or 0)
+            }
+            print(data)
+            return JSONResponse(content={"data": data}, status_code=200)
+    else:
+        return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
+
+@router.get("/get_playlist_songs")
+def get_playlist_songs(request : Request, db: Session = Depends(get_db)):
+    user_id = request.state.user_id
+    if user_id:
+        playlist_id = request.query_params.get("playlistId")
+        limit = request.query_params.get("limit")
+        offset = request.query_params.get("offset")
+        if playlist_id:
+            songs = db.query(PlaylistSong).filter(PlaylistSong.playlist_id == playlist_id).offset(offset).limit(limit).all()
+            data = [
+                {
+                    "user_id": song.playlist.user_id,
+                    "videoId": song.song.song_id,
+                    "title": song.song.title,
+                    "artists": song.song.artists,
+                    "album": song.song.album,
+                    "duration_seconds": song.song.duration_seconds,
+                    "thumbnail": song.song.thumbnail,
+                    "created_at": song.created_at.isoformat()
+                } for song in songs
+            ]
+            # print(vars(songs[0].song))
+            return JSONResponse(content={"data": {"songs": data}}, status_code=200)
+    else:
+        return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
+
 @router.post("/add_to_playlist")
 async def add_to_playlist(request: Request, db: Session = Depends(get_db)):
     data = await request.json()
@@ -244,3 +332,78 @@ async def add_to_playlist(request: Request, db: Session = Depends(get_db)):
     db.commit()
 
     return JSONResponse(content={"message": "song added to playlist"}, status_code=200)
+
+@router.post("/batch_add_to_playlist")
+async def batch_add_to_playlist(request: Request, db: Session = Depends(get_db)):
+    data = await request.json()
+    user_id = request.state.user_id
+
+    if not user_id:
+        return JSONResponse(content={"message": "invalid credentials"}, status_code=400)
+    
+    playlist_id = data["playlistId"]
+    songs = data["songs"]
+
+    video_ids = [song["videoId"] for song in songs]
+
+    existing_songs_ids = set(
+        r[0] for r in db.execute(
+            select(Songs.song_id).where(Songs.song_id.in_(video_ids))
+        ).all()
+    )
+
+    existing_playlist_song_ids = set(
+        r[0] for r in db.execute(
+            select(PlaylistSong.song_id).where(PlaylistSong.song_id.in_(video_ids), PlaylistSong.playlist_id == playlist_id)
+        ).all()
+    )
+
+    print(existing_playlist_song_ids)
+
+    songs_to_add = [
+        Songs(
+            song_id=song["videoId"],
+            title=song["title"],
+            artists=", ".join(artist["name"] for artist in song["artists"]),
+            album= None,
+            duration_seconds=song.get("duration_seconds"),
+            thumbnail=(song.get("thumbnails")[0]["url"] if song.get("thumbnails") else None),
+        ) for song in songs if song["videoId"] not in existing_songs_ids
+    ]
+    if songs_to_add:
+        db.bulk_save_objects(songs_to_add)
+        db.commit()
+
+    playlist_songs_to_add = [
+        PlaylistSong(
+            playlist_id=playlist_id,
+            song_id=song["videoId"]
+        ) for song in songs if song["videoId"] not in existing_playlist_song_ids
+    ]
+
+    if playlist_songs_to_add:
+        db.bulk_save_objects(playlist_songs_to_add)
+        db.commit()
+
+    return JSONResponse(content={"message": "song added to playlist"}, status_code=200)
+
+@router.delete("/remove_from_playlist")
+async def remove_from_playlist(request: Request, db: Session = Depends(get_db)):
+    song_id = request.query_params.get("songId")
+    playlist_id = request.query_params.get("playlistId")
+    user_id = request.state.user_id
+
+    if not user_id:
+        return JSONResponse(content={"message": "invalid credentials"}, status_code=400)
+
+    existing_playlist_song_ids = set(
+        r[0] for r in db.execute(
+            select(PlaylistSong.song_id).where(PlaylistSong.song_id == song_id, PlaylistSong.playlist_id == playlist_id)
+        ).all()
+    )
+
+    if existing_playlist_song_ids:
+        db.query(PlaylistSong).filter(PlaylistSong.song_id == song_id, PlaylistSong.playlist_id == playlist_id).delete()
+        db.commit()
+
+    return JSONResponse(content={"message": "song removed from playlist"}, status_code=200)

@@ -38,15 +38,15 @@ const MainVideos = () => {
     }
 
   return results?.videos?.partial?.length > 0 && (
-    <div className="space-y-2 flex flex-col flex-1">
-        <h2 className="text-2xl font-bold mb-4 text-white">Videos</h2>
-        <div  className=' hide-scrollbar overflow-x-scroll flex gap-3 '>
+    <div className="flex flex-col flex-1 space-y-2">
+        <h2 className="mb-4 text-2xl font-bold text-white">Videos</h2>
+        <div  className='flex gap-3 overflow-x-scroll hide-scrollbar'>
             {
                 results?.videos?.partial?.slice(0, 10)?.map((video, index) => {
                     const thumbnal = video.thumbnails && (video.thumbnails[1]?.url || video.thumbnails[0]?.url)
                     const isCurrentSong = currentSong?.videoId === video.videoId
                     return (
-                        <div key={index} onClick={()=>handleSelectSong(video)} className={`${isCurrentSong && 'bg-gray-900'} h-fit  p-2 rounded group cursor-pointer flex flex-col gap-1 md:gap-2 justify-between relative`}>
+                        <div key={index} onClick={()=>handleSelectSong(video)} className={`${isCurrentSong && 'bg-gray-900'} group  h-full  p-2 rounded group cursor-pointer flex flex-col gap-1 md:gap-2 justify-between relative`}>
                             {
                                 selectedItem === video &&
                                 <div className='absolute -right-1 bottom-35 z-90'>
@@ -55,33 +55,33 @@ const MainVideos = () => {
                             }
                             {/* Image */}
                             <>
-                            <div className='min-w-40 md:min-w-56 aspect-video  rounded overflow-hidden relative'>
+                            <div className='relative overflow-hidden rounded group-hover:brightness-50 min-w-40 md:min-w-56 md:max-w-56 aspect-video'>
                                 {
                                     isCurrentSong &&
                                     <>
-                                        <div className='w-full h-full bg-black absolute opacity-65 flex items-center justify-center' />
+                                        <div className='absolute flex items-center justify-center w-full h-full bg-black opacity-65' />
                                         {/* Center this */}
                                         <div className='absolute h-[40px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
                                         <EqualizerAnimation />
                                         </div>
                                     </>
                                 }
-                                <img referrerPolicy='no-referrer' src={thumbnal} alt={video.title} className="w-full h-full object-cover" />
+                                <img referrerPolicy='no-referrer' src={thumbnal} alt={video.title} className="object-cover w-full h-full" />
                             </div>
 
                             {/* Title and artists */}
                             <div className="flex flex-col md:gap-1">
-                                <p className="text-sm line-clamp-2 font-medium text-gray-100">{video.title}</p>
-                                <p className="text-xs md:text-sm text-gray-400">{video.artists ? video.artists.map((artist) => artist.name).join(', ') : ''}</p>
+                                <p className="text-sm font-medium text-gray-100 line-clamp-2">{video.title}</p>
+                                <p className="text-xs text-gray-400 md:text-sm">{video.artists ? video.artists.map((artist) => artist.name).join(', ') : ''}</p>
                             </div>
                             </>
 
                             {/* More button */}
-                            <div className='w-full flex gap-2 items-center'>
-                            <span className='text-gray-400 text-xs md:text-sm w-full'>
-                                {video?.duration} • {video?.views} views
+                            <div className='flex items-center w-full gap-2'>
+                            <span className='w-full text-xs text-gray-400 md:text-sm'>
+                                {video?.duration} { video?.views ? ' • ' + video?.views + 'views' : ''}
                             </span>
-                            <button onClick={(e)=>{e.stopPropagation();handleMoreOption(video)}} className="w-fit p-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-950">
+                            <button onClick={(e)=>{e.stopPropagation();handleMoreOption(video)}} className="p-2 transition-opacity rounded-full opacity-0 cursor-pointer w-fit group-hover:opacity-100 hover:bg-white/10">
                                 <MoreHorizontal className="w-5 h-5 text-gray-400" />
                             </button>
                             </div>

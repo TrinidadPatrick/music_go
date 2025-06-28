@@ -10,6 +10,7 @@ const usePublicAlbumStore = create((set) => ({
     try {
       const result = await http.get('music/album?browseId=' + browseId)
       set({ album: result.data })
+      return result.data
     } catch (error) {
       console.log(error)
       navigate('/home')

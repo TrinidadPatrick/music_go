@@ -4,9 +4,10 @@ import TopCharts from './TopCharts'
 import Navbar from '../Navbar/Navbar'
 import HomeContents from './HomeContents'
 import useChartsStore from '../../Stores/TopChartsStore';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate()
   const [animateText, setAnimateText] = useState(false);
 
   useEffect(() => {
@@ -69,13 +70,13 @@ const Home = () => {
                 </span>
               </h1>
 
-              <p className={`text-gray-300 text-sm sm:text-base max-w-2xl text-center sm:text-left mb-6 leading-relaxed transform transition-all duration-1000 delay-300 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+              <p className={`text-gray-300 text-xs sm:text-base max-w-2xl text-center sm:text-left mb-6 sm:leading-relaxed transform transition-all duration-1000 delay-300 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 Experience the transformative power of music that moves souls, breaks barriers, and connects hearts across the globe.
               </p>
 
               {/* Enhanced CTA button */}
-              <button className="mx-auto sm:mx-0 bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-white px-5 py-3 rounded-full text-sm md:text-lg font-bold flex items-center gap-3 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-400/50">
-                <Play className="w-6 h-6" />
+              <button onClick={()=>navigate('/search')} className="cursor-pointer mx-auto sm:mx-0 bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-white px-5 py-3 rounded-full text-xs sm:text-sm md:text-lg font-bold flex items-center gap-3 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-400/50">
+                <Play className="w-4 h-4 md:w-6 md:h-6" />
                 LISTEN NOW
               </button>
             </div>

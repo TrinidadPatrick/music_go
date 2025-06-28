@@ -10,6 +10,8 @@ import Album from './src/Pages/Album/Album'
 import UserLibary from './src/Pages/Library/UserLibrary'
 import UserPlaylist from './src/Pages/Playlist/UserPlaylist'
 import SearchPage from './src/Pages/SearchPage/SearchPage'
+import UserPlaylistDetail from './src/Pages/Playlist/UserPlaylistDetails'
+import ArtistView from './src/Pages/Artist/ArtistView'
 
 const router = createBrowserRouter([
     {
@@ -21,16 +23,20 @@ const router = createBrowserRouter([
                 element: <MainSection />
             },
             {
-                path: 'public/playlist',
+                path: '/public/playlist',
                 element: <Playlist />
             },
             {
-                path: 'public/album',
+                path: '/public/album',
                 element: <Album />
             },
             {
-                path: 'search',
+                path: '/search',
                 element: <SearchPage />
+            },
+            {
+                path: '/artist',
+                element: <ArtistView />
             },
             {
                 path: '/signin',
@@ -57,6 +63,10 @@ const router = createBrowserRouter([
             {
                 path: '/user/playlist',
                 element: <UserPlaylist />
+            },
+            {
+                path: '/user/playlist/detail',
+                element: <UserPlaylistDetail />
             }
         ]
     }

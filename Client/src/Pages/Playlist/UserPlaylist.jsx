@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Play, Pause, Heart, MoreHorizontal, Clock, Search, Plus, Shuffle, Download, Share2, ArrowLeft, Music, X, Upload, Globe, Lock, Image, Library } from 'lucide-react';
+import { Play, MoreHorizontal, Plus, Music, X, Upload, Globe, Lock, Image, Library } from 'lucide-react';
 import Modal from 'react-modal';
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore';
 import { Toaster, toast } from 'react-hot-toast';
@@ -60,9 +60,18 @@ const UserPlaylist = () => {
         }
     
         const result = await createPlaylist(data, notify)
-        console.log(data)
+        setModalIsOpen(false)
     }
-    }
+  }
+
+  const NoPlaylist = () => {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full p-8">
+        <h1 className="mb-2 text-4xl font-bold ">No Playlists</h1>
+        <p className="text-gray-400">You haven't created any playlists yet</p>
+      </div>
+    )
+  }
 
   const PlaylistOverview = () => (
     <div className="h-full p-8">
@@ -89,8 +98,12 @@ const UserPlaylist = () => {
       {/* Recently Created */}
       <div className="mb-8">
         <h2 className="mb-4 text-2xl font-bold">Recently Created</h2>
+        {
+          userPlaylist?.playlists?.length === 0 &&
+          <NoPlaylist />
+        }
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {userPlaylist?.playlists?.slice(0, 3).map((playlist) => {
+          {userPlaylist?.playlists?.slice(0, 3).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((playlist) => {
             const parts = playlist?.total_duration.split(" ");
             const duration =
               parts[0] + " " + parts[1].slice(0, 3) + " " +
@@ -123,9 +136,11 @@ const UserPlaylist = () => {
       </div>
 
       {/* All Playlists */}
-      <div>
+      {
+        userPlaylist?.playlists?.length > 0 &&
+        <div>
         <h2 className="mb-4 text-2xl font-bold">All Playlists</h2>
-        <div className="space-y-3">
+        <div className="flex flex-col gap-3 space-y-3">
           {userPlaylist?.playlists?.map((playlist) => {
             const now = new Date();
             const createdAt = new Date(playlist?.created_at);
@@ -150,9 +165,9 @@ const UserPlaylist = () => {
             <div 
               key={playlist.playlist_id}
               onClick={() => openPlaylist(playlist)}
-              className="flex flex-col items-center p-4 space-x-4 transition-colors rounded-lg cursor-pointer hover:bg-gray-800 group"
+              className="flex items-center p-0 space-x-4 transition-colors rounded-lg cursor-pointer sm:p-4 hover:bg-gray-800 group"
             >
-              <div className={`w-16 h-16 bg-gradient-to-br ${''} rounded-lg flex items-center justify-center relative overflow-hidden`}>
+              <div className={`w-16 h-16 bg-gradient-to-br hidden rounded-lg sm:flex items-center justify-center relative overflow-hidden`}>
                 <div className="text-xl text-white">♪</div>
                 <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 bg-opacity-0 bg-gradient-to-br from-purple-600 to-pink-600 group-hover:bg-opacity-50">
                   <Library className="absolute text-white transition-opacity duration-300 transform -translate-x-1/2 -translate-y-1/2 opacity-100 top-1/2 left-1/2 w-7 h-7 group-hover:opacity-0" />
@@ -161,8 +176,13 @@ const UserPlaylist = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-medium text-white">{playlist?.title}</h3>
-                <p className="text-sm text-gray-400">{playlist?.description}</p>
-                <p className="mt-1 text-xs text-gray-500">{playlist?.song_count} songs • {duration} • Created {dateAdded}</p>
+                <p className="text-sm text-gray-400 line-clamp-2">{playlist?.description}</p>
+                <div className='flex items-center'>
+                <p className="mt-1 text-xs text-gray-500">{playlist?.song_count} songs</p>
+                <p className="mt-1 text-xs text-gray-500"> • {duration}</p>
+                <p className="hidden mt-1 text-xs text-gray-500 sm:block"> • Created {dateAdded}</p>
+                </div>
+
               </div>
               <div className="flex items-center space-x-4">
                 <span className={`text-xs px-2 py-1 rounded ${playlist.isPublic ? 'bg-green-600 text-white' : 'bg-gray-600 text-gray-300'}`}>
@@ -176,6 +196,7 @@ const UserPlaylist = () => {
           )})}
         </div>
       </div>
+      }
 
       <div className="h-32"></div>
     </div>
@@ -185,6 +206,7 @@ const UserPlaylist = () => {
     getUserPlaylists()
   }, [])
 
+  
   Modal.setAppElement('#root');
   return (
     <div className="flex w-full h-full overflow-hidden text-white ">

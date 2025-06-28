@@ -12,6 +12,7 @@ import { useAuth } from '../../Auth/AuthProvider'
 import ModalComponent from '../../Components/Modal'
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore'
 import MainDropDown from './MainDropdown'
+import HomeLoader from './HomeLoader'
 
 const HomeContents = () => {
   const navigate = useNavigate()
@@ -262,15 +263,15 @@ const HomeContents = () => {
     )
   }, [selectedDropdown, currentSong?.videoId, handleSelect, MainDropDown, isAuthenticated, handleMoreOption])
 
-  if (!homeContents.length) {
-    return (
-      <main className="flex flex-col w-full gap-4 p-2 md:p-6">
-        <div className="flex items-center justify-center h-64">
-          <p className="text-gray-400">Loading...</p>
-        </div>
-      </main>
-    )
-  }
+  // if (!homeContents.length) {
+  //   return (
+  //     <main className="flex flex-col w-full gap-4 p-2 md:p-6">
+  //       <div className="flex items-center justify-center h-64">
+  //         <p className="text-gray-400">Loading...</p>
+  //       </div>
+  //     </main>
+  //   )
+  // }
 
   return (
     <main className="flex flex-col w-full gap-4 p-2 md:p-6">
@@ -323,7 +324,9 @@ const HomeContents = () => {
         </div>
       </ModalComponent>
 
-      {homeContents.map((content, index) => {
+      {
+      !homeContents.length ? <HomeLoader /> :
+      homeContents.map((content, index) => {
         const isQuickPicks = content?.title === "Quick picks"
         
         return (
@@ -376,7 +379,8 @@ const HomeContents = () => {
             )}
           </div>
         )
-      })}
+      })
+      }
       <Toaster position="bottom-right" />
     </main>
   )

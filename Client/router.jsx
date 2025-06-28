@@ -1,4 +1,4 @@
-import {createBrowserRouter} from 'react-router-dom'
+import {createBrowserRouter, Navigate} from 'react-router-dom'
 import MusicPlayer from './src/Pages/MusicPlayer'
 import UserLayout from './src/Layout/UserLayout/UserLayout'
 import MainSection from './src/Pages/MainSection'
@@ -69,6 +69,10 @@ const router = createBrowserRouter([
                 element: <UserPlaylistDetail />
             }
         ]
+    },
+    {
+        path: '*',
+        element: <Navigate to='/' replace />
     }
 ])
 

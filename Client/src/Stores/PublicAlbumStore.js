@@ -13,7 +13,7 @@ const usePublicAlbumStore = create((set) => ({
       return result.data
     } catch (error) {
       console.log(error)
-      navigate('/home')
+      navigate('/')
       set({ error: error.response.data.message })
     } finally {
         set({ isLoading: false })

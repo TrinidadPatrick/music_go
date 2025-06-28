@@ -150,12 +150,13 @@ async def save_playlist(request: Request, db: Session = Depends(get_db)):
                 title = data["title"],
                 description = data["description"],
                 thumbnail = data["thumbnail"],
-                privacy = data["privacy"]
+                privacy = data["privacy"],
+                created_at = datetime.datetime.now()
             )
             db.add(playlist)
             db.commit()
             db.refresh(playlist)
-            return JSONResponse(content={"message": "playlist saved to library"}, status_code=200)
+            return JSONResponse(content={"message": "playlist created"}, status_code=200)
     else:
         return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
 
@@ -240,7 +241,7 @@ def get_playlist_details(request : Request, db: Session = Depends(get_db)):
             )
             .outerjoin(song_counts_subquery, Playlist.playlist_id == song_counts_subquery.c.playlist_id)
             .outerjoin(total_duration_subquery, Playlist.playlist_id == total_duration_subquery.c.playlist_id)
-            .filter(Playlist.playlist_id == playlist_id)
+            .filter(Playlist.playlist_id == playlist_id, Playlist.user_id == user_id)
             .first()
         )
 

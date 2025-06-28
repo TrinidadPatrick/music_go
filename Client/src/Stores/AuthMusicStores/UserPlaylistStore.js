@@ -16,6 +16,7 @@ const useUserPlaylistStore = create((set, get) => ({
       set({ playlistDetail: result.data.data })
       return result.data
     } catch (error) {
+      window.location.href = '/'
       console.log(error)
       set({ error: error.response.data.message })
     }
@@ -84,7 +85,11 @@ const useUserPlaylistStore = create((set, get) => ({
     set({ isLoading: true })
     try {
       const result = await http.get('auth/music/get_playlists')
-      set({ userPlaylist: result.data.data })
+      if(result.data){
+        set({ userPlaylist: result.data.data })
+      }else{
+        set({ userPlaylist: {total_playlists: 0, playlists: []}})
+      }
     } catch (error) {
       console.log(error)
     //   navigate('/home')

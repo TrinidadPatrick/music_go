@@ -14,6 +14,7 @@ const usePublicPlaylistStore = create((set) => ({
     } catch (error) {
       console.log(error)
       set({ error: error.response.data.message })
+      navigate('/')
     } finally {
         set({ isLoading: false })
     }

@@ -54,7 +54,6 @@ const UserPlaylistDetail = () => {
 
   //Playlist Store
   const removeFromPlaylist = useUserPlaylistStore(state => state.removeFromPlaylist)
-  const saveToUserPlaylist = useUserPlaylistStore(state => state.saveToUserPlaylist)
   const getPlaylistDetail = useUserPlaylistStore(state => state.getPlaylistDetail)
   const playlistDetail = useUserPlaylistStore(state => state.playlistDetail)
   
@@ -258,15 +257,20 @@ const UserPlaylistDetail = () => {
     )
   }, [modalIsOpen, selectedTrack])
 
+
   return (
     <div className="flex w-full h-full px-5 overflow-hidden text-white">
       <Modal />
-      {playlistSongs?.length === 0 ? (
+      {
+      
+      playlistDetail === null ? (
         <ListLoader />
-      ) : (
+      ) : 
+      
+      (
         <div className="flex-1 h-full overflow-auto">
           {/* Playlist Header */}
-          <div className="flex w-full p-3 rounded bg-gradient-to-br from-green-600 via-blue-900 to-indigo-900 sm:p-8 sm: h-fith-60">
+          <div className="flex w-full p-3 rounded sm:p-8 sm: h-fith-60">
             <div className="flex flex-row items-center w-full gap-6 sm:items-end">
             <div className="items-center justify-center hidden h-full bg-cover rounded-lg shadow-2xl aspect-square sm:w-44 sm:h-44 bg-gradient-to-br from-purple-500 to-pink-500 sm:flex"> 
               <Music size={width >= 640 ? 110 : 25} className="text-white" />
@@ -287,12 +291,14 @@ const UserPlaylistDetail = () => {
                 {/* Controls */}
                 <div className="flex items-center space-x-3">
                   <button 
+                  disabled={playlistDetail?.song_count === 0}
                     onClick={() => playAll()} 
                     className="flex items-center justify-center w-12 h-12 transition-colors transform bg-green-500 rounded-full cursor-pointer hover:bg-green-400 hover:scale-105"
                   >
                     <Play size={20} className="ml-1" />
                   </button>
                   <button 
+                  disabled={playlistDetail?.song_count === 0}
                     onClick={() => playAllShuffled()} 
                     className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white"
                   >
@@ -397,7 +403,9 @@ const UserPlaylistDetail = () => {
             </div>
           </div>
         </div>
-      )}
+      )
+      
+      }
     </div>
   )
 }

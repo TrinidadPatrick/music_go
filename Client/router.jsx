@@ -12,6 +12,7 @@ import UserPlaylist from './src/Pages/Playlist/UserPlaylist'
 import SearchPage from './src/Pages/SearchPage/SearchPage'
 import UserPlaylistDetail from './src/Pages/Playlist/UserPlaylistDetails'
 import ArtistView from './src/Pages/Artist/ArtistView'
+import PublicUserPlaylist from './src/Pages/Playlist/PublicUserPlaylist'
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path: '/public/album',
                 element: <Album />
+            },
+            {
+                path: '/user/public/playlist',
+                element: <PublicUserPlaylist />
             },
             {
                 path: '/search',

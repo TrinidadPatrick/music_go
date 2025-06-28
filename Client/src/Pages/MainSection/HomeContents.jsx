@@ -35,8 +35,8 @@ const HomeContents = () => {
   const batchSaveToUserPlaylist = useUserPlaylistStore(state => state.batchSaveToUserPlaylist)
 
   useEffect(() => {
-    getHome()
-  }, [getHome])
+    homeContents.length === 0 && getHome()
+  }, [])
 
   const handleSelect = async (track) => {
     if (track?.playlistId) {
@@ -149,7 +149,7 @@ const HomeContents = () => {
         >
           {show && 
             <div className='absolute z-[100] right-10 top-9 mt-1'>
-              <MainDropDown />
+              <MainDropDown track={track} onSave={handleSaveToLibrary} onSelectPlaylist={selectPlaylist} isSaved={isSaved} />
             </div>
           }
           
@@ -263,29 +263,19 @@ const HomeContents = () => {
     )
   }, [selectedDropdown, currentSong?.videoId, handleSelect, MainDropDown, isAuthenticated, handleMoreOption])
 
-  // if (!homeContents.length) {
-  //   return (
-  //     <main className="flex flex-col w-full gap-4 p-2 md:p-6">
-  //       <div className="flex items-center justify-center h-64">
-  //         <p className="text-gray-400">Loading...</p>
-  //       </div>
-  //     </main>
-  //   )
-  // }
 
   return (
     <main className="flex flex-col w-full gap-4 p-2 md:p-6">
       {/* Move Modal outside of conditional rendering */}
       <ModalComponent open={modalIsOpen} setOpen={handleModalClose}>
-        <div className="flex flex-col gap-2 bg-gray-800 max-w-[500px] w-[500px]">
+        <div className="flex flex-col gap-2 bg-gray-800 max-w-[500px] w-[400px] sm:w-[500px]">
           <header className="relative p-5 border-b border-b-slate-700">
             <h1 className="text-2xl font-bold text-white">Add to Playlist</h1>
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-gray-400">{selectedDropdown?.title}</span>
-              <div className="w-1 h-1 bg-gray-400 rounded-full" />
-              <span className="text-gray-400">
+            <div className="flex flex-col items-start mt-2 text-sm">
+              <p className="overflow-hidden text-gray-400 whitespace-nowrap line-clamp-1">{selectedDropdown?.title}</p>
+              <p className="overflow-hidden text-xs text-gray-400 whitespace-nowrap line-clamp-1">
                 {selectedDropdown?.artists?.map((artist) => artist.name).join(', ') || ''}
-              </span>
+              </p>
             </div>
             <button
               className="absolute cursor-pointer right-3 top-3"

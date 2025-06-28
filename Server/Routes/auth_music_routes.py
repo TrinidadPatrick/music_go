@@ -259,10 +259,95 @@ def get_playlist_details(request : Request, db: Session = Depends(get_db)):
                 "total_duration": format_total_duration(int(total_duration or 0)),
                 "duration": int(total_duration or 0)
             }
-            print(data)
             return JSONResponse(content={"data": data}, status_code=200)
     else:
         return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
+
+@router.get("/get_public_playlist_details")
+def get_public_playlist_details(request : Request, db: Session = Depends(get_db)):
+    playlist_id = request.query_params.get("playlistId")
+
+    if playlist_id:
+        song_counts_subquery = (
+                        db.query(
+                            PlaylistSong.playlist_id,
+                            func.count(PlaylistSong.id).label("song_count")
+                        )
+                        .group_by(PlaylistSong.playlist_id)
+                        .subquery()
+        )
+
+        # Subquery: total duration
+        total_duration_subquery = (
+            db.query(
+                PlaylistSong.playlist_id,
+                func.sum(Songs.duration_seconds).label("total_duration")
+            )
+            .join(Songs, Songs.song_id == PlaylistSong.song_id)
+            .group_by(PlaylistSong.playlist_id)
+            .subquery()
+        )
+
+        # Main query with outer joins
+        playlist = (
+            db.query(
+                Playlist,
+                song_counts_subquery.c.song_count,
+                total_duration_subquery.c.total_duration
+            )
+            .outerjoin(song_counts_subquery, Playlist.playlist_id == song_counts_subquery.c.playlist_id)
+            .outerjoin(total_duration_subquery, Playlist.playlist_id == total_duration_subquery.c.playlist_id)
+            .filter(Playlist.playlist_id == playlist_id)
+            .first()
+        )
+
+        if not playlist:
+            return JSONResponse(content={"message": "playlist not found"}, status_code=404)
+        
+
+        # Response formatting
+        if playlist:
+            playlist_obj, song_count, total_duration = playlist
+
+            if playlist_obj.privacy == "private":
+                return JSONResponse(content={"message": "this is a private playlist"}, status_code=401)
+            data = {
+                "playlist_id": playlist_obj.playlist_id,
+                "title": playlist_obj.title,
+                "description": playlist_obj.description,
+                "thumbnail": playlist_obj.thumbnail,
+                "privacy": playlist_obj.privacy,
+                "created_at": playlist_obj.created_at.isoformat(),
+                "song_count": song_count or 0,
+                "total_duration": format_total_duration(int(total_duration or 0)),
+                "duration": int(total_duration or 0)
+            }
+            return JSONResponse(content={"data": data}, status_code=200)
+    else:
+        return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
+
+@router.get("/get_public_playlist_songs")
+def get_public_playlist_songs(request : Request, db: Session = Depends(get_db)):
+        playlist_id = request.query_params.get("playlistId")
+        limit = request.query_params.get("limit")
+        offset = request.query_params.get("offset")
+
+        if playlist_id:
+            songs = db.query(PlaylistSong).filter(PlaylistSong.playlist_id == playlist_id).offset(offset).limit(limit).all()
+            data = [
+                {
+                    "user_id": song.playlist.user_id,
+                    "videoId": song.song.song_id,
+                    "title": song.song.title,
+                    "artists": song.song.artists,
+                    "album": song.song.album,
+                    "duration_seconds": song.song.duration_seconds,
+                    "thumbnail": song.song.thumbnail,
+                    "created_at": song.created_at.isoformat()
+                } for song in songs
+            ]
+            # print(vars(songs[0].song))
+            return JSONResponse(content={"data": {"songs": data}}, status_code=200)
 
 @router.get("/get_playlist_songs")
 def get_playlist_songs(request : Request, db: Session = Depends(get_db)):

@@ -1,9 +1,9 @@
 import { Library, BookMinus, Disc, Share } from 'lucide-react'
 
-const MainDropDown = ({ track, onSave, onSelectPlaylist, isSaved }) => {
+const MainDropDown = ({ track, onSave, onSelectPlaylist, isSaved }) => {  
     return (
-      <div className="w-48 bg-gray-800 rounded-lg shadow-lg border border-gray-600">
-        <ul className="text-sm text-white p-2 space-y-2">
+      <div className="w-48 bg-gray-800 border border-gray-600 rounded-lg shadow-lg">
+        <ul className="p-2 space-y-2 text-sm text-white">
           {track?.videoId && (
             <li
               onClick={(e) => {
@@ -23,12 +23,12 @@ const MainDropDown = ({ track, onSave, onSelectPlaylist, isSaved }) => {
               e.stopPropagation()
               onSelectPlaylist(track)
             }}
-            className="hover:bg-gray-700 p-2 rounded flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2 p-2 rounded cursor-pointer hover:bg-gray-700"
           >
             <Disc size={16} className='text-gray-400' />
             Add to Playlist
           </li>
-          <li className="hover:bg-gray-700 p-2 rounded flex items-center gap-2 cursor-pointer">
+          <li className="flex items-center gap-2 p-2 rounded cursor-pointer hover:bg-gray-700">
             <Share size={16} className='text-gray-400' />
             Share
           </li>

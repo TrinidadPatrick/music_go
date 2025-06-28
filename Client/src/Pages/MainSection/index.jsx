@@ -4,8 +4,8 @@ import Home from './Home'
 
 const MainSection = () => {
   return (
-    // Fix: Use h-full instead of calc height
-    <div className='w-full h-full flex flex-col'>
+    
+    <div className='flex flex-col w-full h-full'>
       <Home />
     </div>
   )

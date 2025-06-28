@@ -160,6 +160,11 @@ const UserPlaylistDetail = () => {
     }
   }
 
+  const handleShare = () => {
+    navigator.clipboard.writeText(`https://music-go.vercel.app/user/public/playlist?list=${playlistDetail.playlist_id}`)
+    toast.success('Link copied to clipboard')
+  }
+
   const DropDown = () => {
     const isSaved = library?.library_songs?.some((song) => song.videoId === selectedTrack?.videoId)
     return (
@@ -303,6 +308,9 @@ const UserPlaylistDetail = () => {
                     className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white"
                   >
                     <ShuffleIcon size={20} />
+                  </button>
+                  <button onClick={handleShare} className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white">
+                    <Share size={20} className="text-gray-200 hover:text-white" />
                   </button>
                 </div>
               </div>

@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import http from '../../http'
 
 const usePublicPlaylistStore = create((set) => ({
-  playlist: [],
+  playlist: null,
   error: null,
   isLoading: false,
   getPlaylist: async (playlistId, navigate) => {

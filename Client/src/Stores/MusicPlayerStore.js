@@ -1,10 +1,12 @@
 import { create } from 'zustand'
 import useGetSongRecommendation from './NextSongRecommendationStore'
+import useSongDetails from './SongDetailStore'
 
 const useMusicPlayerStore = create((set, get) => ({
   // State
   songList: [],
   currentSong: null,
+  songDetails: null,
   isLoading: false,
   isPlaying: false,
   currentTime: 0,
@@ -16,6 +18,10 @@ const useMusicPlayerStore = create((set, get) => ({
 
   repeatSetting: 'off',
   shuffleOn: false,
+  fullScreen: false,
+
+  setFullScreen: (fullScreen) => set({ fullScreen }),
+  toggleFullScreen: () => set({ fullScreen: !get().fullScreen }),
 
   toggleShuffle: () => {
     set({ shuffleOn: !get().shuffleOn })
@@ -30,18 +36,25 @@ const useMusicPlayerStore = create((set, get) => ({
   setSongList: (songList) => set({ songList }),
   
   // Actions
-  setCurrentSong: (song) => {
+  setCurrentSong: async (song) => {
+    const getSongDetails = useSongDetails.getState().getSongDetails
     if(get().currentSong === song) {
       get().playerRef.current.seekTo(0, true)
-        get().playerRef.current.playVideo()
-        return
+      get().playerRef.current.playVideo()
+      return
     };
+    const songDetails = await getSongDetails(song.videoId)
+    console.log(songDetails)
+    if(songDetails){
+      set({songDetails : songDetails})
+    }
     set({ 
       currentSong: song, 
       isLoading: true,
       currentTime: 0,
       duration: 0 
     })
+
   },
 
   playNextSong: async () => {

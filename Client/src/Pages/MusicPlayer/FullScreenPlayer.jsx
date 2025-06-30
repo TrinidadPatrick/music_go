@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Play, Pause, SkipBack, SkipForward, Volume2, Shuffle, Repeat, Music, Loader, Repeat1, Repeat2, ShuffleIcon, ChevronUp, ChevronDown } from 'lucide-react'
+import { Play, Pause, SkipBack, SkipForward, Volume2, Shuffle, Repeat, Music, Loader, Repeat1, Video, FileText, Share, Share2, Heart, Clock, Headset, Calendar } from 'lucide-react'
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
 
 const formatTime = (seconds) => {
@@ -7,6 +7,19 @@ const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60)
   const secs = Math.floor(seconds % 60)
   return `${minutes}:${secs.toString().padStart(2, '0')}`
+}
+
+const formatViews = (viewString) => {
+    const views = Number(viewString)
+    if(views >= 1e9){
+        return `${(views / 1e9).toFixed(1)}B`
+    }else if (views >= 1e6){
+        return `${(views / 1e6).toFixed(1)}M`
+    }else if (views >= 1e3){
+        return `${(views / 1e3).toFixed(1)}k`
+    }else{
+        return `${views}`
+    }
 }
 
 const ProgressSlider = memo(({ currentTime, duration, onSeek }) => {
@@ -18,7 +31,7 @@ const ProgressSlider = memo(({ currentTime, duration, onSeek }) => {
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className="flex-row items-center hidden w-full gap-2 md:flex">
+    <div className="flex-row items-center w-[95%] md:w-[70%] gap-2 flex">
       <span className="text-sm text-gray-500 min-w-[40px] text-right">
         {formatTime(currentTime)}
       </span>
@@ -63,8 +76,8 @@ const VolumeControl = memo(({ volume, onVolumeChange }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <Volume2 className="w-4 h-4 text-gray-400" />
-      <div className="flex items-center w-20">
+      <Volume2 className="w-6 h-6 text-gray-400" />
+      <div className="flex items-center w-23">
         <input
           type="range"
           min="0"
@@ -104,14 +117,14 @@ const PlayButton = memo(({ isReady, isPlaying, isLoading, onToggle }) => {
     }
     
     if (isReady && isPlaying) {
-      return <Pause className="text-white" />
+      return <Pause className="w-8 h-8 text-white" />
     }
     
     if (isReady && !isPlaying) {
-      return <Play className="text-white ml-0.5" />
+      return <Play className="text-white ml-0.5 w-8 h-8" />
     }
     
-    return <Play className="text-white ml-0.5" />
+    return <Play className="text-white ml-0.5 w-8 h-8" />
   }
 
   return (
@@ -125,7 +138,8 @@ const PlayButton = memo(({ isReady, isPlaying, isLoading, onToggle }) => {
   )
 })
 
-const Player = memo(({
+
+const FullScreenPlayer = memo(({
   currentSong,
   isReady,
   isPlaying,
@@ -143,68 +157,75 @@ const Player = memo(({
   const repeatSetting = useMusicPlayerStore(state => state.repeatSetting)
   const shuffleOn = useMusicPlayerStore(state => state.shuffleOn)
   const toggleShuffle = useMusicPlayerStore(state => state.toggleShuffle)
-  const toggleFullScreen = useMusicPlayerStore(state => state.toggleFullScreen)
-  const setFullScreen = useMusicPlayerStore(state => state.setFullScreen)
-  const fullScreen = useMusicPlayerStore(state => state.fullScreen)
+  const songDetails = useMusicPlayerStore(state => state.songDetails)
   const artistNames = Array.isArray(currentSong?.artists) ? currentSong?.artists?.map(artist => artist.name).join(', ') : currentSong?.artists || 'Unknown Artist'
-  const thumbnailUrl = currentSong?.thumbnails?.[0]?.url
+  const publishDate = songDetails && new Date(songDetails?.microformat?.microformatDataRenderer?.publishDate).toLocaleDateString('EN-US', {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit'
+  }).replace(/\//g, '-')
 
   return (
-    <div className="relative flex justify-between w-full gap-3 p-3 bg-gray-950 z-90">
+    <div className="flex flex-col items-center justify-between w-full p-3 gap-9 -translate-y-25 sm:gap-7 bg-gray-950">
       {/* Music Info */}
       <div className="flex items-center flex-1 gap-2">
-      <button onClick={toggleFullScreen} className='p-1.5 rounded-full hover:bg-gray-100/10'>
-          {
-            fullScreen ?
-            <ChevronDown size={30} className="text-gray-200 hover:text-gray-300 " />
-            :
-            <ChevronUp size={30} className="text-gray-200 hover:text-gray-300 " />
-          }
-        </button>
-        <div className="flex items-center justify-center h-10 overflow-hidden rounded aspect-square bg-gradient-to-br from-purple-500 to-pink-500">
-          {thumbnailUrl ? (
-            <img 
-              src={thumbnailUrl} 
-              alt={currentSong.title}
-              className="object-cover w-full h-full" 
-            />
-          ) : (
-            <Music className="text-white" />
-          )}
-        </div>
-        <div className="flex flex-col flex-1 min-w-0 ">
-          <h3 className="text-base font-medium text-white md:text-lg line-clamp-1">
+        <div className="flex flex-col flex-1 min-w-0 gap-2">
+          <h3 className="text-xl font-semibold text-center text-white md:text-2xl line-clamp-1">
             {currentSong.title}
           </h3>
-          <p className="text-sm text-gray-400 truncate">
+          <p className="text-base text-center text-gray-400 truncate">
             {artistNames}
           </p>
+          {/* Other info */}
+          <div className='flex items-center gap-3 mt-5 sm:mt-2'>
+            <div className='flex items-center gap-3 px-3 py-2 text-[0.7rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
+                <Clock size={15} className='text-blue-400' />
+                <span>{formatTime(songDetails?.videoDetails?.lengthSeconds)}</span>
+            </div>
+            <div className='flex items-center gap-3 px-3 py-2 text-[0.7rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
+                <Headset size={15} className='text-green-400' />
+                <span>{formatViews(songDetails?.videoDetails?.viewCount)}</span>
+            </div>
+            <div className='flex items-center gap-3 px-3 py-2 text-[0.7rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
+                <Calendar size={15} className='text-orange-400' />
+                <span>{publishDate}</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Controls */}
-      <div className="flex flex-col-reverse sm:flex-1 sm:min-w-sm">
-
-        {/* Progress Slider */}
-        <ProgressSlider
+      {/* Progress Slider */}
+      <ProgressSlider
           currentTime={currentTime}
           duration={duration}
           onSeek={onSeek}
         />
 
-        <div className="flex items-center justify-end gap-2 xs:justify-center">
+      {/* Controls */}
+      <div className="flex flex-col-reverse sm:flex-1 sm:min-w-sm w-[95%] md:w-[50%] items-center gap-0">
+
+        <div className='flex items-center justify-center'>
+
+        {/* Main Controls */}
+        <div className="flex items-center justify-between flex-1 gap-3 md:gap-5 md:justify-center">
+          
+          {/* Share Button */}
+          <button className="p-2 text-gray-400 transition-colors rounded-full hover:text-white">
+                <Share2  className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6 hover:text-white" />
+          </button>
+            
           {/* Shuffle button */}
-          <button onClick={()=>toggleShuffle()} className={` ${shuffleOn && 'bg-gray-700/50'} p-2 rounded-full hidden sm:block transition-all duration-200 hover:bg-gray-700/50 cursor-pointer`}>
+          <button onClick={()=>toggleShuffle()} className={` ${shuffleOn && 'bg-gray-700/50'} p-2 rounded-full  transition-all duration-200 hover:bg-gray-700/50 cursor-pointer`}>
             {
               shuffleOn ?
-              <Shuffle className="w-4 h-4 text-gray-400 " /> 
-              : <Shuffle className="w-4 h-4 text-gray-400" />
+              <Shuffle className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6 " /> 
+              : <Shuffle className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6" />
             }
           </button>
           
           {/* Previous button */}
-          <button className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
-            <SkipBack className="w-5 h-5" />
+          <button className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
+            <SkipBack className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
           {/* Play button */}
@@ -216,35 +237,42 @@ const Player = memo(({
           />
 
           {/* Next button */}
-          <button className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
-            <SkipForward className="w-5 h-5" />
+          <button className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
+            <SkipForward className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
           {/* Repeat button */}
           <button onClick={()=>{setRepeatSetting(repeatSetting === 'off' ? 'one' : repeatSetting === 'one' ? 'all' : 'off')}} 
-          className={`${repeatSetting === 'all' && 'bg-gray-700/50'} p-2 hidden sm:block rounded-full transition-all duration-200 hover:bg-gray-700/50 cursor-pointer`}
+          className={`${repeatSetting === 'all' && 'bg-gray-700/50'} p-2  rounded-full transition-all duration-200 hover:bg-gray-700/50 cursor-pointer`}
           >
             {
               repeatSetting === 'off' || repeatSetting === 'all' ?
-              <Repeat className="w-4 h-4 text-gray-400" /> 
+              <Repeat className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6" /> 
               : repeatSetting === 'one' &&
-              <Repeat1 className="w-4 h-4 text-gray-400" /> 
+              <Repeat1 className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6" /> 
             }
           </button>
-        </div>
-      </div>
 
-      {/* Volume Control */}
-      <div className="items-center justify-end flex-1 hidden gap-3 md:flex">
-        <VolumeControl volume={volume} onVolumeChange={onVolumeChange} />
+          {/* Save */}
+          <button className="p-2 text-white transition-colors rounded-full hover:text-white">
+                <Heart size={25} className="text-gray-400 hover:text-white" />
+          </button>
+        </div>
+         </div>
+
+         {/* Volume Control */}
+        {/* <div className="items-center justify-end flex-1 hidden gap-3 md:flex">
+            <VolumeControl volume={volume} onVolumeChange={onVolumeChange} />
+         </div> */}
+
       </div>
     </div>
   )
 })
 
-Player.displayName = 'Player'
+FullScreenPlayer.displayName = 'Player'
 ProgressSlider.displayName = 'ProgressSlider'
 VolumeControl.displayName = 'VolumeControl'
 PlayButton.displayName = 'PlayButton'
 
-export default Player
+export default FullScreenPlayer

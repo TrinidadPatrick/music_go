@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Play, Pause, Heart, MoreHorizontal, Music, Search, Home, Library, Plus, Clock, ChevronLeft, ChevronRight, ListMusic, Disc, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useSidebarStore from '../Stores/sidebarStore';
@@ -9,12 +9,34 @@ const Sidebar = () => {
   const {width} = useScreenSize()
   const isSidebarOpen = useSidebarStore(state => state.isSidebarOpen)
   const setIsSidebarOpen = useSidebarStore(state => state.setIsSidebarOpen)
+  const [sidebarWidth, setSidebarWidth] = useState(70)
   const homePaths = ['/', '/public/playlist', '/public/album', '/', '/home']
+
+  // useEffect(()=>{
+  //   const el = document.getElementById('sidebar')
+
+  //   if(!el) return;
+
+  //   setSidebarWidth(el.offsetWidth)
+
+  //   const observer = new ResizeObserver((entries)=>{
+  //     for (let entry of entries){
+  //       setSidebarWidth(entry.contentRect.width)
+  //     }
+  //   })
+
+  //   observer.observe(el)
+
+  //   return ()=> observer.disconnect()
+
+  // }, [])
+
+  // console.log(sidebarWidth)
 
   const sidebarOpen = isSidebarOpen && width >= 1024
 
   return (
-    <main className={`h-full ${!sidebarOpen ? 'w-[70px]' : 'w-[320px]'} transition-all duration-300 ease-in-out bg-red-100 overflow-hidden`}>
+    <main id='sidebar' className={`h-full ${!sidebarOpen ? 'w-[70px]' : 'w-[320px]'} transition-all duration-300 ease-in-out bg-red-100 overflow-hidden`}>
     <div className='h-full w-[320px] max-w-[320px] bg-[linear-gradient(180deg,_#0f0f0f_0%,_#1a1a1a_190%)] relative z-[999] border-r border-[#333]'>
         <div className="flex flex-col w-full h-full shadow-2xl backdrop-blur-lg border-white/10">
         {/* Logo */}

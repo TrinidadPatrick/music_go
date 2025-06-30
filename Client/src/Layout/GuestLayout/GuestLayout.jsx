@@ -37,21 +37,20 @@ const GuestLayout = () => {
 
   const showNavbar = path !== '/signin' && path !== '/signup' && path !== '/user/account';
   const showSidebar = path !== '/signin' && path !== '/signup';
-
   return (
-    <main className='h-full flex flex-col'>
-      <section className='flex-1 min-h-0 flex'>
+    <main className='flex flex-col h-full'>
+      <section className='flex flex-1 min-h-0'>
           {showSidebar && width >= 900 && (
-            <section className=' flex-none z-90 hidden lg:block'>
+            <section className='relative flex-none hidden z-90 lg:block'>
               <Sidebar />
             </section>
           )}
-        <section className='flex-1 min-h-0 flex flex-col z-0'>
+        <section className='z-0 flex flex-col flex-1 min-h-0'>
           {/* Navbar */}
           {showNavbar && <Navbar />}
 
           {/* Children - Fix: Ensure proper height flow */}
-          <div className='flex-1 min-h-0 flex over'>
+          <div className='relative flex flex-1 min-h-0 p-1 overflow-hidden'>
             <Outlet />
           </div>
         </section>

@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')).render(
           <RouterProvider router={router} />
           <Toaster position='bottom-right' />
         </div>
-        <div className='z-40 flex-shrink-0 w-full bg-blue-100'>
+        <div className='z-[9999] flex-shrink-0 w-full bg-blue-100'>
           <MusicPlayer />
         </div>
       </div>

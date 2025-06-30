@@ -79,3 +79,11 @@ html, body, #root {
     --breakpoint-xs: 480px;
     --breakpoint-semiSmall: 640px;
   }
+
+  button{
+    cursor: pointer;
+  }
+
+  .ytp-pause-overlay {
+    display: none;
+  }

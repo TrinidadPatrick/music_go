@@ -177,7 +177,7 @@ const FullScreenPlayer = memo(({
             {artistNames}
           </p>
           {/* Other info */}
-          <div className='flex items-center gap-3 mt-5 sm:mt-2'>
+          <div className='flex items-center gap-3 mx-auto mt-5 sm:mt-2'>
             <div className='flex items-center gap-3 px-3 py-2 text-[0.7rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
                 <Clock size={15} className='text-blue-400' />
                 <span>{formatTime(songDetails?.videoDetails?.lengthSeconds)}</span>

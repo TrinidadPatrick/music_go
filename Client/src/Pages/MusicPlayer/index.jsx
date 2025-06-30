@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import FullScreenPlayer from './FullScreenPlayer'
 import { ChevronDown, FileText, MoreHorizontal, Video } from 'lucide-react'
 import useScreenSize from '../../Auth/ScreenSizeProvider'
+import { throttle, debounce } from 'lodash'
 
 const MusicPlayer = () => {
       
@@ -22,6 +23,7 @@ const MusicPlayer = () => {
     resetPlayer
   } = useMusicPlayerStore()
 
+  const bufferingTimeoutRef = useRef(null)
   const {width} = useScreenSize(state => state.width)
   const currentTime = useMusicPlayerStore(state => state.currentTime)
   const isPlaying = useMusicPlayerStore(state => state.isPlaying)
@@ -58,25 +60,39 @@ const MusicPlayer = () => {
   const handleStateChange = useCallback((event) => {
     const player = event.target
     playerRef.current = player
-    
+  
     switch (event.data) {
       case 1: // Playing
         setIsPlaying(true)
         setIsLoading(false)
+        if (bufferingTimeoutRef.current) {
+          clearTimeout(bufferingTimeoutRef.current)
+        }
         break
+  
       case 2: // Paused
         setIsPlaying(false)
         break
+  
       case 0: // Ended
         playNextSong()
         break
+  
       case 3: // Buffering
         setIsLoading(true)
+        bufferingTimeoutRef.current = setTimeout(() => {
+          console.warn('Buffering too long, reloading video...')
+          player.loadVideoById({
+            videoId: currentSong.videoId,
+            startSeconds: currentTime
+          })
+        }, 5000) // 5 sec fallback
         break
+  
       default:
         break
     }
-  }, [setIsPlaying, setIsLoading])
+  }, [setIsPlaying, setIsLoading, playNextSong, currentSong, currentTime])
 
   const handleError = useCallback((event) => {
     console.error('YouTube player error:', event.data)
@@ -88,20 +104,23 @@ const MusicPlayer = () => {
     setIsLoading(false)
   }, [setIsLoading])
 
-  // Player control functions
-  const togglePlayPause = useCallback(() => {
-    if (!playerRef.current || !isReady) return
-    
-    try {
-      if (isPlaying) {
-        playerRef.current.pauseVideo()
-      } else {
-        playerRef.current.playVideo()
+  
+  const togglePlayPause = useCallback(
+    throttle(() => {
+      if (!playerRef.current || !isReady) return;
+  
+      try {
+        if (isPlaying) {
+          playerRef.current.pauseVideo();
+        } else {
+          playerRef.current.playVideo();
+        }
+      } catch (error) {
+        console.error('Error toggling play/pause:', error);
       }
-    } catch (error) {
-      console.error('Error toggling play/pause:', error)
-    }
-  }, [isPlaying, isReady])
+    }, 300, { trailing: false }), // No trailing call — instant toggle
+    [isPlaying, isReady]
+  );
 
   const handleVolumeChange = useCallback((newVolume) => {
     if (playerRef.current) {
@@ -110,12 +129,15 @@ const MusicPlayer = () => {
     }
   }, [setVolume])
 
-  const handleSeek = useCallback((time) => {
-    if (playerRef.current && isReady) {
-      playerRef.current.seekTo(time, true)
-      setCurrentTime(time)
-    }
-  }, [isReady, setCurrentTime])
+  const handleSeek = useCallback(
+    throttle((time) => {
+      if (playerRef.current && isReady) {
+        playerRef.current.seekTo(time, true)
+        setCurrentTime(time)
+      }
+    }, 500),
+    [isReady, setCurrentTime]
+  )
 
   const YoutubePlayer = useCallback(()=>{
     const YOUTUBE_OPTS = {
@@ -209,8 +231,8 @@ const MusicPlayer = () => {
             const diff = Math.abs(time - lastTimeRef.current)
   
             if (diff >= 0.01) {
-              setCurrentTime(time + 1)
-              lastTimeRef.current = time + 1
+              setCurrentTime(time)
+              lastTimeRef.current = time
             }
           }
         } catch (error) {

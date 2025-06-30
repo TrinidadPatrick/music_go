@@ -44,7 +44,6 @@ const useMusicPlayerStore = create((set, get) => ({
       return
     };
     const songDetails = await getSongDetails(song.videoId)
-    console.log(songDetails)
     if(songDetails){
       set({songDetails : songDetails})
     }

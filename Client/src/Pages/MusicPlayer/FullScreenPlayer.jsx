@@ -117,14 +117,14 @@ const PlayButton = memo(({ isReady, isPlaying, isLoading, onToggle }) => {
     }
     
     if (isReady && isPlaying) {
-      return <Pause className="w-8 h-8 text-white" />
+      return <Pause className="w-6 h-6 text-white sm:w-7 sm:h-7" />
     }
     
     if (isReady && !isPlaying) {
-      return <Play className="text-white ml-0.5 w-8 h-8" />
+      return <Play className="text-white ml-0.5 w-6 h-6 sm:w-7 sm:h-7" />
     }
     
-    return <Play className="text-white ml-0.5 w-8 h-8" />
+    return <Play className="text-white ml-0.5 w-6 h-6 sm:w-7 sm:h-7" />
   }
 
   return (
@@ -166,28 +166,28 @@ const FullScreenPlayer = memo(({
   }).replace(/\//g, '-')
 
   return (
-    <div className="flex flex-col items-center justify-between w-full p-3 gap-9 -translate-y-25 sm:gap-7 bg-gray-950">
+    <div className="flex flex-col items-center justify-between w-full p-3 gap-9 -translate-y-27 sm:gap-5 bg-gray-950">
       {/* Music Info */}
-      <div className="flex items-center flex-1 gap-2">
+      <div className="flex items-center flex-1">
         <div className="flex flex-col flex-1 min-w-0 gap-2">
-          <h3 className="text-xl font-semibold text-center text-white md:text-2xl line-clamp-1">
+          <h3 className="text-lg font-semibold text-center text-white sm:text-xl line-clamp-1">
             {currentSong.title}
           </h3>
-          <p className="text-base text-center text-gray-400 truncate">
+          <p className="text-sm text-center text-gray-400 truncate sm:text-base">
             {artistNames}
           </p>
           {/* Other info */}
           <div className='flex items-center gap-3 mx-auto mt-5 sm:mt-2'>
-            <div className='flex items-center gap-3 px-3 py-2 text-[0.7rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
-                <Clock size={15} className='text-blue-400' />
+            <div className='flex items-center gap-3 px-3 py-2 text-[0.6rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
+                <Clock className='w-3 h-3 text-blue-400 sm:w-h sm:h-4' />
                 <span>{formatTime(songDetails?.videoDetails?.lengthSeconds)}</span>
             </div>
-            <div className='flex items-center gap-3 px-3 py-2 text-[0.7rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
-                <Headset size={15} className='text-green-400' />
+            <div className='flex items-center gap-3 px-3 py-2 text-[0.6rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
+                <Headset className='w-3 h-3 text-green-400 sm:w-h sm:h-4' />
                 <span>{formatViews(songDetails?.videoDetails?.viewCount)}</span>
             </div>
-            <div className='flex items-center gap-3 px-3 py-2 text-[0.7rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
-                <Calendar size={15} className='text-orange-400' />
+            <div className='flex items-center gap-3 px-3 py-2 text-[0.6rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
+                <Calendar className='w-3 h-3 text-orange-400 sm:w-h sm:h-4' />
                 <span>{publishDate}</span>
             </div>
           </div>
@@ -211,21 +211,21 @@ const FullScreenPlayer = memo(({
           
           {/* Share Button */}
           <button className="p-2 text-gray-400 transition-colors rounded-full hover:text-white">
-                <Share2  className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6 hover:text-white" />
+                <Share2  className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5 hover:text-white" />
           </button>
             
           {/* Shuffle button */}
           <button onClick={()=>toggleShuffle()} className={` ${shuffleOn && 'bg-gray-700/50'} p-2 rounded-full  transition-all duration-200 hover:bg-gray-700/50 cursor-pointer`}>
             {
               shuffleOn ?
-              <Shuffle className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6 " /> 
-              : <Shuffle className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6" />
+              <Shuffle className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5 " /> 
+              : <Shuffle className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5" />
             }
           </button>
           
           {/* Previous button */}
           <button className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
-            <SkipBack className="w-5 h-5 sm:w-6 sm:h-6" />
+            <SkipBack className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
           {/* Play button */}
@@ -238,7 +238,7 @@ const FullScreenPlayer = memo(({
 
           {/* Next button */}
           <button className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
-            <SkipForward className="w-5 h-5 sm:w-6 sm:h-6" />
+            <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
           {/* Repeat button */}
@@ -247,9 +247,9 @@ const FullScreenPlayer = memo(({
           >
             {
               repeatSetting === 'off' || repeatSetting === 'all' ?
-              <Repeat className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6" /> 
+              <Repeat className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5" /> 
               : repeatSetting === 'one' &&
-              <Repeat1 className="w-5 h-5 text-gray-400 sm:w-6 sm:h-6" /> 
+              <Repeat1 className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5" /> 
             }
           </button>
 

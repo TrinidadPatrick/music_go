@@ -141,8 +141,8 @@ const MusicPlayer = () => {
 
   const YoutubePlayer = useCallback(()=>{
     const YOUTUBE_OPTS = {
-      height: width <= 450 ? '450' : '500',
-      width: width <= 450 ? '350' : '500',
+      height: width <= 640 ? '450' : '500',
+      width: width <= 640 ? '350' : '500',
       volume: 0,
       playerVars: {
         autoplay: 1,
@@ -172,10 +172,10 @@ const MusicPlayer = () => {
 
   const Switcher = useCallback(()=>{
     return (
-      <div className="flex items-center gap-1 p-1 mb-8 rounded-full bg-white/10 backdrop-blur-md">
+      <div className="flex items-center gap-1 p-1 mb-8 text-xs rounded-full sm:text-sm md:text-base bg-white/10 backdrop-blur-md">
         <button 
           onClick={() => setActiveTab('video')}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
+          className={`flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-3 rounded-full transition-all duration-300 ${
             activeTab === 'video' 
               ? 'bg-blue-500 text-white shadow-lg' 
               : 'text-white/70 hover:text-white hover:bg-white/10'
@@ -186,7 +186,7 @@ const MusicPlayer = () => {
         </button>
         <button 
           onClick={() => setActiveTab('lyrics')}
-          className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
+          className={`flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-3 rounded-full transition-all duration-300 ${
             activeTab === 'lyrics' 
               ? 'bg-blue-500 text-white shadow-lg' 
               : 'text-white/70 hover:text-white hover:bg-white/10'
@@ -267,7 +267,6 @@ const MusicPlayer = () => {
   }
 
 
-
   return  (
     <div className="bottom-0 right-0 flex w-full overflow-hidden bg-gray-950">
   <div className="flex flex-col w-full h-full">
@@ -299,7 +298,7 @@ const MusicPlayer = () => {
         </div>
 
         {/* Switcher */}
-        <div className="absolute translate-y-25 z-90">
+        <div className="absolute translate-y-30 sm:translate-y-25 z-90">
           <Switcher />
         </div>
 

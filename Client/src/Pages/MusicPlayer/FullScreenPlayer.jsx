@@ -255,7 +255,7 @@ const FullScreenPlayer = memo(({
 
           {/* Save */}
           <button className="p-2 text-white transition-colors rounded-full hover:text-white">
-                <Heart size={25} className="text-gray-400 hover:text-white" />
+                <Heart className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5 hover:text-white" />
           </button>
         </div>
          </div>

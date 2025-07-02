@@ -34,7 +34,7 @@ const PublicUserPlaylist = () => {
   const { width } = useScreenSize()
   const { user, getUser } = useAuth()
   const [params] = useSearchParams()
-  const playlistId = params.get('playlistId')
+  const playlistId = params.get('list')
   const { formatTime } = useFormatTimeStore()
 
   //Library Store

@@ -30,7 +30,6 @@ const MainSongs = () => {
         }
 
         const handleSelectSong = async (track) => {
-            console.log("Hello")
             if (currentSong?.videoId !== track.videoId) {
               setCurrentSong(track)
               setIsPlaying(true)

@@ -9,29 +9,7 @@ const Sidebar = () => {
   const {width} = useScreenSize()
   const isSidebarOpen = useSidebarStore(state => state.isSidebarOpen)
   const setIsSidebarOpen = useSidebarStore(state => state.setIsSidebarOpen)
-  const [sidebarWidth, setSidebarWidth] = useState(70)
   const homePaths = ['/', '/public/playlist', '/public/album', '/', '/home']
-
-  // useEffect(()=>{
-  //   const el = document.getElementById('sidebar')
-
-  //   if(!el) return;
-
-  //   setSidebarWidth(el.offsetWidth)
-
-  //   const observer = new ResizeObserver((entries)=>{
-  //     for (let entry of entries){
-  //       setSidebarWidth(entry.contentRect.width)
-  //     }
-  //   })
-
-  //   observer.observe(el)
-
-  //   return ()=> observer.disconnect()
-
-  // }, [])
-
-  // console.log(sidebarWidth)
 
   const sidebarOpen = isSidebarOpen && width >= 1024
 
@@ -45,7 +23,7 @@ const Sidebar = () => {
             sidebarOpen ?
             <div className='flex justify-between w-full'>
             <button onClick={()=>navigate('/')} className="text-2xl font-bold text-transparent cursor-pointer bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
-            MusicHub
+            MusicGo
             </button>
             <button onClick={()=>setIsSidebarOpen(false)} className='cursor-pointer' >
             <Menu size={30} className="text-gray-400 hover:text-white " />

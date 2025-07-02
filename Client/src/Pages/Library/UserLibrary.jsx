@@ -229,7 +229,7 @@ const UserLibrary = () => {
   }, [modalIsOpen, selectedTrack])
   
   return library === null ? <ListLoader /> : (
-    <div className="flex w-full h-full px-2 pb-4 overflow-hidden text-white sm:px-5">
+    <div className="flex w-full h-full pb-4 overflow-hidden text-white sm:px-5">
       <Modal />
       
       {/* Main Content */}
@@ -381,7 +381,7 @@ const UserLibrary = () => {
                       {
                       showDropdown(track) && 
                       (
-                        <div className='absolute z-[10] block right-10 bottom-0 origin-bottom'>
+                        <div className='absolute z-[10] block right-8 sm:right-10 bottom-0 origin-bottom'>
                           <DropDown />
                         </div>
                       )

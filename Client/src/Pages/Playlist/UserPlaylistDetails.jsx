@@ -50,7 +50,6 @@ const UserPlaylistDetail = () => {
   const setIsPlaying = useMusicPlayerStore(state => state.setIsPlaying)
   const setSongList = useMusicPlayerStore(state => state.setSongList)
   const toggleShuffle = useMusicPlayerStore(state => state.toggleShuffle)
-  const getSongDetails = useSongDetails(state => state.getSongDetails)
 
   //Playlist Store
   const removeFromPlaylist = useUserPlaylistStore(state => state.removeFromPlaylist)
@@ -262,9 +261,11 @@ const UserPlaylistDetail = () => {
     )
   }, [modalIsOpen, selectedTrack])
 
+  console.log(playlistDetail)
+
 
   return (
-    <div className="flex w-full h-full px-5 overflow-hidden text-white">
+    <div className="flex w-full h-full sm:px-5 overflow-hidden text-white">
       <Modal />
       {
       
@@ -309,9 +310,12 @@ const UserPlaylistDetail = () => {
                   >
                     <ShuffleIcon size={20} />
                   </button>
-                  <button onClick={handleShare} className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white">
-                    <Share size={20} className="text-gray-200 hover:text-white" />
-                  </button>
+                  {
+                    playlistDetail?.privacy === 'public' &&
+                    <button onClick={handleShare} className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white">
+                      <Share size={20} className="text-gray-200 hover:text-white" />
+                    </button>
+                  }
                 </div>
               </div>
             </div>
@@ -330,7 +334,7 @@ const UserPlaylistDetail = () => {
             </div>
 
             {/* Track Rows */}
-            <div className="space-y-1">
+            <div className="space-y-1 px-2">
               {playlistSongs?.map((track, index) => {
               return (
                 <div
@@ -338,7 +342,7 @@ const UserPlaylistDetail = () => {
                   key={index}
                   className={`${
                     (currentSong?.videoId || "") === track?.videoId ? "bg-gray-800" : ""
-                  } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer`}
+                  } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-3 sm:px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer`}
                 >
                   {/* Index - hidden on mobile */}
                   <div className="items-center hidden col-span-1 sm:flex">

@@ -89,7 +89,7 @@ const Navbar = () => {
       {
         !isSidebarOpen &&
         <button onClick={()=>navigate('/')} className="text-2xl hidden md:block cursor-pointer font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-          MusicHub
+          MusicGo
         </button>
       }
       </div>

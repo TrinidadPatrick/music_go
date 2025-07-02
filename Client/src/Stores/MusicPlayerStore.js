@@ -1,12 +1,15 @@
 import { create } from 'zustand'
 import useGetSongRecommendation from './NextSongRecommendationStore'
 import useSongDetails from './SongDetailStore'
+import useLyricsStore from './LyricsStore'
+import http from '../../http'
 
 const useMusicPlayerStore = create((set, get) => ({
   // State
   songList: [],
   currentSong: null,
   songDetails: null,
+  lyrics: null,
   isLoading: false,
   isPlaying: false,
   currentTime: 0,
@@ -19,6 +22,15 @@ const useMusicPlayerStore = create((set, get) => ({
   repeatSetting: 'off',
   shuffleOn: false,
   fullScreen: false,
+
+  getWatchPlaylist: async (videoId) => {
+    try {
+      const result = await http.get(`music/get_watch_playlist?videoId=${videoId}`)
+      return result.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
   setFullScreen: (fullScreen) => set({ fullScreen }),
   toggleFullScreen: () => set({ fullScreen: !get().fullScreen }),
@@ -37,22 +49,40 @@ const useMusicPlayerStore = create((set, get) => ({
   
   // Actions
   setCurrentSong: async (song) => {
+    set({lyrics : null})
     const getSongDetails = useSongDetails.getState().getSongDetails
+    const getLyrics = useLyricsStore.getState().getLyrics
+
+    // Prevent crashing when playing same song
     if(get().currentSong === song) {
       get().playerRef.current.seekTo(0, true)
       get().playerRef.current.playVideo()
       return
     };
-    const songDetails = await getSongDetails(song.videoId)
-    if(songDetails){
-      set({songDetails : songDetails})
-    }
+
+    // Set the current song
     set({ 
       currentSong: song, 
       isLoading: true,
       currentTime: 0,
       duration: 0 
     })
+
+    // Get the song details
+    const songDetails = await getSongDetails(song.videoId)
+
+    if(songDetails){
+      set({songDetails : songDetails})
+    }
+
+    // Get the lyrics browseId
+    const songLyrics = await get().getWatchPlaylist(song.videoId)
+    if(songLyrics?.lyrics){
+      const lyrics = await getLyrics(songLyrics?.lyrics)
+      if(lyrics){
+        set({lyrics : lyrics})
+      }
+    }
 
   },
 
@@ -74,9 +104,9 @@ const useMusicPlayerStore = create((set, get) => ({
         if(nextSong){
           if(get().shuffleOn){
             const index = Math.floor(Math.random() * get().songList.length);
-            set({ currentSong: get().songList[index] })
+            get().setCurrentSong(get().songList[index])
           }else{
-            set({ currentSong: nextSong })
+            get().setCurrentSong(nextSong)
           }
         }else{
           get().playerRef.current.seekTo(0, true)
@@ -91,12 +121,12 @@ const useMusicPlayerStore = create((set, get) => ({
         if(nextSong){
           if(get().shuffleOn){
             const index = Math.floor(Math.random() * get().songList.length);
-            set({ currentSong: get().songList[index] })
+            get().setCurrentSong(get().songList[index])
           }else{
             set({ currentSong: nextSong })
           }
         }else{
-          set({currentSong: get().songList[0]})
+          get().setCurrentSong(get().songList[0])
         }
         break
       default:

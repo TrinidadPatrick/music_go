@@ -308,7 +308,7 @@ const Playlist = () => {
   return playlist === null ? (
     <ListLoader />
   ) : (
-    <div className="flex w-full h-full px-5 overflow-hidden text-white">
+    <div className="flex w-full h-full sm:px-5 overflow-hidden text-white">
       <Modal />
       {playlist?.tracks?.length === 0 ? (
         <Loader />
@@ -429,7 +429,7 @@ const Playlist = () => {
                       {
                       showDropdown(track) && 
                       (
-                        <div className='absolute z-[10] block right-10 bottom-0 origin-bottom'>
+                        <div className='absolute z-[10] block right-8 sm:right-10 bottom-0 origin-bottom'>
                           <DropDown />
                         </div>
                       )

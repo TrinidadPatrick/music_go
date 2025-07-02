@@ -55,7 +55,7 @@ const Home = () => {
                 </span>
               </div>
               
-              <h1 className={`text-lg sm:text-3xl lg:text-4xl text-center sm:text-left text-white font-black mb-4 leading-6 sm:leading-10 transform transition-all duration-1000 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+              <h1 className={`text-lg sm:text-3xl lg:text-4xl text-center sm:text-left text-white font-black mb-4 leading-6 sm:leading-10 transform transition-all duration-300 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 <span className="block sm:hidden bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
                   MUSIC CHANGES THE WORLD BECAUSE IT CHANGES PEOPLE
                 </span>
@@ -70,7 +70,7 @@ const Home = () => {
                 </span>
               </h1>
 
-              <p className={`text-gray-300 text-xs sm:text-base max-w-2xl text-center sm:text-left mb-6 sm:leading-relaxed transform transition-all duration-1000 delay-300 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+              <p className={`text-gray-300 text-xs sm:text-base max-w-2xl text-center sm:text-left mb-6 sm:leading-relaxed transform transition-all duration-300 delay-300 ${animateText ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 Experience the transformative power of music that moves souls, breaks barriers, and connects hearts across the globe.
               </p>
 

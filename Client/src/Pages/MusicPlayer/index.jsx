@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react'
+import React, { useRef, useEffect, useCallback, useState, useLayoutEffect } from 'react'
 import YouTube from 'react-youtube'
 import Player from './Player'
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
@@ -7,6 +7,7 @@ import FullScreenPlayer from './FullScreenPlayer'
 import { ChevronDown, FileText, MoreHorizontal, Video } from 'lucide-react'
 import useScreenSize from '../../Auth/ScreenSizeProvider'
 import { throttle, debounce } from 'lodash'
+import LyricsPlayer from './LyricsPlayer'
 
 const MusicPlayer = () => {
       
@@ -139,7 +140,7 @@ const MusicPlayer = () => {
     [isReady, setCurrentTime]
   )
 
-  const YoutubePlayer = useCallback(()=>{
+  const YoutubePlayer = useCallback(({activeTab})=>{
     const YOUTUBE_OPTS = {
       height: width <= 640 ? '450' : '500',
       width: width <= 640 ? '350' : '500',
@@ -160,6 +161,7 @@ const MusicPlayer = () => {
     }
     return (
       <YouTube
+          className={`${activeTab === 'lyrics' && 'hidden'}`}
           videoId={currentSong.videoId}
           opts={YOUTUBE_OPTS}
           onReady={handleReady}
@@ -199,9 +201,8 @@ const MusicPlayer = () => {
   )
   }, [currentSong, activeTab])
 
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     const el = document.getElementById('sidebar')
-
     if(!el) return;
 
     setSidebarWidth(el.offsetWidth)
@@ -216,7 +217,7 @@ const MusicPlayer = () => {
 
     return ()=> observer.disconnect()
 
-  }, [])
+  }, [fullScreen])
 
   // Time update effect
   useEffect(() => {
@@ -255,6 +256,7 @@ const MusicPlayer = () => {
   }, [isPlaying, isReady])
 
   useEffect(() => {
+    // console.log("Hello")
     return () => {
       if (timeUpdateIntervalRef.current) {
         clearInterval(timeUpdateIntervalRef.current)
@@ -265,7 +267,6 @@ const MusicPlayer = () => {
   if (!currentSong) {
     return null
   }
-
 
   return  (
     <div className="bottom-0 right-0 flex w-full overflow-hidden bg-gray-950">
@@ -289,7 +290,7 @@ const MusicPlayer = () => {
           </button>
 
           <button className="text-3xl font-bold text-transparent cursor-pointer bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
-            MusicHub
+            MusicGo
           </button>
 
           <button>
@@ -304,9 +305,10 @@ const MusicPlayer = () => {
 
         {/* YouTube Player */}
         <div className='relative'>
-          <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-gray-950  top-0' />
-            <YoutubePlayer />
-          <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-gray-950  bottom-0' />
+            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-gray-950  top-0' />
+            <YoutubePlayer activeTab={activeTab} />
+            <LyricsPlayer activeTab={activeTab} currentTime={currentTime} />
+            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-gray-950  bottom-0' />
         </div>
 
         {/* FullScreenPlayer */}

@@ -71,7 +71,7 @@ const Signup = () => {
         {/* Logo */}
         <div className="text-center mb-4">
           <h1 className="text-4xl font-semibold mb-1 bg-gradient-to-br from-purple-600 to-purple-400 bg-clip-text text-transparent">
-            MusicHub
+            MusicGo
           </h1>
           <p className="text-white/60 text-sm">Your music, your world</p>
         </div>

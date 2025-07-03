@@ -81,6 +81,41 @@ const useUserPlaylistStore = create((set, get) => ({
     }
   },
 
+  updatePlaylist: async (playlistId, data, notify) => {
+    set({ isLoading: true })
+    try {
+      const result = await http.patch(`auth/music/update_playlist?playlistId=${playlistId}`, data)
+      if(result.status === 200){
+        notify(result.data.message)
+        get().getUserPlaylists()
+      }
+
+    } catch (error) {
+      console.log(error)
+      set({ error: error.response.data.message })
+      notify(error.response.data.message)
+    } finally {
+        set({ isLoading: false })
+    }
+  },
+  deletePlaylist: async (playlistId, notify) => {
+    set({ isLoading: true })
+    try {
+      console.log(playlistId)
+      const result = await http.delete(`auth/music/delete_playlist?playlistId=${playlistId}`)
+      if(result.status === 200){
+        notify(result.data.message)
+        get().getUserPlaylists()
+      }
+
+    } catch (error) {
+      console.log(error)
+      notify("Something went wrong")
+    } finally {
+        set({ isLoading: false })
+    }
+  },
+
   getUserPlaylists: async () => {
     set({ isLoading: true })
     try {

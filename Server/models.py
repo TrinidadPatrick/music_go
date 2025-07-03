@@ -50,7 +50,7 @@ class Playlist(Base):
     privacy = Column(String(20), nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now())
 
-    songs = relationship("PlaylistSong", back_populates="playlist")
+    songs = relationship("PlaylistSong", back_populates="playlist", passive_deletes=True)
     user = relationship("User", back_populates="playlists")
 
 class PlaylistSong(Base):

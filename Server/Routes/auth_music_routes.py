@@ -1,5 +1,5 @@
 import datetime
-from fastapi import FastAPI, Request, APIRouter, Depends, HTTPException
+from fastapi import FastAPI, Request, APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, aliased
@@ -157,6 +157,51 @@ async def save_playlist(request: Request, db: Session = Depends(get_db)):
             db.commit()
             db.refresh(playlist)
             return JSONResponse(content={"message": "playlist created"}, status_code=200)
+    else:
+        return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
+
+@router.patch("/update_playlist")
+async def update_playlist(request: Request, playlistId: str = Query(...), db: Session = Depends(get_db)):
+    data = await request.json()
+    userId = request.state.user_id
+
+    # Check if user is authenticated
+    if userId:
+        playlist = db.query(Playlist).filter(Playlist.playlist_id == playlistId, Playlist.user_id == userId).first()
+
+        print(playlist)
+
+        if playlist:
+            playlist.title = data['title'],
+            playlist.description = data['description'],
+            playlist.privacy = data['privacy']
+
+            db.commit()
+            return JSONResponse(content={"message": "playlist updated"}, status_code=200)
+        
+        # if not in DB then create a new playlist
+        elif not playlist:
+            return JSONResponse(content={"message": "playlist not found"}, status_code=404)
+    else:
+        return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
+
+@router.delete("/delete_playlist")
+async def delete_playlist(request: Request, playlistId: str = Query(...), db: Session = Depends(get_db)):
+    userId = request.state.user_id
+
+    # Check if user is authenticated
+    if userId:
+        playlist = db.query(Playlist).filter(Playlist.playlist_id == playlistId, Playlist.user_id == userId).first()
+
+        if playlist:
+            print(playlist)
+            db.delete(playlist)
+            db.commit()
+            return JSONResponse(content={"message": "playlist deleted"}, status_code=200)
+        
+        # if not in DB then create a new playlist
+        elif not playlist:
+            return JSONResponse(content={"message": "playlist not found"}, status_code=404)
     else:
         return JSONResponse(content={"message": "invalid credentials"}, status_code=401)
 

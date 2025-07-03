@@ -1,41 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { Play, MoreHorizontal, Plus, Music, X, Upload, Globe, Lock, Image, Library } from 'lucide-react';
-import Modal from 'react-modal';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Play, MoreHorizontal, Plus, Music, X, Upload, Globe, Lock, Image, Library, Edit, Share2, Delete, Trash } from 'lucide-react';
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/Components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/Components/ui/button"
+import PlaylistModal from './PlaylistModal';
 
 const UserPlaylist = () => {
   const navigate = useNavigate()
   const getUserPlaylists = useUserPlaylistStore( state => state.getUserPlaylists)
   const userPlaylist = useUserPlaylistStore( state => state.userPlaylist)
   const createPlaylist = useUserPlaylistStore( state => state.createPlaylist)
+  const updatePlaylist = useUserPlaylistStore( state => state.updatePlaylist)
+  const deletePlaylist = useUserPlaylistStore( state => state.deletePlaylist)
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [playlistId, setPlaylistId] = useState(null)
   const [playlistName, setPlaylistName] = useState('');
   const [description, setDescription] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
   const [coverImage, setCoverImage] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const notify = (message) => toast.success(message);
-
-  const modalStyle = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      zIndex: '99999999',
-      padding: '0',
-      backgroundColor: 'transparent',
-      border: 'none',
-    },
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      }
-  };
 
   const openPlaylist = (playlist) => {
     navigate(`/user/playlist/detail?playlistId=${playlist.playlist_id}`)
@@ -50,6 +62,16 @@ const UserPlaylist = () => {
     }
   };
 
+  const handleEditPlaylist = (playlist) => {
+    if(playlist){
+      setPlaylistId(playlist.playlist_id)
+      setPlaylistName(playlist.title)
+      setDescription(playlist.description)
+      setIsPrivate(playlist.privacy === 'private')
+      setModalIsOpen(true)
+    }
+  }
+
   const handleSubmit = async () => {
     if (playlistName.trim()) {
         const data = {
@@ -58,9 +80,16 @@ const UserPlaylist = () => {
             thumbnail: coverImage,
             privacy: isPrivate ? 'private' : 'public'
         }
-    
+        
+        if(playlistId){
+          const result = await updatePlaylist(playlistId, data, notify)
+          setModalIsOpen(false)
+          return
+        }
         const result = await createPlaylist(data, notify)
         setModalIsOpen(false)
+        
+        
     }
   }
 
@@ -73,8 +102,64 @@ const UserPlaylist = () => {
     )
   }
 
+  const PlaylistDropdown = ({playlist}) => {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className="bg-transparent hover:bg-gray-700">
+          <MoreHorizontal className="w-5 h-5" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-40" align="start" side="right">
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={(e)=>{e.stopPropagation();handleEditPlaylist(playlist)}} className="py-2 cursor-pointer">
+              <Edit />
+              Edit Playlist
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={(e)=>{e.stopPropagation();handleShare(playlist.playlist_id)}} className="py-2 cursor-pointer">
+              <Share2 />
+              Share Playlist
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={(e)=>{e.stopPropagation();setShowConfirm(true);setPlaylistId(playlist.playlist_id)}} className="py-2 cursor-pointer">
+              <Trash />
+              Delete Playlist
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
+  }
+
+  const handleShare = (playlistId) => {
+    navigator.clipboard.writeText(`https://music-go.vercel.app/user/public/playlist?list=${playlistId}`)
+    toast.success('Link copied to clipboard')
+  }
+
+  const ConfirmDelete = () => {
+    const playlist = userPlaylist?.playlists.find((playlist) => playlist.playlist_id === playlistId)
+
+    if(playlist){
+      return (
+        <AlertDialog open={showConfirm} >
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete {playlist.title}?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete your playlist.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel onClick={()=>setShowConfirm(false)}>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={()=>{deletePlaylist(playlistId, notify);setShowConfirm(false)}}>Continue</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+      )
+    }
+  }
+
   const PlaylistOverview = () => (
-    <div className="h-full p-8">
+    <div className="h-full p-3 sm:p-8">
 
       {/* Page Title */}
       <div className="mb-8">
@@ -113,7 +198,7 @@ const UserPlaylist = () => {
             <div 
               key={playlist.playlist_id}
               onClick={() => openPlaylist(playlist)}
-              className="p-6 transition-colors bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 group"
+              className="p-6 transition-colors bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 group relative"
             >
               <div className={`w-full h-48  rounded-lg mb-4 flex items-center justify-center relative overflow-hidden`}>
                 <div className="text-4xl text-white">♪</div>
@@ -165,7 +250,7 @@ const UserPlaylist = () => {
             <div 
               key={playlist.playlist_id}
               onClick={() => openPlaylist(playlist)}
-              className="flex items-center p-0 space-x-4 transition-colors rounded-lg cursor-pointer sm:p-4 hover:bg-gray-800 group"
+              className="flex items-center px-3 py-2 space-x-4 transition-colors rounded-lg cursor-pointer sm:p-4 hover:bg-gray-800 group"
             >
               <div className={`w-16 h-16 bg-gradient-to-br hidden rounded-lg sm:flex items-center justify-center relative overflow-hidden`}>
                 <div className="text-xl text-white">♪</div>
@@ -188,9 +273,9 @@ const UserPlaylist = () => {
                 <span className={`text-xs px-2 py-1 rounded ${playlist.isPublic ? 'bg-green-600 text-white' : 'bg-gray-600 text-gray-300'}`}>
                   {playlist?.privacy.toUpperCase()}
                 </span>
-                <button className="text-gray-400 transition-all opacity-0 group-hover:opacity-100 hover:text-white">
-                  <MoreHorizontal className="w-5 h-5" />
-                </button>
+                <div className="text-gray-400 transition-all  hover:text-white">
+                  <PlaylistDropdown playlist={playlist} />
+                </div>
               </div>
             </div>
           )})}
@@ -206,143 +291,28 @@ const UserPlaylist = () => {
     getUserPlaylists()
   }, [])
 
-  
-  Modal.setAppElement('#root');
   return (
     <div className="flex w-full h-full overflow-hidden text-white ">
       
       {/* Add PlaylistModal */}
-      <Modal isOpen={modalIsOpen} style={modalStyle} onRequestClose={() => setModalIsOpen(false)}>
-          <div className="bg-slate-800 rounded-2xl w-[350px] border border-slate-700 shadow-2xl transform transition-all duration-300 scale-100">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-3 border-b border-slate-700">
-              <div className="flex items-center space-x-3">
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-lg">
-                  <Music size={16} className="text-white" />
-                </div>
-                <h2 className="text-xl font-semibold text-white">Create New Playlist</h2>
-              </div>
-              <button 
-                onClick={() => setModalIsOpen(false)}
-                className="p-1 transition-colors rounded-lg cursor-pointer text-slate-400 hover:text-white hover:bg-slate-700"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-3 space-y-6">
-              {/* Cover Image Upload */}
-              <div className="flex flex-col items-center space-y-3">
-                <div className="relative">
-                  {coverImage ? (
-                    <img 
-                      src={coverImage} 
-                      alt="Playlist cover" 
-                      className="object-cover w-24 h-24 border-2 rounded-xl border-slate-600"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center w-24 h-24 border-2 border-dashed bg-slate-700 rounded-xl border-slate-600">
-                      <Image size={24} className="text-slate-400" />
-                    </div>
-                  )}
-                  <label className="absolute flex items-center justify-center w-8 h-8 transition-colors bg-blue-600 rounded-full cursor-pointer -bottom-2 -right-2 hover:bg-blue-700">
-                    <Upload size={14} className="text-white" />
-                    <input 
-                      type="file" 
-                      accept="image/*" 
-                      onChange={handleImageUpload}
-                      className="hidden" 
-                    />
-                  </label>
-                </div>
-                <p className="text-sm text-slate-400">Add a cover image</p>
-              </div>
-
-              {/* Playlist Name */}
-              <div>
-                <label className="block mb-2 text-xs font-medium text-slate-300">
-                  Playlist Name *
-                </label>
-                <input
-                  type="text"
-                  value={playlistName}
-                  onChange={(e) => setPlaylistName(e.target.value)}
-                  placeholder="Enter playlist name..."
-                  className="w-full px-3 py-2 text-sm text-white transition-all border rounded-lg bg-slate-700 border-slate-600 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
-                />
-              </div>
-
-              {/* Description */}
-              <div>
-                <label className="block mb-2 text-xs font-medium text-slate-300">
-                  Description
-                </label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Describe your playlist..."
-                  rows={3}
-                  className="w-full px-3 py-2 text-sm text-white transition-all border rounded-lg resize-none bg-slate-700 border-slate-600 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              {/* Privacy Toggle */}
-              <div className="flex items-center justify-between gap-5 p-4 border rounded-lg bg-slate-900 border-slate-600">
-                <div className="flex items-center space-x-3">
-                  {isPrivate ? (
-                    <Lock size={20} className="text-slate-400" />
-                  ) : (
-                    <Globe size={20} className="text-slate-400" />
-                  )}
-                  <div>
-                    <p className="text-sm font-medium text-white">
-                      {isPrivate ? 'Private' : 'Public'}
-                    </p>
-                    <p className="text-xs text-slate-400">
-                      {isPrivate ? 'Only you can see this playlist' : 'Anyone can see this playlist'}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsPrivate(!isPrivate)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 ${
-                    isPrivate ? 'bg-blue-600' : 'bg-slate-600'
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      isPrivate ? 'translate-x-6' : 'translate-x-1'
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex pt-4 space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setModalIsOpen(false)}
-                  className="flex-1 px-3 py-2 text-sm font-medium transition-colors border rounded-lg text-slate-300 border-slate-600 hover:bg-slate-700"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  disabled={!playlistName.trim()}
-                  className="flex-1 px-3 py-2 text-sm font-medium text-white transition-colors bg-blue-600 rounded-lg whitespace-nowrap hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Create Playlist
-                </button>
-              </div>
-            </div>
-          </div>
-      </Modal>
+      <PlaylistModal
+      playlistName={playlistName}
+      setPlaylistName={setPlaylistName}
+      description={description}
+      setDescription={setDescription}
+      coverImage={coverImage}
+      handleImageUpload={handleImageUpload}
+      isPrivate={isPrivate}
+      setIsPrivate={setIsPrivate}
+      handleSubmit={handleSubmit}
+      setModalIsOpen={setModalIsOpen}
+      modalIsOpen={modalIsOpen}
+      playlistId={playlistId}
+      />
 
       {/* Render current view */}
       <div className="flex flex-col flex-1 h-full overflow-auto">
+        <ConfirmDelete />
       <PlaylistOverview />
       </div>
       <Toaster position='bottom-right' />

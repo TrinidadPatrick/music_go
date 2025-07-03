@@ -7,7 +7,9 @@ import router from '../router.jsx'
 import { AuthProvider } from './Auth/AuthProvider.jsx'
 import MusicPlayer from './Pages/MusicPlayer/index.jsx'
 import { Toaster } from 'react-hot-toast'
+import Modal from 'react-modal'
 
+Modal.setAppElement('#root');
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>

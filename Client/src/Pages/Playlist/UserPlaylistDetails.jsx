@@ -261,8 +261,6 @@ const UserPlaylistDetail = () => {
     )
   }, [modalIsOpen, selectedTrack])
 
-  console.log(playlistDetail)
-
 
   return (
     <div className="flex w-full h-full sm:px-5 overflow-hidden text-white">

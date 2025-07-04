@@ -5,8 +5,13 @@ from typing import Optional
 import logging
 import os
 
+browser_json = os.getenv("YTMUSIC_BROWSER_JSON")
+
+with open("browser.json", "w") as f:
+    f.write(browser_json)
+
 router = APIRouter()
-ytmusic = YTMusic(os.getenv("YTMUSIC_BROWSER_JSON"))
+ytmusic = YTMusic("browser.json")
 
 @router.get("/charts")
 def get_charts():

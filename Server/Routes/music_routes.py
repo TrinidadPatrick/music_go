@@ -3,9 +3,10 @@ from ytmusicapi import YTMusic
 from fastapi.responses import JSONResponse
 from typing import Optional
 import logging
+import os
 
 router = APIRouter()
-ytmusic = YTMusic()
+ytmusic = YTMusic(os.getenv("YTMUSIC_BROWSER_JSON"))
 
 @router.get("/charts")
 def get_charts():

@@ -10,11 +10,12 @@ const useHomeContentStore = create((set) => ({
     try {
       const result = await http.get('music/home')
       let data = result.data
-      let temp = []
-      temp = data[0]
-      data[0] = data[1]
-      data[1] = temp
-      set({ homeContents: data })
+      console.log(data)
+      // let temp = []
+      // temp = data[0]
+      // data[0] = data[1]
+      // data[1] = temp
+      // set({ homeContents: data })
     } catch (error) {
       console.log(error)
       set({ error: error.response.data.message })

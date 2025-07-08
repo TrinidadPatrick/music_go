@@ -171,6 +171,7 @@ const FullScreenPlayer = memo(({
   }).replace(/\//g, '-')
 
   const handleSave = async () => {
+    const songDetails = await getSongDetails(songDetails.videoDetails.videoId);
     const data = songDetails.videoDetails;
     const songData = {
       videoId: data.videoId,
@@ -180,7 +181,7 @@ const FullScreenPlayer = memo(({
       duration_seconds: data.lengthSeconds,
       thumbnails: data.thumbnail ? data.thumbnail.thumbnails : null,
     };
-    saveToLibrary(songData)
+    saveToLibrary(songData);
   }
 
   const isSaved = library?.library_songs?.some((song) => song?.videoId === songDetails?.videoDetails?.videoId)

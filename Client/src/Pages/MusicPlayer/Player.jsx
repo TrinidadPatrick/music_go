@@ -1,6 +1,7 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { Play, Pause, SkipBack, SkipForward, Volume2, Shuffle, Repeat, Music, Loader, Repeat1, Repeat2, ShuffleIcon, ChevronUp, ChevronDown } from 'lucide-react'
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
+import { throttle } from 'lodash'
 
 const formatTime = (seconds) => {
   if (!seconds || isNaN(seconds)) return '0:00'
@@ -146,8 +147,24 @@ const Player = memo(({
   const toggleFullScreen = useMusicPlayerStore(state => state.toggleFullScreen)
   const setFullScreen = useMusicPlayerStore(state => state.setFullScreen)
   const fullScreen = useMusicPlayerStore(state => state.fullScreen)
+  const playNextSong = useMusicPlayerStore(state => state.playNextSong)
+  const playPrevSong = useMusicPlayerStore(state => state.playPrevSong)
   const artistNames = Array.isArray(currentSong?.artists) ? currentSong?.artists?.map(artist => artist.name).join(', ') : currentSong?.artists || 'Unknown Artist'
   const thumbnailUrl = currentSong?.thumbnails?.[0]?.url
+
+  const handleNextSong = useCallback(
+    throttle(()=>{
+      playNextSong()
+    }, 0, {trailing : false}),
+    []
+  )
+
+  const handlePrevSong = useCallback(
+    throttle(()=>{
+      playPrevSong()
+    }, 3000, {trailing : false}),
+    []
+  )
 
   return (
     <div className="relative flex justify-between w-full gap-3 p-3 bg-gray-950 z-90">
@@ -203,7 +220,7 @@ const Player = memo(({
           </button>
           
           {/* Previous button */}
-          <button className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
+          <button onClick={handlePrevSong} className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
             <SkipBack className="w-5 h-5" />
           </button>
 
@@ -216,7 +233,7 @@ const Player = memo(({
           />
 
           {/* Next button */}
-          <button className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
+          <button onClick={handleNextSong} className="hidden p-2 text-gray-400 transition-all duration-200 rounded-full xs:block hover:text-white hover:bg-gray-700/50">
             <SkipForward className="w-5 h-5" />
           </button>
 

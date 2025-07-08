@@ -86,9 +86,34 @@ const useMusicPlayerStore = create((set, get) => ({
 
   },
 
+  playPrevSong: () => {
+    const currentSongIndex = get().songList.findIndex((song) => song.videoId === get().currentSong.videoId)
+    if(currentSongIndex > 0){
+      const nextSong = get().songList[currentSongIndex - 1]
+      set({ currentSong: nextSong })
+    }else{
+      get().playerRef.current.seekTo(0, true)
+        get().playerRef.current.playVideo()
+    }
+  },
+
   playNextSong: async () => {
     const getSongRecommendation = useGetSongRecommendation.getState().getSongRecommendation
     const currentSongIndex = get().songList.findIndex((song) => song.videoId === get().currentSong.videoId)
+
+    console.log({currentSongIndex, songList: get().songList})
+
+    // If current song is at the end of song list, provide a new set of songs
+    if(currentSongIndex === get().songList.length - 1){
+      const songRecommendations = await getSongRecommendation(get().currentSong.videoId)
+      const newSongs = songRecommendations.tracks.filter((song) => song.videoId !== get().currentSong.videoId)
+      if(songRecommendations){
+        const newSongList = [...get().songList]
+        newSongList.push(...newSongs)
+        set({ songList:  newSongList})
+      }
+    }
+
     const nextSong = get().songList[currentSongIndex + 1]
 
     if(get().songList.length === 0){
@@ -99,6 +124,7 @@ const useMusicPlayerStore = create((set, get) => ({
       get().resetPlayer()
       return
     }
+
     switch(get().repeatSetting){
       case 'off':
         if(nextSong){

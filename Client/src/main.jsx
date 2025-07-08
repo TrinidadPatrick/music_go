@@ -20,6 +20,7 @@ createRoot(document.getElementById('root')).render(
         </div>
         <div className='z-[9999] flex-shrink-0 w-full bg-blue-100'>
           <MusicPlayer />
+          <Toaster position='bottom-right' />
         </div>
       </div>
     </AuthProvider>

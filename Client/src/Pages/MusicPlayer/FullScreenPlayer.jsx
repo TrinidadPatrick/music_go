@@ -1,6 +1,8 @@
 import React, { memo } from 'react'
 import { Play, Pause, SkipBack, SkipForward, Volume2, Shuffle, Repeat, Music, Loader, Repeat1, Video, FileText, Share, Share2, Heart, Clock, Headset, Calendar } from 'lucide-react'
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
+import useLibraryStore from '@/Stores/AuthMusicStores/LibraryStore'
+import useSongDetails from '@/Stores/SongDetailStore'
 
 const formatTime = (seconds) => {
   if (!seconds || isNaN(seconds)) return '0:00'
@@ -158,12 +160,30 @@ const FullScreenPlayer = memo(({
   const shuffleOn = useMusicPlayerStore(state => state.shuffleOn)
   const toggleShuffle = useMusicPlayerStore(state => state.toggleShuffle)
   const songDetails = useMusicPlayerStore(state => state.songDetails)
+  const saveToLibrary = useLibraryStore( state => state.saveToLibrary)
+  const library = useLibraryStore( state => state.library)
+  const getSongDetails = useSongDetails(state => state.getSongDetails)
   const artistNames = Array.isArray(currentSong?.artists) ? currentSong?.artists?.map(artist => artist.name).join(', ') : currentSong?.artists || 'Unknown Artist'
   const publishDate = songDetails && new Date(songDetails?.microformat?.microformatDataRenderer?.publishDate).toLocaleDateString('EN-US', {
     year: '2-digit',
     month: '2-digit',
     day: '2-digit'
   }).replace(/\//g, '-')
+
+  const handleSave = async () => {
+    const data = songDetails.videoDetails;
+    const songData = {
+      videoId: data.videoId,
+      title: data.title,
+      artists: [{ name: data.author }],
+      album: null,
+      duration_seconds: data.lengthSeconds,
+      thumbnails: data.thumbnail ? data.thumbnail.thumbnails : null,
+    };
+    saveToLibrary(songData)
+  }
+
+  const isSaved = library?.library_songs?.some((song) => song?.videoId === songDetails?.videoDetails?.videoId)
 
   return (
     <div className="flex flex-col items-center justify-between w-full p-3 gap-9 -translate-y-27 sm:gap-5 bg-gray-950">
@@ -254,8 +274,8 @@ const FullScreenPlayer = memo(({
           </button>
 
           {/* Save */}
-          <button className="p-2 text-white transition-colors rounded-full hover:text-white">
-                <Heart className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5 hover:text-white" />
+          <button onClick={handleSave} className="p-2 text-white transition-colors rounded-full hover:text-white">
+                <Heart fill={isSaved ? 'red' : ''} className={`w-4 h-4 ${isSaved ? 'text-red-500' : 'text-gray-400 hover:text-white'} sm:w-5 sm:h-5 `} />
           </button>
         </div>
          </div>

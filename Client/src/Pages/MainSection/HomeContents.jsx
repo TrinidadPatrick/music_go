@@ -253,7 +253,7 @@ const HomeContents = () => {
 
         <div className="flex flex-col gap-1 mt-2">
           <h3 className="text-[0.8rem] sm:text-sm md:text-base text-white line-clamp-2 text-start font-medium">
-            {track.title}
+            {track?.title}
           </h3>
           <p className="text-[0.7rem] sm:text-xs md:text-sm text-gray-400">
             {formatArtists(track?.artists)}
@@ -315,7 +315,7 @@ const HomeContents = () => {
       </ModalComponent>
 
       {
-      !homeContents.length ? <HomeLoader /> :
+      homeContents.length === 0 ? <HomeLoader /> :
       homeContents.map((content, index) => {
         const isQuickPicks = content?.title === "Quick picks"
         
@@ -358,7 +358,7 @@ const HomeContents = () => {
                 <div className="flex gap-3 w-max">
                   {content?.contents?.map((track, trackIndex) => (
                     <TrackItem 
-                      key={`card-${track.videoId || track.playlistId || track.browseId}-${trackIndex}`}
+                      key={`card-${track?.videoId || track?.playlistId || track?.browseId}-${trackIndex}`}
                       track={track} 
                       index={trackIndex} 
                       isQuickPicks={false} 

@@ -2,8 +2,11 @@ from fastapi import APIRouter, Query, HTTPException
 from ytmusicapi import YTMusic
 from fastapi.responses import JSONResponse
 from typing import Optional
+from dotenv import load_dotenv
 import logging
 import os
+
+load_dotenv()
 
 browser_json = os.getenv("YTMUSIC_BROWSER_JSON")
 
@@ -11,7 +14,7 @@ with open("browser.json", "w") as f:
     f.write(browser_json)
 
 router = APIRouter()
-ytmusic = YTMusic("browser.json")
+ytmusic = YTMusic()
 
 @router.get("/charts")
 def get_charts():

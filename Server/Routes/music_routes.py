@@ -11,19 +11,22 @@ load_dotenv()
 
 browser_json = os.getenv("YTMUSIC_BROWSER_JSON")
 
+# print(browser_json)
+
 with open("browser.json", "w") as f:
     f.write(browser_json)
+
 
 router = APIRouter()
 ytmusic = YTMusic("browser.json")
 
-# @router.get("/charts")
-# def get_charts():
-#     try:
-#         results = ytmusic.get_charts(country="US");
-#         return results
-#     except Exception as e:
-#         print(e)
+@router.get("/charts")
+def get_charts():
+    try:
+        results = ytmusic.get_charts(country="US");
+        return results
+    except Exception as e:
+        print(e)
 
 @router.get("/home")
 def get_homes():

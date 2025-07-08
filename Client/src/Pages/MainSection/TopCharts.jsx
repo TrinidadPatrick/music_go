@@ -25,7 +25,7 @@ const TopCharts = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
-    // getCharts();
+    getCharts();
   }, []);
 
   const isSaved = (videoId) => {

@@ -19,11 +19,12 @@ with open("browser.json", "w") as f:
 
 router = APIRouter()
 ytmusic = YTMusic("browser.json")
+ytmusicPublic = YTMusic()
 
 @router.get("/charts")
 def get_charts():
     try:
-        results = ytmusic.get_charts(country="US");
+        results = ytmusicPublic.get_charts(country="US");
         return results
     except Exception as e:
         print(e)
@@ -31,7 +32,7 @@ def get_charts():
 @router.get("/home")
 def get_homes():
     print("Hello")
-    results = ytmusic.get_home();
+    results = ytmusicPublic.get_home();
     print(results)
     return results
 

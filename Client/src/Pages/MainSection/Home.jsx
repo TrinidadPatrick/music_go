@@ -87,9 +87,9 @@ const Home = () => {
         </div>
 
         {/* TopCharts Section - no individual scrolling */}
-        {/* <section className='flex-shrink-0'>
+        <section className='flex-shrink-0'>
           <TopCharts />
-        </section> */}
+        </section>
 
         {/* HomeContents Section - no individual scrolling */}
         <section className='flex-shrink-0 flex gap-3 overflow-x-scroll'>

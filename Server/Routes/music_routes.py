@@ -8,6 +8,7 @@ import os
 
 # load_dotenv()
 
+
 browser_json = os.getenv("YTMUSIC_BROWSER_JSON")
 
 with open("browser.json", "w") as f:

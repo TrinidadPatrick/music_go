@@ -101,8 +101,6 @@ const useMusicPlayerStore = create((set, get) => ({
     const getSongRecommendation = useGetSongRecommendation.getState().getSongRecommendation
     const currentSongIndex = get().songList.findIndex((song) => song.videoId === get().currentSong.videoId)
 
-    console.log({currentSongIndex, songList: get().songList})
-
     // If current song is at the end of song list, provide a new set of songs
     if(currentSongIndex === get().songList.length - 1){
       const songRecommendations = await getSongRecommendation(get().currentSong.videoId)

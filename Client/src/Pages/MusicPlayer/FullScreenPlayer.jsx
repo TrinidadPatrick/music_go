@@ -171,8 +171,8 @@ const FullScreenPlayer = memo(({
   }).replace(/\//g, '-')
 
   const handleSave = async () => {
-    const songDetails = await getSongDetails(songDetails.videoDetails.videoId);
-    const data = songDetails.videoDetails;
+    const songDetail = await getSongDetails(songDetails.videoDetails.videoId);
+    const data = songDetail.videoDetails;
     const songData = {
       videoId: data.videoId,
       title: data.title,

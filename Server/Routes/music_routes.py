@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import logging
 import os
 
-load_dotenv()
+# load_dotenv()
 
 browser_json = os.getenv("YTMUSIC_BROWSER_JSON")
 

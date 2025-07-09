@@ -155,7 +155,7 @@ const Player = memo(({
   const handleNextSong = useCallback(
     throttle(()=>{
       playNextSong()
-    }, 0, {trailing : false}),
+    }, 3000, {trailing : false}),
     []
   )
 

@@ -3,6 +3,7 @@ import { Play, Pause, SkipBack, SkipForward, Volume2, Shuffle, Repeat, Music, Lo
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
 import useLibraryStore from '@/Stores/AuthMusicStores/LibraryStore'
 import useSongDetails from '@/Stores/SongDetailStore'
+import { throttle } from 'lodash'
 
 const formatTime = (seconds) => {
   if (!seconds || isNaN(seconds)) return '0:00'
@@ -163,6 +164,8 @@ const FullScreenPlayer = memo(({
   const saveToLibrary = useLibraryStore( state => state.saveToLibrary)
   const library = useLibraryStore( state => state.library)
   const getSongDetails = useSongDetails(state => state.getSongDetails)
+  const playNextSong = useMusicPlayerStore(state => state.playNextSong)
+  const playPrevSong = useMusicPlayerStore(state => state.playPrevSong)
   const artistNames = Array.isArray(currentSong?.artists) ? currentSong?.artists?.map(artist => artist.name).join(', ') : currentSong?.artists || 'Unknown Artist'
   const publishDate = songDetails && new Date(songDetails?.microformat?.microformatDataRenderer?.publishDate).toLocaleDateString('EN-US', {
     year: '2-digit',
@@ -183,6 +186,20 @@ const FullScreenPlayer = memo(({
     };
     saveToLibrary(songData);
   }
+
+  const handleNextSong = useCallback(
+    throttle(()=>{
+      playNextSong()
+    }, 3000, {trailing : false}),
+    []
+  )
+
+  const handlePrevSong = useCallback(
+    throttle(()=>{
+      playPrevSong()
+    }, 3000, {trailing : false}),
+    []
+  )
 
   const isSaved = library?.library_songs?.some((song) => song?.videoId === songDetails?.videoDetails?.videoId)
 
@@ -245,7 +262,7 @@ const FullScreenPlayer = memo(({
           </button>
           
           {/* Previous button */}
-          <button className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
+          <button onClick={handlePrevSong} className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
             <SkipBack className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
@@ -258,7 +275,7 @@ const FullScreenPlayer = memo(({
           />
 
           {/* Next button */}
-          <button className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
+          <button onClick={handleNextSong} className="p-2 text-gray-200 transition-all duration-200 rounded-full hover:text-white hover:bg-gray-700/50">
             <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 

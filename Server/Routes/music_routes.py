@@ -10,7 +10,7 @@ load_dotenv()
 
 
 oauth_json = os.getenv("OAUTH_JSON")
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_ID = os.getenv("CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
 # print(browser_json)
@@ -34,7 +34,6 @@ def get_charts():
 @router.get("/home")
 def get_homes():
     results = ytmusicPublic.get_home();
-    print(results)
     return results
 
 @router.get("/autoComplete")

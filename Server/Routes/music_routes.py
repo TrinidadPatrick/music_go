@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Query, HTTPException
-from ytmusicapi import YTMusic
+from ytmusicapi import OAuthCredentials, YTMusic
 from fastapi.responses import JSONResponse
 from typing import Optional
 from dotenv import load_dotenv
@@ -9,16 +9,18 @@ import os
 load_dotenv()
 
 
-browser_json = os.getenv("YTMUSIC_BROWSER_JSON")
+oauth_json = os.getenv("OAUTH_JSON")
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("OAUTH_JSON")
 
 # print(browser_json)
 
-with open("browser.json", "w") as f:
-    f.write(browser_json)
+with open("oauth.json", "w") as f:
+    f.write(oauth_json)
 
 
 router = APIRouter()
-ytmusic = YTMusic("browser.json")
+ytmusic = YTMusic("oauth.json", oauth_credentials=OAuthCredentials(client_id=GOOGLE_CLIENT_ID, client_secret=GOOGLE_CLIENT_SECRET))
 ytmusicPublic = YTMusic()
 
 @router.get("/charts")

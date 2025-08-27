@@ -33,7 +33,7 @@ const Signup = () => {
     
     if(!hasError){
       try {
-        const result = await http.post('/user/auth/register', userInfo)
+        const result = await http.post('/user/auth/register/', userInfo)
         console.log(result)
         if(result.status === 200){
           window.location.href = '/'

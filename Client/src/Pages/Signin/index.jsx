@@ -38,7 +38,7 @@ const Signin = () => {
     
     if(!hasError){
       try {
-        const result = await http.post('/user/auth/login', userInfo, {
+        const result = await http.post('/user/auth/login/', userInfo, {
           withCredentials: true
         })
         // console.log(result)

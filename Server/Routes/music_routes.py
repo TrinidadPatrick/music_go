@@ -112,7 +112,7 @@ def get_lyrics(browseId: str = Query(...)):
         return JSONResponse(content={"error": "Failed to fetch lyrics"}, status_code=500)
     
 @router.get("/get_watch_playlist")
-def get_watch_playlist(videoId: str = Query(...)):
+def get_watch_playlist_public(videoId: str = Query(...)):
     try:
         results = ytmusicPublic.get_watch_playlist(videoId=videoId)
         return results

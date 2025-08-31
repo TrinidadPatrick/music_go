@@ -1,11 +1,12 @@
 from django.urls import path
-from . import views
+from .views import RegisterView, LoginView, UserInfoView, GoogleCallback, GoogleLoginStart
 
 urlpatterns = [
-    path("me/", views.get_user_info),
-    path("auth/login/", views.login),
-    path("auth/register/", views.register),
-    # path("auth/login/google/", views.google_login),
-    # path("auth/callback/", views.google_callback),
+    path("me/", UserInfoView.as_view(), name="user-info"),
+    path("auth/login/", LoginView.as_view(), name="login"),
+    path("auth/register/", RegisterView.as_view(), name="register"),
+    # path("playlists/", PlaylistListView.as_view(), name="playlist-list"),
+    path("auth/login/google/", GoogleLoginStart.as_view(), name="google-login"),
+    path("auth/callback/", GoogleCallback.as_view(), name="google-callback"),
     # path("users/", views.get_users),
 ]

@@ -12,7 +12,6 @@ class AuthMiddleware(MiddlewareMixin):
     
     def process_request(self, request):
         token = request.COOKIES.get("access_token")
-
         if token:
             try:
                 payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

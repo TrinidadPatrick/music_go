@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4061f969-6668-4901-8415-d7de00fb305d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Client/src/Pages/MainSection/HomeContents.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/Pages/MainSection/HomeContents.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/Pages/Playlist/UserPlaylist.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/Pages/Playlist/UserPlaylist.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/Stores/AuthMusicStores/LibraryStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/Stores/AuthMusicStores/LibraryStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/Stores/AuthMusicStores/UserPlaylistStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/Stores/AuthMusicStores/UserPlaylistStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Routes/music_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Routes/music_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/middleware/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/middleware/auth.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/serializer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/account/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/serializer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music_go_be_v2/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music_go_be_v2/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music_go_be_v2/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music_go_be_v2/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/music_go_be_v2/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerV2/requirements.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="32J3abXbN1o12K26sciqPcwfIqh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Ptrin/Desktop/MyWorkDocuments/Portfolio/Projects Folder/music_go",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
+        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4061f969-6668-4901-8415-d7de00fb305d" name="Changes" comment="" />
+      <created>1757124912294</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1757124912294</updated>
+      <workItem from="1757124913549" duration="32000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

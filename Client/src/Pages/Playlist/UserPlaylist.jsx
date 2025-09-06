@@ -136,7 +136,7 @@ const UserPlaylist = () => {
   }
 
   const ConfirmDelete = () => {
-    const playlist = userPlaylist?.playlists.find((playlist) => playlist.playlist_id === playlistId)
+    const playlist = userPlaylist?.playlists?.find((playlist) => playlist.playlist_id === playlistId)
 
     if(playlist){
       return (
@@ -157,6 +157,8 @@ const UserPlaylist = () => {
       )
     }
   }
+
+  console.log(userPlaylist)
 
   const PlaylistOverview = () => (
     <div className="h-full p-3 sm:p-8">

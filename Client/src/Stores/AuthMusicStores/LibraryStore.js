@@ -28,7 +28,7 @@ const useLibraryStore = create((set, get) => ({
   saveToLibrary: async (song) => {
     set({ isLoading: true })
     try {
-      const result = await http.post('auth/music/save_song', song)
+      const result = await http.post('auth/music/save_song/', song)
       toast.success(result.data.message);
       get().getLibrary()
 
@@ -43,7 +43,7 @@ const useLibraryStore = create((set, get) => ({
   getLibrary: async () => {
     set({ isLoading: true })
     try {
-      const result = await http.get('auth/music/get_library')
+      const result = await http.get('auth/music/get_library/')
       set({ library: result.data.data })
     } catch (error) {
       console.log(error)

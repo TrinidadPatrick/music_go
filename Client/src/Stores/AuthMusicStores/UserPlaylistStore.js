@@ -65,7 +65,7 @@ const useUserPlaylistStore = create((set, get) => ({
   createPlaylist: async (data, notify) => {
     set({ isLoading: true })
     try {
-      const result = await http.post('auth/music/create_playlist', data)
+      const result = await http.post('auth/music/create_playlist/', data)
       if(result.status === 200){
         notify(result.data.message)
         get().getUserPlaylists()
@@ -98,6 +98,7 @@ const useUserPlaylistStore = create((set, get) => ({
         set({ isLoading: false })
     }
   },
+
   deletePlaylist: async (playlistId, notify) => {
     set({ isLoading: true })
     try {
@@ -119,7 +120,8 @@ const useUserPlaylistStore = create((set, get) => ({
   getUserPlaylists: async () => {
     set({ isLoading: true })
     try {
-      const result = await http.get('auth/music/get_playlists')
+      const result = await http.get('auth/music/get_playlists/')
+      console.log(result.data.data)
       if(result.data){
         set({ userPlaylist: result.data.data })
       }else{

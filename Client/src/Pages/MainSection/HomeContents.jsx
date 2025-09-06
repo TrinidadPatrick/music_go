@@ -263,6 +263,8 @@ const HomeContents = () => {
     )
   }, [selectedDropdown, currentSong?.videoId, handleSelect, MainDropDown, isAuthenticated, handleMoreOption])
 
+  console.log(user)
+
   return (
     <main className="flex flex-col w-full gap-4 p-2 md:p-6">
       {/* Move Modal outside of conditional rendering */}

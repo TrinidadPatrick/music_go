@@ -23,8 +23,6 @@ router = APIRouter()
 ytmusic = YTMusic("oauth.json", oauth_credentials=OAuthCredentials(client_id=GOOGLE_CLIENT_ID, client_secret=GOOGLE_CLIENT_SECRET))
 ytmusicPublic = YTMusic()
 
-print(ytmusic)
-
 @router.get("/charts")
 def get_charts():
     try:
@@ -53,7 +51,7 @@ def search_music(q: str = Query(...), filter=Query(...), limit : int =Query(...)
 
 @router.get("/song")
 def get_song(videoId: str = Query(...)):
-    results = ytmusicPublic.get_song(videoId)
+    results = ytmusic.get_song(videoId)
     return results
 
 @router.get("/next_song_reco")

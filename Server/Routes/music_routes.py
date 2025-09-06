@@ -51,7 +51,7 @@ def search_music(q: str = Query(...), filter=Query(...), limit : int =Query(...)
 
 @router.get("/song")
 def get_song(videoId: str = Query(...)):
-    results = ytmusicPublic.get_song(videoId)
+    results = ytmusic.get_song(videoId)
     return results
 
 @router.get("/next_song_reco")

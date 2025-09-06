@@ -13,7 +13,7 @@ oauth_json = os.getenv("OAUTH_JSON")
 GOOGLE_CLIENT_ID = os.getenv("CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
-# print(browser_json)
+print("OAUTH: ", oauth_json)
 
 with open("oauth.json", "w") as f:
     f.write(oauth_json)

@@ -26,7 +26,7 @@ ytmusicPublic = YTMusic()
 @router.get("/charts")
 def get_charts():
     try:
-        results = ytmusicPublic.get_charts(country="US");
+        results = ytmusicPublic.get_charts(country="US")
         return results
     except Exception as e:
         print(e)

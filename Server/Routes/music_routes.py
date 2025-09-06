@@ -105,7 +105,7 @@ def get_artist_albums(channelId: str = Query(...), params: str = Query(...)):
 @router.get('/lyrics')
 def get_lyrics(browseId: str = Query(...)):
     try:
-        results = ytmusicPublic.get_lyrics(browseId, timestamps=True)
+        results = ytmusic.get_lyrics(browseId, timestamps=True)
         return results
     except Exception as e:
         print(f"Error in get_lyrics: {e}")

@@ -51,7 +51,7 @@ def search_music(q: str = Query(...), filter=Query(...), limit : int =Query(...)
 
 @router.get("/song")
 def get_song(videoId: str = Query(...)):
-    results = ytmusic.get_song(videoId)
+    results = ytmusicPublic.get_song(videoId)
     return results
 
 @router.get("/next_song_reco")
@@ -105,7 +105,7 @@ def get_artist_albums(channelId: str = Query(...), params: str = Query(...)):
 @router.get('/lyrics')
 def get_lyrics(browseId: str = Query(...)):
     try:
-        results = ytmusic.get_lyrics(browseId, timestamps=True)
+        results = ytmusicPublic.get_lyrics(browseId, timestamps=True)
         return results
     except Exception as e:
         print(f"Error in get_lyrics: {e}")

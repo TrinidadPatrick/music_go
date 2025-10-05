@@ -1,3 +1,5 @@
+import json
+
 from fastapi import APIRouter, Query, HTTPException
 from ytmusicapi import OAuthCredentials, YTMusic
 from fastapi.responses import JSONResponse
@@ -13,7 +15,6 @@ oauth_json = os.getenv("OAUTH_JSON")
 GOOGLE_CLIENT_ID = os.getenv("CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
-print("OAUTH: ", oauth_json)
 
 with open("oauth.json", "w") as f:
     f.write(oauth_json)
@@ -23,6 +24,7 @@ router = APIRouter()
 ytmusic = YTMusic("oauth.json", oauth_credentials=OAuthCredentials(client_id=GOOGLE_CLIENT_ID, client_secret=GOOGLE_CLIENT_SECRET))
 ytmusicPublic = YTMusic()
 
+print(vars(ytmusic))
 @router.get("/charts")
 def get_charts():
     try:

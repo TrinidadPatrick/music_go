@@ -17,8 +17,8 @@ GOOGLE_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
 
 
-# with open("oauth.json", "w") as f:
-#     f.write(oauth_json)
+with open("oauth.json", "w") as f:
+    f.write(oauth_json)
 
 oauth_credentials = OAuthCredentials(
     client_id=GOOGLE_CLIENT_ID,
@@ -28,8 +28,6 @@ oauth_credentials = OAuthCredentials(
 router = APIRouter()
 ytmusic = YTMusic("oauth.json", oauth_credentials=oauth_credentials)
 ytmusicPublic = YTMusic()
-
-print("ytmusic: ", ytmusic)
 
 @router.get("/charts")
 def get_charts():

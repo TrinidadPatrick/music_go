@@ -16,15 +16,21 @@ GOOGLE_CLIENT_ID = os.getenv("CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
 
-with open("oauth.json", "w") as f:
-    f.write(oauth_json)
 
+# with open("oauth.json", "w") as f:
+#     f.write(oauth_json)
+
+oauth_credentials = OAuthCredentials(
+    client_id=GOOGLE_CLIENT_ID,
+    client_secret=GOOGLE_CLIENT_SECRET
+)
 
 router = APIRouter()
-ytmusic = YTMusic("oauth.json", oauth_credentials=OAuthCredentials(client_id=GOOGLE_CLIENT_ID, client_secret=GOOGLE_CLIENT_SECRET))
+ytmusic = YTMusic("oauth.json", oauth_credentials=oauth_credentials)
 ytmusicPublic = YTMusic()
 
-print(vars(ytmusic))
+print("ytmusic: ", ytmusic)
+
 @router.get("/charts")
 def get_charts():
     try:
@@ -35,7 +41,7 @@ def get_charts():
 
 @router.get("/home")
 def get_homes():
-    results = ytmusicPublic.get_home();
+    results = ytmusicPublic.get_home()
     return results
 
 @router.get("/autoComplete")
@@ -68,7 +74,7 @@ def get_watch_playlist(videoId: str = Query(...)):
 @router.get("/playlist")
 def get_playlist(playlistId: str = Query(...)):
     try:
-        results = ytmusicPublic.get_playlist(playlistId=playlistId);
+        results = ytmusicPublic.get_playlist(playlistId=playlistId)
         if results["privacy"] == "PUBLIC":
             return results
         else:

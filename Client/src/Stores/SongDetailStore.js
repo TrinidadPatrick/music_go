@@ -8,7 +8,9 @@ const useSongDetails = create((set) => ({
   getSongDetails: async (videoId) => {
     set({ isLoading: true })
     try {
-        const result = await http.get(`music/song?videoId=${videoId}`)
+        const result = await http.get(`music/song?videoId=${videoId}`, {
+          withCredentials: true
+        })
         return result.data
     } catch (error) {
         console.log(error)

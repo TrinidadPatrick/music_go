@@ -169,30 +169,30 @@ const Album = () => {
 
                 {/* Duration & Heart – only More shown on mobile */}
                 <div className="flex items-center justify-center col-span-1 space-x-2 md:justify-center">
-                    <button
+                    {/* <button
                     onClick={(e) => {e.stopPropagation(); handleSaveSong(track)}}
                     className="items-center justify-center hidden text-gray-400 transition-all md:group-hover:flex hover:text-white group-hover:opacity-100"
                     >
                     <Heart fill={`${isSaved(track.videoId) ? 'white' : ''}`} size={16} />
-                    </button>
+                    </button> */}
                     <p className="hidden text-sm text-gray-400 sm:block">
                     {formatTime(track.duration_seconds)}
                     </p>
-                    <button
+                    {/* <button
                     onClick={(e) => e.stopPropagation()}
                     className="items-center justify-center hidden text-gray-400 transition-all md:group-hover:flex hover:text-white group-hover:opacity-100"
                     >
                     <MoreHorizontal size={16} />
-                    </button>
+                    </button> */}
                 </div>
 
                 {/* More */}
-                <button
+                {/* <button
                     onClick={(e) => e.stopPropagation()}
                     className="flex items-center justify-center text-gray-400 transition-all md:hidden hover:text-white group-hover:opacity-100"
                     >
                     <MoreHorizontal size={16} />
-                    </button>
+                </button> */}
                 </div>
             )})}
         </div>

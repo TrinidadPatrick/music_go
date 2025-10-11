@@ -2,17 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import usePublicPlaylistStore from '../../Stores/PublicPlaylistStore'
 import { 
-  Heart, 
-  Plus, 
   Play, 
   Pause, 
   MoreHorizontal, 
   Clock, 
-  Download,
   Share, 
   ShuffleIcon, 
   Music, 
-  PlayIcon, 
   BookMinus, 
   Library, 
   Disc, 
@@ -50,6 +46,7 @@ const Playlist = () => {
   
   const [selectedTrack, setSelectedTrack] = useState(null)
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const {isAuthenticated} = useAuth()
 
   useEffect(() => {
     getPlaylist(list, navigate)
@@ -423,9 +420,9 @@ const Playlist = () => {
                       <p className="hidden text-sm text-gray-400 sm:block">
                         {formatTime(track.duration_seconds)}
                       </p>
-                      <button onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }} className="items-center justify-center p-1 text-gray-400 transition-all rounded-full cursor-pointer md:hidden md:group-hover:flex hover:text-white group-hover:opacity-100 hover:bg-gray-900">
+                      {/* <button onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }} className="items-center justify-center p-1 text-gray-400 transition-all rounded-full cursor-pointer md:hidden md:group-hover:flex hover:text-white group-hover:opacity-100 hover:bg-gray-900">
                         <MoreHorizontal size={16} />
-                      </button>
+                      </button> */}
                       {
                       showDropdown(track) && 
                       (

@@ -215,7 +215,7 @@ const FullScreenPlayer = memo(({
             {artistNames}
           </p>
           {/* Other info */}
-          <div className='flex items-center gap-3 mx-auto mt-5 sm:mt-2'>
+          {/* <div className='flex items-center gap-3 mx-auto mt-5 sm:mt-2'>
             <div className='flex items-center gap-3 px-3 py-2 text-[0.6rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
                 <Clock className='w-3 h-3 text-blue-400 sm:w-h sm:h-4' />
                 <span>{formatTime(songDetails?.videoDetails?.lengthSeconds)}</span>
@@ -228,7 +228,7 @@ const FullScreenPlayer = memo(({
                 <Calendar className='w-3 h-3 text-orange-400 sm:w-h sm:h-4' />
                 <span>{publishDate}</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

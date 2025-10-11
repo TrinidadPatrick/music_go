@@ -11,11 +11,11 @@ from middleware import AuthMiddleWare
 app = FastAPI()
 
 origins = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "https://music-go.vercel.app",
     "https://music-go.vercel.app/",
-    "http://192.168.100.10:8000"
+    "http://192.168.100.10:3000"
 ]
 
 # Add session middleware first

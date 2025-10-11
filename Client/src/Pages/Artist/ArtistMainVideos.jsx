@@ -47,11 +47,11 @@ const ArtistMainVideos = () => {
                     const thumbnal = video.thumbnails && (video.thumbnails[1]?.url || video.thumbnails[0]?.url)
                     const isCurrentSong = currentSong?.videoId === video.videoId
                     return (
-                        <div key={index} onClick={()=>handleSelectSong(video)} className={`${isCurrentSong && 'bg-gray-900'} z-10 h-full p-2 rounded cursor-pointer flex flex-col gap-1 md:gap-2 justify-between relative`}>
+                        <div key={index} onClick={()=>handleSelectSong(video)} className={`${isCurrentSong && 'bg-gray-900'} min-w-40 md:min-w-56 w-50 z-10 h-full p-2 rounded cursor-pointer flex flex-col gap-1 md:gap-2 justify-between relative`}>
                             
                             <div className='relative z-10 group'>
                                 {/* Image */}
-                                <div className='flex-none overflow-hidden rounded group-hover:brightness-50 min-w-40 md:min-w-56 aspect-video'>
+                                <div className='flex-none overflow-hidden rounded group-hover:brightness-50 aspect-video bg-red-100 p-1'>
                                     {
                                         isCurrentSong &&
                                         <>
@@ -81,7 +81,7 @@ const ArtistMainVideos = () => {
 
                             {/* Title and artists */}
                             <div className="flex flex-col h-full md:gap-1">
-                                <p className="text-sm font-medium text-gray-100 line-clamp-2">{video.title}</p>
+                                <p className="text-sm font-medium text-gray-100 line-clamp-2 break-words">{video.title}</p>
                                 <p className="text-xs text-gray-400 md:text-sm">{video.artists ? video.artists.map((artist) => artist.name).join(', ') : ''} • {video?.views} views</p>
                             </div>
 

@@ -22,7 +22,7 @@ const MainArtists = () => {
   return results?.artists?.partial?.length > 0 && (
     <div className="flex flex-col flex-1 space-y-2">
         <h2 className="mb-4 text-2xl font-bold text-white">Artists</h2>
-        <div className='flex gap-3 overflow-x-scroll hide-scrollbar'>
+        <div className='flex gap-3 overflow-x-scroll'>
             {
                 results?.artists?.partial?.slice(0, 10)?.map((artist, index) => {
                     const thumbnail = artist.thumbnails && (artist.thumbnails[1]?.url || artist.thumbnails[0]?.url)

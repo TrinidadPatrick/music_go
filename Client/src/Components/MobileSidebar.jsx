@@ -37,14 +37,14 @@ const MobileSidebar = ({closeSidebar}) => {
             <Search size={20} />
                <span>Search</span>
           </button>
-          <button onClick={()=>{navigate('/user/library');closeSidebar()}} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
+          {/* <button onClick={()=>{navigate('/user/library');closeSidebar()}} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
             <Library size={20} />
              <span>Your Library</span>
           </button>
           <button onClick={()=> {navigate('/user/playlist');closeSidebar()}} className={`${(window.location.pathname === '/user/playlist' || window.location.pathname === '/user/playlist/detail' ) && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
             <Disc size={20} />
               <span className=' whitespace-nowrap'>Your Playlists</span>
-          </button>
+          </button> */}
         </nav>
 
         {/* Playlists */}

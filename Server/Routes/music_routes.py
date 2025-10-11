@@ -12,25 +12,23 @@ import os
 load_dotenv()
 
 
-oauth_json = os.getenv("OAUTH_JSON")
-GOOGLE_CLIENT_ID = os.getenv("CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+# oauth_json = os.getenv("OAUTH_JSON")
+# GOOGLE_CLIENT_ID = os.getenv("CLIENT_ID")
+# GOOGLE_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
 
 
-with open("oauth.json", "w") as f:
-    f.write(oauth_json)
-
-oauth_credentials = OAuthCredentials(
-    client_id=GOOGLE_CLIENT_ID,
-    client_secret=GOOGLE_CLIENT_SECRET
-)
+# with open("oauth.json", "w") as f:
+#     f.write(oauth_json)
+#
+# oauth_credentials = OAuthCredentials(
+#     client_id=GOOGLE_CLIENT_ID,
+#     client_secret=GOOGLE_CLIENT_SECRET
+# )
 
 router = APIRouter()
-ytmusic = YTMusic("oauth.json", oauth_credentials=oauth_credentials)
+# ytmusic = YTMusic("oauth.json", oauth_credentials=oauth_credentials)
 ytmusicPublic = YTMusic()
-
-print(vars(ytmusic))
 
 @router.get("/charts")
 def get_charts():
@@ -58,10 +56,10 @@ def search_music(q: str = Query(...), filter=Query(...), limit : int =Query(...)
     filtered_results = ytmusicPublic.search(query=q, filter=filter, limit=limit)
     return filtered_results
 
-@router.get("/song")
-def get_song(videoId: str = Query(...)):
-    results = ytmusic.get_song(videoId)
-    return results
+# @router.get("/song")
+# def get_song(videoId: str = Query(...)):
+#     results = ytmusic.get_song(videoId)
+#     return results
 
 @router.get("/next_song_reco")
 def get_watch_playlist(videoId: str = Query(...)):

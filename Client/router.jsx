@@ -43,38 +43,38 @@ const router = createBrowserRouter([
                 path: '/artist',
                 element: <ArtistView />
             },
-            {
-                path: '/signin',
-                element: <Signin />
-            },
-            {
-                path: '/signup',
-                element: <Signup />
-            }
+            // {
+            //     path: '/signin',
+            //     element: <Signin />
+            // },
+            // {
+            //     path: '/signup',
+            //     element: <Signup />
+            // }
         ]
     },
-    {
-        path: '/user',
-        element: <UserLayout />,
-        children: [
-            {
-                path: '/user/account',
-                element: <div></div>
-            },
-            {
-                path: '/user/library',
-                element: <UserLibary />
-            },
-            {
-                path: '/user/playlist',
-                element: <UserPlaylist />
-            },
-            {
-                path: '/user/playlist/detail',
-                element: <UserPlaylistDetail />
-            }
-        ]
-    },
+    // {
+    //     path: '/user',
+    //     element: <UserLayout />,
+    //     children: [
+    //         {
+    //             path: '/user/account',
+    //             element: <div></div>
+    //         },
+    //         {
+    //             path: '/user/library',
+    //             element: <UserLibary />
+    //         },
+    //         {
+    //             path: '/user/playlist',
+    //             element: <UserPlaylist />
+    //         },
+    //         {
+    //             path: '/user/playlist/detail',
+    //             element: <UserPlaylistDetail />
+    //         }
+    //     ]
+    // },
     {
         path: '*',
         element: <Navigate to='/' replace />

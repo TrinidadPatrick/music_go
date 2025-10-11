@@ -76,7 +76,7 @@ const Sidebar = () => {
           </div>
           
           <div className="space-y-2">
-            {['My Playlist #1'].map((playlist, index) => (
+            {/* {['My Playlist #1'].map((playlist, index) => (
               <a key={index} href="#" className="flex items-center p-2 space-x-3 text-gray-400 transition-colors rounded-lg hover:text-white hover:bg-white/5">
                 <div className="flex items-center justify-center w-10 h-10 rounded bg-gradient-to-br from-purple-500 to-pink-500">
                   {index === 0 ? <Heart size={16} color='white' /> : <Music size={16} color='white' />}
@@ -86,7 +86,7 @@ const Sidebar = () => {
                   <div className="text-xs text-gray-400">Playlist</div>
                 </div>
               </a>
-            ))}
+            ))} */}
           </div>
         </div>
         }

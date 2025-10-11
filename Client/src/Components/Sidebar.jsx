@@ -50,7 +50,7 @@ const Sidebar = () => {
               sidebarOpen && <span>Search</span>
             }
           </button>
-          <button onClick={()=>navigate('/user/library')} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} ${sidebarOpen ? 'w-full' : 'w-fit'} cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
+          {/* <button onClick={()=>navigate('/user/library')} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} ${sidebarOpen ? 'w-full' : 'w-fit'} cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
             <Library size={20} />
             {
               sidebarOpen && <span>Your Library</span>
@@ -61,7 +61,7 @@ const Sidebar = () => {
             {
               sidebarOpen && <span className=' whitespace-nowrap'>Your Playlists</span>
             }
-          </button>
+          </button> */}
         </nav>
 
         {/* Playlists */}

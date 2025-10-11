@@ -149,7 +149,7 @@ const Navbar = () => {
                   </div>
                 </div>
                 
-                {
+                {/* {
                   isAuthenticated === true ?
                   <div className="flex items-center space-x-2">
                     {user && <img referrerPolicy='no-referrer' src={user?.user?.profile_image || `https://avatar.iran.liara.run/public/boy?username=${user.name}`} className="w-8 bg-cover h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"></img>}
@@ -161,7 +161,7 @@ const Navbar = () => {
                       <button onClick={()=>{window.location.href = '/signin'}} className='text-gray-400 cursor-pointer hover:text-gray-500'>Sign In</button>
                     </div>
                   )
-                }
+                } */}
       </div>
           </div>
         

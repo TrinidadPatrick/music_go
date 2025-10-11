@@ -1,7 +1,8 @@
 import json
 
 from fastapi import APIRouter, Query, HTTPException
-from ytmusicapi import OAuthCredentials, YTMusic
+from ytmusicapi import YTMusic
+from ytmusicapi.auth.oauth.credentials import OAuthCredentials
 from fastapi.responses import JSONResponse
 from typing import Optional
 from dotenv import load_dotenv
@@ -28,6 +29,8 @@ oauth_credentials = OAuthCredentials(
 router = APIRouter()
 ytmusic = YTMusic("oauth.json", oauth_credentials=oauth_credentials)
 ytmusicPublic = YTMusic()
+
+print(vars(ytmusic))
 
 @router.get("/charts")
 def get_charts():

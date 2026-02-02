@@ -42,7 +42,7 @@ const ListLoader = () => {
           
           {/* Song Rows Skeleton */}
           {[...Array(8)].map((_, index) => (
-            <div key={index} className="grid grid-cols-12 gap-4 px-4 py-3 rounded-lg hover:bg-gray-800 group">
+            <div key={index} className="grid grid-cols-12 gap-4 px-4 py-3 rounded-lg hover:bg-secondary/20 group">
               {/* Track Number */}
               <div className="flex items-center col-span-1">
                 <div className="w-4 h-4 bg-gray-600 rounded animate-pulse"></div>

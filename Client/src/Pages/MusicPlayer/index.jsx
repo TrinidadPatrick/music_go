@@ -269,7 +269,7 @@ const MusicPlayer = () => {
   }
 
   return  (
-    <div className="bottom-0 right-0 flex w-full overflow-hidden bg-gray-950">
+    <div className="bottom-0 right-0 flex w-full overflow-hidden bg-card">
   <div className="flex flex-col w-full h-full">
 
     {/* Full Screen Player */}
@@ -281,7 +281,7 @@ const MusicPlayer = () => {
       style={{ position: 'absolute', width: width <= 1023 ? '100%' : `calc(100% - ${sidebarWidth}px)` }}
       className="bottom-0 right-0 z-50 flex overflow-hidden"
     >
-      <div className="flex flex-col items-center justify-start w-full bg-gray-950 z-90">
+      <div className="flex flex-col items-center justify-start w-full bg-card z-90">
 
         {/* Header */}
         <div className="flex justify-between w-full p-5">
@@ -305,10 +305,10 @@ const MusicPlayer = () => {
 
         {/* YouTube Player */}
         <div className='relative'>
-            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-gray-950  top-0' />
+            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-card  top-0' />
             <YoutubePlayer activeTab={activeTab} />
             <LyricsPlayer activeTab={activeTab} currentTime={currentTime} />
-            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-gray-950  bottom-0' />
+            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-card  bottom-0' />
         </div>
 
         {/* FullScreenPlayer */}

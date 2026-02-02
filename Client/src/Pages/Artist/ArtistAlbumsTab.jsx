@@ -55,7 +55,7 @@ const ArtistAlbumsTab = () => {
         <div className="flex flex-col flex-1 space-y-2">
             {artistData?.albums?.all?.map((album, index) => {
             return (
-                <div onClick={() => handleSelectSong(album)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelectSong(album)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                     {
                         selectedItem === album &&
                         <div className='absolute right-56 top-5'>

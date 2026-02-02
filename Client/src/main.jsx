@@ -13,7 +13,7 @@ Modal.setAppElement('#root');
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <div className='h-[100svh] flex flex-col overflow-hidden bg-[linear-gradient(135deg,_rgba(0,0,0,0.9)_0%,_rgba(26,26,46,0.9)_100%)]'>
+      <div className='h-[100svh] flex flex-col overflow-hidden bg-background'>
         <div className='flex flex-col flex-1 min-h-0'>
           <RouterProvider router={router} />
           <Toaster position='bottom-right' />

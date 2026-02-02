@@ -42,7 +42,7 @@ const ArtistMainAlbums = () => {
                 artistData?.albums?.partial?.map((album, index) => {
                     const thumbnaill = album.thumbnails && (album.thumbnails[1]?.url || album.thumbnails[0]?.url)
                     return (
-                        <div onClick={() => handleSelectSong(album)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                        <div onClick={() => handleSelectSong(album)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                     {
                         selectedItem === album &&
                         <div className='absolute top-0 right-56'>

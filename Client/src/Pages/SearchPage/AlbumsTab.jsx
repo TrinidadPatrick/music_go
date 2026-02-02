@@ -38,7 +38,7 @@ const AlbumsTab = () => {
             {(results?.albums?.all?.length > 0 ? results?.albums?.all : results?.albums?.partial)?.map((album, index) => {
             const isCurrentSong = false
             return (
-                <div onClick={() => handleSelectSong(album)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelectSong(album)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                     {
                         selectedItem === album &&
                         <div className='absolute right-56 top-0'>

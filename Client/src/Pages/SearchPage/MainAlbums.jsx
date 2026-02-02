@@ -33,7 +33,7 @@ const MainAlbums = () => {
             <h2 className="text-2xl font-bold mb-4 text-white">Albums</h2>
             {results?.albums?.partial?.slice(0,10)?.map((album, index) => {
             return (
-                <div onClick={() => handleSelectSong(album)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelectSong(album)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                     {
                         selectedItem === album &&
                         <div className='absolute right-56 top-0'>

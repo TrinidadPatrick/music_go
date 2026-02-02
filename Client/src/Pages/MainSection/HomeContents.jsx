@@ -143,8 +143,8 @@ const HomeContents = () => {
       return (
         <div
           onClick={() => handleSelect(track)}
-          className={`group relative w-full cursor-pointer bg-gradient-to-br from-black/20 to-black/10 backdrop-blur-lg 
-          rounded-2xl p-3 transition-all duration-500 hover:shadow-2xl border border-white/10 
+          className={`group relative w-full cursor-pointer bg-secondary/50 hover:bg-secondary backdrop-blur-lg 
+          rounded-2xl p-3 transition-all duration-500 hover:shadow-2xl
           flex gap-3 justify-between items-center ${show ? 'z-50' : 'z-10'}`}
         >
           {show && 
@@ -152,9 +152,6 @@ const HomeContents = () => {
               <MainDropDown track={track} onSave={handleSaveToLibrary} onSelectPlaylist={selectPlaylist} isSaved={isSaved} />
             </div>
           }
-          
-          {/* Hover overlay */}
-          <div className={`${isCurrentSong ? 'block' : 'hidden'} group-hover:block w-full h-full opacity-50 bg-gray-800 rounded-2xl absolute top-0 left-0 z-10`} />
 
           {/* Image and Title */}
           <div className='relative z-20 flex items-center flex-1 min-w-0 gap-3'>
@@ -171,7 +168,7 @@ const HomeContents = () => {
               />
             </div>
             <div className='flex flex-col justify-center flex-1 min-w-0 gap-1'>
-              <h1 className={`font-medium ${isCurrentSong ? 'text-green-500' : 'text-gray-200'} line-clamp-1`}>
+              <h1 className={`text-sm font-medium ${isCurrentSong ? 'text-green-500' : 'text-gray-200'} line-clamp-1`}>
                 {track.title}
               </h1>
               <p className='text-sm text-gray-400 line-clamp-1'>
@@ -200,8 +197,8 @@ const HomeContents = () => {
     return (
       <div
         onClick={() => handleSelect(track)}
-        className={`group cursor-pointer relative bg-gradient-to-br from-black/20 to-black/10 backdrop-blur-lg 
-          rounded-2xl p-3 transition-all duration-500 hover:shadow-2xl border border-white/10 
+        className={`group cursor-pointer relative backdrop-blur-lg 
+          p-0 transition-all duration-500 rounded-t-lg
           flex-shrink-0 w-45 md:w-60 overflow-hidden flex flex-col ${show ? 'z-50' : 'z-10'}`}
       >
         {isAuthenticated && (
@@ -229,7 +226,7 @@ const HomeContents = () => {
         <button
           className={`p-3 ${
             isCurrentSong ? 'block' : 'hidden'
-          } cursor-pointer w-14 h-14 justify-center items-center group-hover:flex rounded-full bg-white/80 shadow-2xl absolute z-40 left-1/2 transform -translate-x-1/2 top-24`}
+          } cursor-pointer w-14 h-14 justify-center items-center group-hover:flex rounded-full bg-primary shadow-2xl absolute z-40 left-1/2 transform -translate-x-1/2 top-24`}
         >
           {isCurrentSong ? (
             <EqualizerAnimation />
@@ -237,33 +234,27 @@ const HomeContents = () => {
             <Play className="flex items-center justify-center text-gray-700 transition-transform duration-200 cursor-pointer" />
           )}
         </button>
-
+        
+        <div className='overflow-hidden rounded-lg group-hover:brightness-75'>
         <div
-          className={`${
-            isCurrentSong ? 'block' : 'hidden'
-          } group-hover:block w-full h-full opacity-50 brightness-0 z-20 bg-black absolute top-0 left-0`}
-        />
-
-        <div
-          className="flex items-center justify-center w-full bg-center bg-no-repeat bg-cover rounded-lg opacity-75 aspect-square"
+          className="group-hover:scale-105 transition ease-in-out duration-300 flex items-center justify-center w-full bg-center bg-no-repeat bg-cover rounded-lg opacity-75 aspect-square"
           style={{
             backgroundImage: `url(${track?.thumbnails?.[1]?.url || track?.thumbnails?.[0]?.url})`,
           }}
         />
+        </div>
 
         <div className="flex flex-col gap-1 mt-2">
-          <h3 className="text-[0.8rem] sm:text-sm md:text-base text-white line-clamp-2 text-start font-medium">
+          <h3 className="text-[0.7rem] sm:text-[0.75rem] md:text-[0.9rem] text-white line-clamp-2 text-start font-medium">
             {track?.title}
           </h3>
-          <p className="text-[0.7rem] sm:text-xs md:text-sm text-gray-400">
+          <p className="text-[0.7rem] sm:text-xs md:text-[0.8rem] text-gray-400">
             {formatArtists(track?.artists)}
           </p>
         </div>
       </div>
     )
   }, [selectedDropdown, currentSong?.videoId, handleSelect, MainDropDown, isAuthenticated, handleMoreOption])
-
-  console.log(user)
 
   return (
     <main className="flex flex-col w-full gap-4 p-2 md:p-6">
@@ -323,7 +314,7 @@ const HomeContents = () => {
         return (
           <div key={`${content.title}-${index}`} className="flex flex-col gap-3">
             <div>
-              <h2 className="font-bold text-white sm:text-lg md:text-2xl">{content.title}</h2>
+              <h2 className="font-semibold text-gray-200 sm:text-lg md:text-2xl">{content.title}</h2>
             </div>
 
             {isQuickPicks ? (

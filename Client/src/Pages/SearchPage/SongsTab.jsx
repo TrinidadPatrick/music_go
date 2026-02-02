@@ -53,7 +53,7 @@ const SongsTab = () => {
             {(results?.songs?.all?.length > 0 ? results?.songs?.all : results?.songs?.partial)?.map((song, index) => {
             const isCurrentSong = currentSong?.videoId === song.videoId
             return (
-                <div onClick={() => handleSelectSong(song)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelectSong(song)} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                     {
                         selectedItem === song &&
                         <SelectedDropdown />

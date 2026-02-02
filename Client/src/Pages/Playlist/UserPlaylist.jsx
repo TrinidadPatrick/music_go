@@ -252,7 +252,7 @@ const UserPlaylist = () => {
             <div 
               key={playlist.playlist_id}
               onClick={() => openPlaylist(playlist)}
-              className="flex items-center px-3 py-2 space-x-4 transition-colors rounded-lg cursor-pointer sm:p-4 hover:bg-gray-800 group"
+              className="flex items-center px-3 py-2 space-x-4 transition-colors rounded-lg cursor-pointer sm:p-4 hover:bg-secondary/20 group"
             >
               <div className={`w-16 h-16 bg-gradient-to-br hidden rounded-lg sm:flex items-center justify-center relative overflow-hidden`}>
                 <div className="text-xl text-white">♪</div>

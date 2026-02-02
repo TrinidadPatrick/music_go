@@ -13,12 +13,12 @@ const MobileSidebar = ({closeSidebar}) => {
 
   return (
     <main className={`h-full w-full transition-all duration-300 ease-in-out z-90 overflow-hidden`}>
-    <div className='h-full w-full bg-[linear-gradient(180deg,_#0f0f0f_0%,_#1a1a1a_190%)] relative z-[999] border-r border-[#333]'>
-        <div className="flex flex-col w-full h-full shadow-2xl backdrop-blur-lg border-white/10 z-90">
+    <div className='h-full w-full bg-card relative z-[999] border-r border-[#333]'>
+        <div className="flex flex-col w-full h-full border-white/10 z-90">
         {/* Logo */}
         <div className={` p-6`}>
             <div className='flex justify-between w-full'>
-            <button onClick={()=>navigate('/')} className="text-2xl font-bold text-transparent cursor-pointer bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
+            <button onClick={()=>navigate('/')} className="text-2xl font-bold text-primary">
             MusicGo
             </button>
             <button onClick={()=>closeSidebar()} className='' >
@@ -37,29 +37,17 @@ const MobileSidebar = ({closeSidebar}) => {
             <Search size={20} />
                <span>Search</span>
           </button>
-          {/* <button onClick={()=>{navigate('/user/library');closeSidebar()}} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
-            <Library size={20} />
-             <span>Your Library</span>
-          </button>
-          <button onClick={()=> {navigate('/user/playlist');closeSidebar()}} className={`${(window.location.pathname === '/user/playlist' || window.location.pathname === '/user/playlist/detail' ) && 'bg-white/10'} w-full cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
-            <Disc size={20} />
-              <span className=' whitespace-nowrap'>Your Playlists</span>
-          </button> */}
         </nav>
 
         {/* Playlists */}
         {
-          
           <div className="px-6 mt-8">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-medium text-gray-300">Recently Played</h3>
-            <button className="text-gray-400 hover:text-white">
-              <Plus size={20} />
-            </button>
           </div>
           
           <div className="space-y-2">
-            {['My Playlist #1'].map((playlist, index) => (
+            {/* {['My Playlist #1'].map((playlist, index) => (
               <a key={index} href="#" className="flex items-center p-2 space-x-3 text-gray-400 transition-colors rounded-lg hover:text-white hover:bg-white/5">
                 <div className="flex items-center justify-center w-10 h-10 rounded bg-gradient-to-br from-purple-500 to-pink-500">
                   {index === 0 ? <Heart size={16} color='white' /> : <Music size={16} color='white' />}
@@ -69,7 +57,7 @@ const MobileSidebar = ({closeSidebar}) => {
                   <div className="text-xs text-gray-400">Playlist</div>
                 </div>
               </a>
-            ))}
+            ))} */}
           </div>
         </div>
         }

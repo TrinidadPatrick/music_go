@@ -36,7 +36,7 @@ const ArtistsTab = () => {
         <div className="flex flex-col flex-1 space-y-2">
             {(results?.artists?.all?.length > 0 ? results?.artists?.all : results?.artists?.partial)?.map((artist, index) => {
             return (
-                <div onClick={() => handleSelect(artist)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelect(artist)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                     {
                         selectedItem === artist &&
                         <div className='absolute right-56 top-5'>

@@ -41,7 +41,7 @@ const SearchPageLoader = () => {
         {/* Songs List */}
         <div className="space-y-1">
           {[...Array(4)].map((_, index) => (
-            <div key={index} className="flex items-center px-1 py-2 rounded hover:bg-gray-800/50 group">
+            <div key={index} className="flex items-center px-1 py-2 rounded hover:bg-secondary/20/50 group">
               {/* Track Number */}
               <div className="w-8 text-center">
                 <div className="w-4 h-5 mx-auto bg-gray-700 rounded animate-pulse"></div>

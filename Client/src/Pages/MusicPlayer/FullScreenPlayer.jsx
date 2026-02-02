@@ -204,7 +204,7 @@ const FullScreenPlayer = memo(({
   const isSaved = library?.library_songs?.some((song) => song?.videoId === songDetails?.videoDetails?.videoId)
 
   return (
-    <div className="flex flex-col items-center justify-between w-full p-3 gap-9 -translate-y-27 sm:gap-5 bg-gray-950">
+    <div className="flex flex-col items-center justify-between w-full p-3 gap-9 -translate-y-27 sm:gap-5 bg-card">
       {/* Music Info */}
       <div className="flex items-center flex-1">
         <div className="flex flex-col flex-1 min-w-0 gap-2">
@@ -246,11 +246,6 @@ const FullScreenPlayer = memo(({
 
         {/* Main Controls */}
         <div className="flex items-center justify-between flex-1 gap-3 md:gap-5 md:justify-center">
-          
-          {/* Share Button */}
-          <button className="p-2 text-gray-400 transition-colors rounded-full hover:text-white">
-                <Share2  className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5 hover:text-white" />
-          </button>
             
           {/* Shuffle button */}
           <button onClick={()=>toggleShuffle()} className={` ${shuffleOn && 'bg-gray-700/50'} p-2 rounded-full  transition-all duration-200 hover:bg-gray-700/50 cursor-pointer`}>
@@ -289,11 +284,6 @@ const FullScreenPlayer = memo(({
               : repeatSetting === 'one' &&
               <Repeat1 className="w-4 h-4 text-gray-400 sm:w-5 sm:h-5" /> 
             }
-          </button>
-
-          {/* Save */}
-          <button onClick={handleSave} className="p-2 text-white transition-colors rounded-full hover:text-white">
-                <Heart fill={isSaved ? 'red' : ''} className={`w-4 h-4 ${isSaved ? 'text-red-500' : 'text-gray-400 hover:text-white'} sm:w-5 sm:h-5 `} />
           </button>
         </div>
          </div>

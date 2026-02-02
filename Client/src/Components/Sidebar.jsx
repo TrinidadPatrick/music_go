@@ -14,9 +14,9 @@ const Sidebar = () => {
   const sidebarOpen = isSidebarOpen && width >= 1024
 
   return (
-    <main id='sidebar' className={`h-full ${!sidebarOpen ? 'w-[70px]' : 'w-[320px]'} transition-all duration-300 ease-in-out bg-red-100 overflow-hidden`}>
-    <div className='h-full w-[320px] max-w-[320px] bg-[linear-gradient(180deg,_#0f0f0f_0%,_#1a1a1a_190%)] relative z-[999] border-r border-[#333]'>
-        <div className="flex flex-col w-full h-full shadow-2xl backdrop-blur-lg border-white/10">
+    <main id='sidebar' className={`h-full ${!sidebarOpen ? 'w-[70px]' : 'w-[320px]'} transition-all duration-300 ease-in-out  overflow-hidden`}>
+    <div className='h-full w-[320px] max-w-[320px] bg-card relative z-[999] border-r border-[#333]'>
+        <div className="flex flex-col w-full h-full border-white/10">
         {/* Logo */}
         <div className={`${sidebarOpen ? 'p-6' : 'p-5'} `}>
           {
@@ -50,18 +50,6 @@ const Sidebar = () => {
               sidebarOpen && <span>Search</span>
             }
           </button>
-          {/* <button onClick={()=>navigate('/user/library')} className={`${window.location.pathname === '/user/library' && 'bg-white/10'} ${sidebarOpen ? 'w-full' : 'w-fit'} cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
-            <Library size={20} />
-            {
-              sidebarOpen && <span>Your Library</span>
-            }
-          </button>
-          <button onClick={()=> navigate('/user/playlist')} className={`${(window.location.pathname === '/user/playlist' || window.location.pathname === '/user/playlist/detail' ) && 'bg-white/10'} ${sidebarOpen ? 'w-full' : 'w-fit'} cursor-pointer flex items-center space-x-5 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors`}>
-            <Disc size={20} />
-            {
-              sidebarOpen && <span className=' whitespace-nowrap'>Your Playlists</span>
-            }
-          </button> */}
         </nav>
 
         {/* Playlists */}

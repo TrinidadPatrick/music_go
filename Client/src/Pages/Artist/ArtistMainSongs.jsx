@@ -47,7 +47,7 @@ const ArtistMainSongs = () => {
                     const thumbnal = song.thumbnails && (song.thumbnails[1]?.url || song.thumbnails[0]?.url)
                     const isCurrentSong = currentSong?.videoId === song.videoId
                     return (
-                        <div onClick={(e) => {e.stopPropagation(); handleSelectSong(song)}} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                        <div onClick={(e) => {e.stopPropagation(); handleSelectSong(song)}} key={index} className={`${isCurrentSong && 'bg-gray-800'} relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                         {
                             selectedItem === song &&
                             <div className='absolute top-0 right-56'>

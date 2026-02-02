@@ -88,7 +88,7 @@ const Navbar = () => {
 
       {
         !isSidebarOpen &&
-        <button onClick={()=>navigate('/')} className="text-2xl hidden md:block cursor-pointer font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        <button onClick={()=>navigate('/')} className="text-2xl hidden md:block cursor-pointer font-bold text-primary">
           MusicGo
         </button>
       }
@@ -127,7 +127,7 @@ const Navbar = () => {
                       }}
                       }
                       placeholder="Search for songs, artists..."
-                      className=" placeholder:text-gray-400 text-white w-full bg-gray-900 border border-gray-600 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className=" placeholder:text-gray-400 text-white w-full bg-card border rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -136,7 +136,7 @@ const Navbar = () => {
                     <div className='w-full bg-gray-700 absolute translate-y-2 rounded'>
                     {
                       suggestions.length > 0 && isTyping && suggestions.map((suggestion, index) => (
-                        <button onClick={()=>{handleSelectSuggestion(suggestion)}} key={index} className="flex items-center justify-start gap-2 px-2 py-2 text-sm cursor-pointer hover:bg-gray-800 w-full">
+                        <button onClick={()=>{handleSelectSuggestion(suggestion)}} key={index} className="flex items-center justify-start gap-2 px-2 py-2 text-sm cursor-pointer hover:bg-secondary/20 w-full">
                           <div>
                             <Search className='text-gray-400 w-4 h-4' />
                           </div>

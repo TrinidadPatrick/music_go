@@ -167,7 +167,7 @@ const Player = memo(({
   )
 
   return (
-    <div className="relative flex justify-between w-full gap-3 p-3 bg-gray-950 z-90">
+    <div className="relative flex justify-between w-full gap-3 p-3 glass-panel z-90">
       {/* Music Info */}
       <div className="flex items-center flex-1 gap-2">
       <button onClick={toggleFullScreen} className='p-1.5 rounded-full hover:bg-gray-100/10'>

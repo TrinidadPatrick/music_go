@@ -40,7 +40,7 @@ const PlaylistsTab = () => {
             <h2 className="text-2xl font-bold mb-4 text-white">Playlists</h2>
             {(results?.playlists?.all?.length > 0 ? results?.playlists?.all : results?.playlists?.partial)?.map((playlist, index) => {
             return (
-                <div onClick={() => handleSelectSong(playlist)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 group cursor-pointer`}>
+                <div onClick={() => handleSelectSong(playlist)} key={index} className={` relative flex items-center space-x-4 p-2 rounded-lg hover:bg-secondary/20 group cursor-pointer`}>
                     {
                         selectedItem === playlist &&
                         <div className='absolute right-56 top-0'>

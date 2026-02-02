@@ -48,11 +48,12 @@ const MobileSidebar = ({closeSidebar}) => {
   useEffect(()=>{
     getRecentlyPlayed()
   },[])
+  
 
   return (
-    <main className={`h-full w-full transition-all duration-300 ease-in-out z-90 overflow-hidden`}>
-    <div className='h-full w-full bg-card relative z-[999] border-r border-[#333]'>
-        <div className="flex flex-col w-full h-full border-white/10 z-90">
+    <main className={`h-screen w-full transition-all duration-300 ease-in-out z-90 overflow-hidden`}>
+    <div className={`h-screen ${currentSong ? 'pb-20' : 'pb-2'} w-full bg-card relative z-[999] border-r border-[#333]`}>
+        <div className="flex flex-col w-full h-full border-white/10 z-90 overflow-auto">
         {/* Logo */}
         <div className={` p-6`}>
             <div className='flex justify-between w-full'>
@@ -79,7 +80,7 @@ const MobileSidebar = ({closeSidebar}) => {
 
         {/* Playlists */}
         {
-          <div className="px-6 mt-8 max-h-[430px] overflow-auto">
+          <div className="space-y-2 flex-1 min-h-0 flex flex-col overflow-auto">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-medium text-gray-300">Recently Played</h3>
           </div>
@@ -88,7 +89,7 @@ const MobileSidebar = ({closeSidebar}) => {
           {recently_played && recently_played.map((song, index) => (
               <button onClick={() => handleSelect(song)} key={index} className="w-full flex items-center p-2 space-x-3 text-gray-400 transition-colors rounded-lg hover:text-white hover:bg-white/5">
                 <div className="flex items-center justify-center w-10 h-10 flex-none rounded bg-gradient-to-br from-purple-500 to-pink-500">
-                  {index === 0 ? <Heart size={16} color='white' /> : <Music size={16} color='white' />}
+                  <Music size={16} color='white' />
                 </div>
                 <div className='flex flex-col items-start'>
                   <div className="text-sm font-medium line-clamp-1">{song.title.trim()}</div>

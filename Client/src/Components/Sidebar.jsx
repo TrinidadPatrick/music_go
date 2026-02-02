@@ -6,6 +6,7 @@ import useScreenSize from '../Auth/ScreenSizeProvider';
 import localforage from 'localforage';
 import useMusicPlayerStore from '@/Stores/MusicPlayerStore.js';
 import useGetSongRecommendation from '@/Stores/NextSongRecommendationStore.js';
+import _ from 'lodash';
 
 const Sidebar = () => {
   const navigate = useNavigate()
@@ -52,10 +53,11 @@ const Sidebar = () => {
     getRecentlyPlayed()
   },[])
 
+
   return (
-    <main id='sidebar' className={`h-full ${!sidebarOpen ? 'w-[70px]' : 'w-[320px]'} transition-all duration-300 ease-in-out  overflow-hidden`}>
-    <div className='h-full w-[320px] max-w-[320px] bg-card relative z-[999] border-r border-[#333]'>
-        <div className="flex flex-col w-full h-full border-white/10">
+    <main id='sidebar' className={`h-full flex ${!sidebarOpen ? 'w-[70px]' : 'w-[320px]'} transition-all duration-300 ease-in-out  overflow-hidden`}>
+    <div className={`h-screen ${currentSong ? 'pb-25' : 'pb-2'} w-[320px] max-w-[320px] bg-card relative z-[999] border-r border-[#333]`}>
+        <div className="flex flex-col w-full h-full border-white/10  overflow-auto">
         {/* Logo */}
         <div className={`${sidebarOpen ? 'p-6' : 'p-5'} `}>
           {
@@ -94,14 +96,14 @@ const Sidebar = () => {
         {/* Playlists */}
         {
           sidebarOpen &&
-          <div className="px-6 mt-8 max-h-[420px] overflow-auto">
+          <div className={`px-6 mt-8 flex-1 flex flex-col min-h-0 ${currentSong ? '' : ''} `}>
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-medium text-gray-300">Recently Played</h3>
           </div>
           
-          <div className="space-y-2 h-full pb-40 flex flex-col">
+          <div className="space-y-2 flex-1 min-h-0 flex flex-col overflow-auto">
             {recently_played && recently_played.map((song, index) => (
-              <button onClick={() => handleSelect(song)} key={index} className="w-full flex items-center p-2 space-x-3 text-gray-400 transition-colors rounded-lg hover:text-white hover:bg-white/5">
+              <button onClick={() => handleSelect(song)} key={index} className={`${_.isEqual(currentSong, song) && 'bg-white/5'} w-full flex items-center p-2 space-x-3 text-gray-400 transition-colors rounded-lg hover:text-white hover:bg-white/5`}>
                 <div className="flex items-center justify-center w-10 h-10 flex-none rounded bg-gradient-to-br from-purple-500 to-pink-500">
                   {index === 0 ? <Heart size={16} color='white' /> : <Music size={16} color='white' />}
                 </div>

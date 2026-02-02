@@ -40,10 +40,10 @@ const GuestLayout = () => {
   const showSidebar = path !== '/signin' && path !== '/signup';
 
   return (
-    <main className='flex flex-col h-full'>
-      <section className='flex flex-1 min-h-0'>
+    <main className='flex flex-col h-screen'>
+      <section className='flex h-full'>
           {showSidebar && width >= 900 && (
-            <section className='relative flex-none hidden z-90 lg:block'>
+            <section className='relative flex-none hidden z-90 lg:flex h-full'>
               <Sidebar />
             </section>
           )}

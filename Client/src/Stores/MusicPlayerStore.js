@@ -3,9 +3,12 @@ import useGetSongRecommendation from './NextSongRecommendationStore'
 import useSongDetails from './SongDetailStore'
 import useLyricsStore from './LyricsStore'
 import http from '../../http'
+import localforage from 'localforage'
+import _ from 'lodash';
 
 const useMusicPlayerStore = create((set, get) => ({
   // State
+  recently_played: null,
   songList: [],
   currentSong: null,
   songDetails: null,
@@ -46,9 +49,24 @@ const useMusicPlayerStore = create((set, get) => ({
 
   // Added list of songs to play
   setSongList: (songList) => set({ songList }),
+
+  setRecentlyPlayed: (song) => set({recently_played: song}),
   
   // Actions
   setCurrentSong: async (song) => {
+    const recently_played = await localforage.getItem('recently_played') || []
+    const isExists = recently_played.length > 0 ? recently_played.some((item) => _.isEqual(item, song)) : false
+    if(!isExists){
+      if(recently_played.length >= 10){
+        const newList = [...recently_played]
+        newList.shift()
+        set({recently_played: [...newList, song]})
+        await localforage.setItem('recently_played', [...newList, song])
+      }else{
+        set({recently_played: [...recently_played, song]})
+        await localforage.setItem('recently_played', [...recently_played, song])
+      }
+    }
     set({lyrics : null})
     const getSongDetails = useSongDetails.getState().getSongDetails
     const getLyrics = useLyricsStore.getState().getLyrics

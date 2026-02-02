@@ -134,6 +134,7 @@ const HomeContents = () => {
     setModalIsOpen(false)
     setSearchValue('')
   }
+  
 
   const TrackItem = useCallback(({ track, index, isQuickPicks = false, isMobile = false }) => {
     const show = selectedDropdown === track

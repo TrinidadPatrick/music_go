@@ -6,6 +6,7 @@ import useScreenSize from '../../Auth/ScreenSizeProvider'
 import Sidebar from '../../Components/Sidebar'
 import MusicPlayer from '../../Pages/MusicPlayer'
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore'
+import localforage from 'localforage'
 
 const GuestLayout = () => {
   const navigate = useNavigate()
@@ -37,6 +38,7 @@ const GuestLayout = () => {
 
   const showNavbar = path !== '/signin' && path !== '/signup' && path !== '/user/account';
   const showSidebar = path !== '/signin' && path !== '/signup';
+
   return (
     <main className='flex flex-col h-full'>
       <section className='flex flex-1 min-h-0'>

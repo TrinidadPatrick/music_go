@@ -13,7 +13,6 @@ import useSearchPageStore from '../../Stores/SearchPageStore';
 const Navbar = () => {
   const [params, setParams] = useSearchParams()
   const { width } = useScreenSize()
-  const { user, isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const debounceRef = useRef(null);
   const [isTyping, setIsTyping] = useState(false);
@@ -23,6 +22,7 @@ const Navbar = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
   const setActiveTab = useSearchPageStore((state) => state.setActiveTab)
+  const [arrowedSuggestion, setArrowedSuggestion] = useState(null)
 
   const handleSelectSuggestion = (suggestion) => {
     setIsTyping(false)
@@ -51,7 +51,7 @@ const Navbar = () => {
       clearTimeout(debounceRef.current);
     }
 
-    if (searchQuery !== '') {
+    if (searchQuery !== '' && arrowedSuggestion === null) {
 
       debounceRef.current = setTimeout(async () => {
         if (searchQuery !== '') {
@@ -67,7 +67,7 @@ const Navbar = () => {
           setSuggestions([]);
         }
       }, 150);
-    } else {
+    } else if (searchQuery == '' && arrowedSuggestion === null) {
       setSuggestions([]);
     }
 
@@ -77,6 +77,26 @@ const Navbar = () => {
       }
     };
   }, [searchQuery]);
+
+  const handleArrowSelection = (key) => {
+    if (!suggestions) return
+    switch (key) {
+      case 'ArrowDown':
+        if (arrowedSuggestion === null || arrowedSuggestion >= suggestions.length - 1) {
+          setArrowedSuggestion(0)
+          setSearchQuery(suggestions[0])
+        }
+        else {
+          setArrowedSuggestion(arrowedSuggestion + 1)
+          setSearchQuery(suggestions[arrowedSuggestion + 1])
+        }
+        break;
+      case 'ArrowUp':
+        setArrowedSuggestion(suggestions.length - 1)
+        setSearchQuery(suggestions[suggestions.length - 1])
+        break
+    }
+  }
 
   return (
     <div className="bg-transparent z-90 p-4 flex items-center justify-between gray-700 w-full">
@@ -119,11 +139,15 @@ const Navbar = () => {
                 type="text"
                 onKeyDown={
                   (e) => {
+
                     if (e.key === 'Enter') {
                       setActiveTab('all')
                       setIsTyping(false)
                       navigate(`/search?q=${searchQuery}`)
+                    } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                      handleArrowSelection(e.key)
                     } else {
+                      setArrowedSuggestion(null)
                       setIsTyping(true)
                     }
                   }
@@ -138,7 +162,8 @@ const Navbar = () => {
               <div className='w-full bg-card absolute translate-y-2 rounded'>
                 {
                   suggestions.length > 0 && isTyping && suggestions.map((suggestion, index) => (
-                    <button onClick={() => { handleSelectSuggestion(suggestion) }} key={index} className="flex items-center justify-start gap-2 px-2 py-2 text-sm cursor-pointer hover:bg-secondary/20 w-full">
+                    <button onClick={() => { handleSelectSuggestion(suggestion) }} key={index}
+                      className={`${arrowedSuggestion === index && 'bg-secondary/70'} flex items-center justify-start gap-2 px-2 py-2 text-sm cursor-pointer hover:bg-secondary/20 w-full`}>
                       <div>
                         <Search className='text-gray-400 w-4 h-4' />
                       </div>

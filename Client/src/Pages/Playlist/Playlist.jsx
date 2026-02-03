@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import usePublicPlaylistStore from '../../Stores/PublicPlaylistStore'
-import { 
-  Play, 
-  Pause, 
-  MoreHorizontal, 
-  Clock, 
-  Share, 
-  ShuffleIcon, 
-  Music, 
-  BookMinus, 
-  Library, 
-  Disc, 
-  X, 
-  Search
+import {
+  Play,
+  Pause,
+  MoreHorizontal,
+  Clock,
+  Share,
+  ShuffleIcon,
+  Music,
+  BookMinus,
+  Library,
+  Disc,
+  X,
+  Search,
+  Shuffle
 } from 'lucide-react';
 import useFormatTimeStore from '../../Stores/FormatTimeStore';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
@@ -24,6 +25,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import useSongDetails from '../../Stores/SongDetailStore';
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore';
 import ListLoader from '../../Components/ListLoader';
+import { Button } from '@/Components/ui/button.jsx';
 
 const Playlist = () => {
   const navigate = useNavigate()
@@ -43,10 +45,9 @@ const Playlist = () => {
   const toggleShuffle = useMusicPlayerStore(state => state.toggleShuffle)
   const getSongDetails = useSongDetails(state => state.getSongDetails)
   const saveToUserPlaylist = useUserPlaylistStore(state => state.saveToUserPlaylist)
-  
+
   const [selectedTrack, setSelectedTrack] = useState(null)
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const {isAuthenticated} = useAuth()
 
   useEffect(() => {
     getPlaylist(list, navigate)
@@ -67,12 +68,12 @@ const Playlist = () => {
     setCurrentSong(playlist.tracks[index])
     toggleShuffle()
   }
-  
+
   const handlePlayPause = (track) => {
     if (currentSong?.videoId === track.videoId) {
       setIsPlaying(!isPlaying);
     } else {
-      setCurrentSong(track);  // This already sets isLoading, currentTime, etc.
+      setCurrentSong(track);
       setIsPlaying(true);
     }
   };
@@ -136,19 +137,19 @@ const Playlist = () => {
       <div className="w-48 bg-gray-800 rounded-lg shadow-lg z-[100]">
         <ul className="p-2 space-y-2 text-sm text-white">
           {selectedTrack?.videoId && (
-            <li 
-              onClick={(e) => { e.stopPropagation(); handleSaveSong(selectedTrack) }} 
+            <li
+              onClick={(e) => { e.stopPropagation(); handleSaveSong(selectedTrack) }}
               className={`hover:bg-gray-700 ${isAlreadySaved ? 'text-red-500' : ''} p-2 rounded flex items-center gap-2`}
             >
-              {isAlreadySaved ? 
-                <BookMinus size={16} className='text-red-500' /> : 
+              {isAlreadySaved ?
+                <BookMinus size={16} className='text-red-500' /> :
                 <Library size={16} className='text-gray-400' />
               }
               {isAlreadySaved ? 'Remove from Library' : 'Add to Library'}
             </li>
           )}
-          <li 
-            onClick={(e) => { e.stopPropagation(); selectPlaylist(selectedTrack) }} 
+          <li
+            onClick={(e) => { e.stopPropagation(); selectPlaylist(selectedTrack) }}
             className="flex items-center gap-2 p-2 rounded hover:bg-gray-700"
           >
             <Disc size={16} className='text-gray-400' />
@@ -173,17 +174,17 @@ const Playlist = () => {
             <div className="flex-shrink-0">
               <div className="w-32 h-32 rounded-lg sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gray-700/70 animate-pulse"></div>
             </div>
-            
+
             {/* Playlist Info Skeleton */}
             <div className="flex-1 min-w-0 space-y-3 md:space-y-4">
               {/* Title */}
               <div className="w-full h-8 max-w-xs rounded sm:h-10 md:h-12 bg-gray-600/70 animate-pulse"></div>
-              
+
               {/* Subtitle Info */}
               <div className="space-y-2">
                 <div className="w-40 h-3 rounded md:h-4 bg-gray-600/70 animate-pulse sm:w-48"></div>
               </div>
-              
+
               {/* Control Buttons Skeleton */}
               <div className="flex items-center gap-4 pt-2 md:pt-4">
                 <div className="w-12 h-12 bg-green-500 rounded-full md:w-14 md:h-14 animate-pulse"></div>
@@ -192,7 +193,7 @@ const Playlist = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Song List Section */}
         <div className="px-4 py-6 md:px-8">
           {/* Table Header */}
@@ -204,7 +205,7 @@ const Playlist = () => {
               <div className="w-4 h-4 ml-auto bg-gray-600 rounded animate-pulse"></div>
             </div>
           </div>
-          
+
           {/* Song Rows Skeleton */}
           {[...Array(8)].map((_, index) => (
             <div key={index} className="grid grid-cols-12 gap-4 px-4 py-3 rounded-lg hover:bg-secondary/20 group">
@@ -212,7 +213,7 @@ const Playlist = () => {
               <div className="flex items-center col-span-1">
                 <div className="w-4 h-4 bg-gray-600 rounded animate-pulse"></div>
               </div>
-              
+
               {/* Song Info */}
               <div className="flex items-center col-span-6 gap-3 md:col-span-7">
                 <div className="flex-shrink-0 w-10 h-10 bg-gray-700 rounded animate-pulse"></div>
@@ -221,12 +222,12 @@ const Playlist = () => {
                   <div className="w-20 h-3 bg-gray-700 rounded animate-pulse"></div>
                 </div>
               </div>
-              
+
               {/* Date Added (Hidden on mobile) */}
               <div className="items-center hidden col-span-3 md:flex">
                 <div className="w-24 h-4 bg-gray-600 rounded animate-pulse"></div>
               </div>
-              
+
               {/* Duration */}
               <div className="flex items-center justify-end col-span-5 md:col-span-1">
                 <div className="w-8 h-4 bg-gray-600 rounded animate-pulse"></div>
@@ -275,9 +276,9 @@ const Playlist = () => {
           <div className='flex flex-col p-4 gap-4 max-h-[400px] overflow-y-auto'>
             {user && user?.user?.playlists.map((playlist, index) => {
               return (
-                <button 
-                  key={index} 
-                  onClick={() => handleSaveToPlaylist(selectedTrack, playlist)} 
+                <button
+                  key={index}
+                  onClick={() => handleSaveToPlaylist(selectedTrack, playlist)}
                   className='flex w-full gap-2 p-1 rounded cursor-pointer hover:bg-gray-700'
                 >
                   {/* Thumbnail */}
@@ -301,59 +302,79 @@ const Playlist = () => {
       </ModalComponent>
     )
   }, [modalIsOpen, selectedTrack])
-  
+
   return playlist === null ? (
     <ListLoader />
   ) : (
-    <div className="flex w-full h-full sm:px-5 overflow-hidden text-white">
+    <div className="flex w-full h-full sm:px-5 bg-background overflow-hidden text-white">
       <Modal />
       {playlist?.tracks?.length === 0 ? (
         <Loader />
       ) : (
-        <div className="flex-1 h-full overflow-auto">
+        <div className="flex-1 h-full overflow-auto bg-background p-10">
           {/* Playlist Header */}
-          <div className="flex w-full p-3 rounded sm:p-8 sm: h-fith-60">
-            <div className="flex flex-row items-center w-full gap-6 sm:items-end">
-              <div 
-                style={{
-                  backgroundImage: `url(${playlist?.thumbnails ? (playlist?.thumbnails[1]?.url || playlist?.thumbnails[0]?.url) : ''})`
-                }} 
-                className="items-center justify-center hidden h-full bg-cover rounded-lg shadow-2xl aspect-square sm:w-44 sm:h-44 sm:flex"
-              />
-              
-              <div className="flex flex-col justify-center w-full h-full gap-4 sm:justify-end">
-                {/* Title */}
-                <p className="text-4xl sm:text-[2.5rem] md:text-[2.9rem] font-medium line-clamp-1">
-                  {playlist?.title}
-                </p>
-                {/* Additional Info */}
-                <div className="flex flex-row items-start space-x-2 text-sm text-gray-300 sm:items-center">
-                  <span className='hidden text-green-500 sm:block'>•</span>
-                  <span>{playlist?.trackCount} songs</span>
-                  <span className='hidden sm:block'>•</span>
-                  <span>about {playlist?.duration}</span>
+          <div className="relative mb-8 z-10">
+            {/* Background gradient based on playlist */}
+            <div className="absolute h-[250px] w-[90%] left-20 top-20 bg-gradient-to-b from-primary/20 via-primary/5 to-transparent rounded-3xl blur-3xl -z-10" />
+
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-end p-6 md:p-8">
+              {/* Album Art Collage */}
+              <div style={{
+                backgroundImage: `url(${playlist?.thumbnails ? (playlist?.thumbnails[1]?.url || playlist?.thumbnails[0]?.url) : ''})`
+              }} className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group">
+                <div className="grid grid-cols-2 grid-rows-2 w-full h-full">
                 </div>
-                {/* Controls */}
-                <div className="flex items-center space-x-3">
-                  <button 
-                    onClick={() => playAll()} 
-                    className="flex items-center justify-center w-12 h-12 transition-colors transform bg-green-500 rounded-full cursor-pointer hover:bg-green-400 hover:scale-105"
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-glow">
+                    <Play className="w-8 h-8 text-primary-foreground ml-1" />
+                  </div>
+                </div>
+              </div>
+              {/* Playlist Info */}
+              <div className="flex-1 space-y-4">
+                <div>
+                  <span className="text-xs uppercase tracking-wider text-primary font-medium">Playlist</span>
+                  <h1 className="text-3xl md:text-5xl font-display font-bold text-foreground mt-1">
+                    {playlist.title}
+                  </h1>
+                  <p className="text-muted-foreground mt-2 max-w-lg">
+                    {playlist.description}
+                  </p>
+                </div>
+                {/* Stats */}
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span className="w-2 h-2 rounded-full bg-primary" />
+                  <span>{playlist?.trackCount} songs</span>
+                  <span className="mx-1">•</span>
+                  <span>{playlist?.duration}</span>
+                </div>
+                {/* Action Buttons */}
+                <div className="flex items-center gap-3 pt-2">
+                  <Button
+                    onClick={playAll}
+                    size="lg"
+                    className="rounded-full px-8 gap-2 shadow-glow bg-primary hover:bg-primary/90"
                   >
-                    <Play size={20} className="ml-1" />
-                  </button>
-                  <button 
-                    onClick={() => playAllShuffled()} 
-                    className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white"
+                    <Play className="w-5 h-5 ml-0.5" />
+                    Play
+                  </Button>
+                  <Button
+                    onClick={playAllShuffled}
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full w-12 h-12 border-muted-foreground/30 hover:border-foreground hover:bg-secondary"
                   >
-                    <ShuffleIcon size={20} />
-                  </button>
+                    <Shuffle className="w-5 h-5" />
+                  </Button>
                 </div>
               </div>
             </div>
           </div>
 
+
           {/* Track List */}
-          <div className="px-0 mt-10 sm:px-6">
+          <div className="px-0 mt-10 sm:px-6 pb-20">
             {/* Table Header – Hidden on mobile */}
             <div className="hidden grid-cols-11 gap-4 px-4 py-2 mb-4 text-xs tracking-wide text-gray-400 uppercase border-b border-gray-800 sm:grid md:grid-cols-12">
               <div className="col-span-1">#</div>
@@ -370,9 +391,8 @@ const Playlist = () => {
                 <div
                   onClick={() => handleSelectSong(track)}
                   key={index}
-                  className={`${
-                    (currentSong?.videoId || "") === track?.videoId ? "bg-gray-800" : ""
-                  } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 rounded-lg hover:bg-secondary/20 transition-colors group cursor-pointer`}
+                  className={`${(currentSong?.videoId || "") === track?.videoId ? "bg-secondary/80" : ""
+                    } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 rounded-lg hover:bg-secondary/20 transition-colors group cursor-pointer`}
                 >
                   {/* Index - hidden on mobile */}
                   <div className="items-center hidden col-span-1 sm:flex">
@@ -399,11 +419,10 @@ const Playlist = () => {
                     </div>
                     <div className="min-w-0">
                       <p
-                        className={`font-medium ${
-                          (currentSong?.videoId || "") === track.videoId
-                            ? "text-green-400"
-                            : "text-white"
-                        } line-clamp-1 text-sm sm:text-base`}
+                        className={`font-medium ${(currentSong?.videoId || "") === track.videoId
+                          ? "text-green-400"
+                          : "text-white"
+                          } line-clamp-1 text-sm sm:text-base`}
                       >
                         {track.title}
                       </p>
@@ -417,23 +436,23 @@ const Playlist = () => {
 
                   {/* Duration & Heart – only More shown on mobile */}
                   <div className="relative flex items-center justify-center col-span-1 space-x-2 md:justify-center ">
-                      <p className="hidden text-sm text-gray-400 sm:block">
-                        {formatTime(track.duration_seconds)}
-                      </p>
-                      {/* <button onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }} className="items-center justify-center p-1 text-gray-400 transition-all rounded-full cursor-pointer md:hidden md:group-hover:flex hover:text-white group-hover:opacity-100 hover:bg-gray-900">
+                    <p className="hidden text-sm text-gray-400 sm:block">
+                      {formatTime(track.duration_seconds)}
+                    </p>
+                    {/* <button onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }} className="items-center justify-center p-1 text-gray-400 transition-all rounded-full cursor-pointer md:hidden md:group-hover:flex hover:text-white group-hover:opacity-100 hover:bg-gray-900">
                         <MoreHorizontal size={16} />
                       </button> */}
-                      {
-                      showDropdown(track) && 
+                    {
+                      showDropdown(track) &&
                       (
                         <div className='absolute z-[10] block right-8 sm:right-10 bottom-0 origin-bottom'>
                           <DropDown />
                         </div>
                       )
-                      }
-                    </div>
+                    }
+                  </div>
 
-                  
+
                 </div>
               ))}
             </div>

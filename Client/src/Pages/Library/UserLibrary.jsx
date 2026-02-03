@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import usePublicPlaylistStore from '../../Stores/PublicPlaylistStore'
-import { 
-  Heart, 
-  Plus, 
-  Play, 
-  Pause, 
-  MoreHorizontal, 
-  Clock, 
+import {
+  Heart,
+  Plus,
+  Play,
+  Pause,
+  MoreHorizontal,
+  Clock,
   Download,
-  Share, 
-  ShuffleIcon, 
-  Music, 
-  PlayIcon, 
-  BookMinus, 
-  Library, 
-  Disc, 
-  X, 
+  Share,
+  ShuffleIcon,
+  Music,
+  PlayIcon,
+  BookMinus,
+  Library,
+  Disc,
+  X,
   Search
 } from 'lucide-react';
 import useFormatTimeStore from '../../Stores/FormatTimeStore';
@@ -36,7 +36,7 @@ const UserLibrary = () => {
   const { user, getUser } = useAuth()
   const { formatTime } = useFormatTimeStore()
   const { getLibrary, library, isLoading, saveToLibrary } = useLibraryStore()
-  
+
   const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
   const setIsLoading = useMusicPlayerStore(state => state.setIsLoading)
   const currentSong = useMusicPlayerStore(state => state.currentSong)
@@ -44,10 +44,10 @@ const UserLibrary = () => {
   const setIsPlaying = useMusicPlayerStore(state => state.setIsPlaying)
   const setSongList = useMusicPlayerStore(state => state.setSongList)
   const toggleShuffle = useMusicPlayerStore(state => state.toggleShuffle)
-  
+
   const getSongDetails = useSongDetails(state => state.getSongDetails)
   const saveToUserPlaylist = useUserPlaylistStore(state => state.saveToUserPlaylist)
-  
+
   const [selectedTrack, setSelectedTrack] = useState(null)
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -70,7 +70,7 @@ const UserLibrary = () => {
     setCurrentSong(library.library_songs[index])
     toggleShuffle()
   }
-  
+
   const handlePlayPause = (track) => {
     if (currentSong?.videoId === track.videoId) {
       setIsPlaying(!isPlaying);
@@ -81,11 +81,11 @@ const UserLibrary = () => {
   };
 
   const handleSelectSong = (track) => {
-    if(track?.videoId !== currentSong?.videoId){
+    if (track?.videoId !== currentSong?.videoId) {
       setSongList(library.library_songs)
-    setCurrentSong(track)
-    setIsPlaying(true)
-    setIsLoading(true)
+      setCurrentSong(track)
+      setIsPlaying(true)
+      setIsLoading(true)
     }
   }
 
@@ -133,15 +133,15 @@ const UserLibrary = () => {
     return (
       <div className="w-48 bg-gray-800 rounded-lg shadow-lg z-[10]">
         <ul className="p-2 space-y-2 text-sm text-white">
-          <li 
-            onClick={(e) => { e.stopPropagation(); handleRemoveFromLibrary(selectedTrack) }} 
+          <li
+            onClick={(e) => { e.stopPropagation(); handleRemoveFromLibrary(selectedTrack) }}
             className="flex items-center gap-2 p-2 text-red-500 rounded hover:bg-gray-700"
           >
             <BookMinus size={16} className='text-red-500' />
             Remove from Library
           </li>
-          <li 
-            onClick={(e) => { e.stopPropagation(); selectPlaylist(selectedTrack) }} 
+          <li
+            onClick={(e) => { e.stopPropagation(); selectPlaylist(selectedTrack) }}
             className="flex items-center gap-2 p-2 rounded hover:bg-gray-700"
           >
             <Disc size={16} className='text-gray-400' />
@@ -173,8 +173,8 @@ const UserLibrary = () => {
               </span>
             </div>
 
-            <button 
-              className='absolute cursor-pointer right-3 top-3' 
+            <button
+              className='absolute cursor-pointer right-3 top-3'
               onClick={() => setModalIsOpen(false)}
             >
               <X size={20} className="text-slate-400 hover:text-white" />
@@ -199,9 +199,9 @@ const UserLibrary = () => {
           <div className='flex flex-col p-4 gap-4 max-h-[400px] overflow-y-auto'>
             {user && user?.user?.playlists.map((playlist, index) => {
               return (
-                <button 
-                  key={index} 
-                  onClick={() => handleSaveToPlaylist(selectedTrack, playlist)} 
+                <button
+                  key={index}
+                  onClick={() => handleSaveToPlaylist(selectedTrack, playlist)}
                   className='flex w-full gap-2 p-1 rounded cursor-pointer hover:bg-gray-700'
                 >
                   {/* Thumbnail */}
@@ -212,7 +212,7 @@ const UserLibrary = () => {
                       <Music size={25} className='text-white' />
                     )}
                   </div>
-                  
+
                   {/* Title */}
                   <div className='flex-1 min-w-0'>
                     <p className='text-sm font-medium text-white text-start'>{playlist.title}</p>
@@ -227,28 +227,28 @@ const UserLibrary = () => {
       </ModalComponent>
     )
   }, [modalIsOpen, selectedTrack])
-  
+
   return library === null ? <ListLoader /> : (
     <div className="flex w-full h-full pb-4 overflow-hidden text-white sm:px-5">
       <Modal />
-      
+
       {/* Main Content */}
       <div className="flex flex-col flex-1 h-full overflow-auto">
 
         {/* Playlist Header */}
         <div className="flex w-full p-3 rounded sm:p-8 sm: h-fith-60">
           <div className="flex flex-row items-center w-full gap-6 sm:items-end">
-            <div className="items-center justify-center hidden h-full bg-cover rounded-lg shadow-2xl aspect-square sm:w-44 sm:h-44 bg-gradient-to-br from-purple-500 to-pink-500 sm:flex"> 
+            <div className="items-center justify-center hidden h-full bg-cover rounded-lg shadow-2xl aspect-square sm:w-44 sm:h-44 bg-gradient-to-br from-purple-500 to-pink-500 sm:flex">
               <Music size={width >= 640 ? 110 : 25} className="text-white" />
             </div>
-            
+
             <div className="flex flex-col justify-center w-full h-full gap-2 sm:justify-end md:gap-4">
               {/* Title */}
               <p className="text-3xl sm:text-[2.5rem] md:text-[2.9rem] font-medium">MY MUSIC LIBRARY</p>
-              
+
               {/* Additional Info */}
               <div className="flex flex-row items-start space-x-2 text-sm text-gray-300 sm:items-center">
-                <span className='hidden text-green-500 sm:block'>•</span>
+                <span className='hidden text-primary sm:block'>•</span>
                 <span>{library?.total_songs} songs</span>
                 {library?.total_songs > 0 && (
                   <>
@@ -257,19 +257,19 @@ const UserLibrary = () => {
                   </>
                 )}
               </div>
-              
+
               {/* Controls */}
               <div className="flex items-center space-x-3">
-                <button 
-                  disabled={library?.total_songs === 0} 
-                  onClick={() => playAll()} 
+                <button
+                  disabled={library?.total_songs === 0}
+                  onClick={() => playAll()}
                   className="flex items-center justify-center w-10 h-10 transition-colors transform bg-green-500 rounded-full cursor-pointer sm:w-12 sm:h-12 disabled:bg-green-300 hover:bg-green-400 hover:scale-105"
                 >
                   <Play size={20} className="ml-1" />
                 </button>
-                <button 
-                  disabled={library?.total_songs === 0} 
-                  onClick={() => playAllShuffled()} 
+                <button
+                  disabled={library?.total_songs === 0}
+                  onClick={() => playAllShuffled()}
                   className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/30 bg-white/10 hover:text-white"
                 >
                   <ShuffleIcon size={17} />
@@ -313,18 +313,17 @@ const UserLibrary = () => {
                 const dateAdded = diffDays > 0
                   ? `${diffDays} days ago`
                   : diffHours > 0
-                  ? `${diffHours} hours ago`
-                  : diffMins > 0
-                  ? `${diffMins} minutes ago`
-                  : "a few seconds ago";
+                    ? `${diffHours} hours ago`
+                    : diffMins > 0
+                      ? `${diffMins} minutes ago`
+                      : "a few seconds ago";
 
                 return (
                   <div
                     onClick={() => handleSelectSong(track)}
                     key={track.videoId}
-                    className={`${
-                      (currentSong?.videoId || "") === track?.videoId ? "bg-gray-800" : ""
-                    } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 
+                    className={`${(currentSong?.videoId || "") === track?.videoId ? "bg-secondary/80" : ""
+                      } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-2 sm:px-4 py-3 
                     rounded-lg hover:bg-secondary/20 transition-colors group cursor-pointer`}
                   >
                     {/* Index - hidden on mobile */}
@@ -349,11 +348,10 @@ const UserLibrary = () => {
                     <div className="flex items-center min-w-0 col-span-11 space-x-3 sm:col-span-8 md:col-span-8">
                       <div className="min-w-0">
                         <p
-                          className={`font-medium ${
-                            (currentSong?.videoId || "") === track.videoId
-                              ? "text-green-400"
-                              : "text-white"
-                          } line-clamp-1 text-sm sm:text-base`}
+                          className={`font-medium ${(currentSong?.videoId || "") === track.videoId
+                            ? "text-green-400"
+                            : "text-white"
+                            } line-clamp-1 text-sm sm:text-base`}
                         >
                           {track.title}
                         </p>
@@ -379,12 +377,12 @@ const UserLibrary = () => {
                         <MoreHorizontal size={16} />
                       </button>
                       {
-                      showDropdown(track) && 
-                      (
-                        <div className='absolute z-[10] block right-8 sm:right-10 bottom-0 origin-bottom'>
-                          <DropDown />
-                        </div>
-                      )
+                        showDropdown(track) &&
+                        (
+                          <div className='absolute z-[10] block right-8 sm:right-10 bottom-0 origin-bottom'>
+                            <DropDown />
+                          </div>
+                        )
                       }
                     </div>
                   </div>

@@ -8,6 +8,7 @@ from Routes.user_routes import router as user_router
 from Routes.auth_music_routes import router as auth_music_router
 from middleware import AuthMiddleWare
 
+
 app = FastAPI()
 
 origins = [

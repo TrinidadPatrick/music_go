@@ -12,8 +12,8 @@ import useSearchPageStore from '../../Stores/SearchPageStore';
 
 const Navbar = () => {
   const [params, setParams] = useSearchParams()
-  const {width} = useScreenSize()
-  const {user, isAuthenticated} = useAuth()
+  const { width } = useScreenSize()
+  const { user, isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const debounceRef = useRef(null);
   const [isTyping, setIsTyping] = useState(false);
@@ -50,9 +50,9 @@ const Navbar = () => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
-  
+
     if (searchQuery !== '') {
-  
+
       debounceRef.current = setTimeout(async () => {
         if (searchQuery !== '') {
           try {
@@ -70,7 +70,7 @@ const Navbar = () => {
     } else {
       setSuggestions([]);
     }
-  
+
     return () => {
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
@@ -81,17 +81,17 @@ const Navbar = () => {
   return (
     <div className="bg-transparent z-90 p-4 flex items-center justify-between gray-700 w-full">
       <div className='flex items-center gap-2'>
-      {/* Hamburger */}
-      <button className='lg:hidden' onClick={()=>{setIsAnimating(true);setTimeout(()=>setIsMobileSidebarOpen(true), 10)}}>
-        <Menu size={30} className="text-gray-400 hover:text-white " />
-      </button>
-
-      {
-        !isSidebarOpen &&
-        <button onClick={()=>navigate('/')} className="text-2xl hidden md:block cursor-pointer font-bold text-primary">
-          MusicGo
+        {/* Hamburger */}
+        <button className='lg:hidden' onClick={() => { setIsAnimating(true); setTimeout(() => setIsMobileSidebarOpen(true), 10) }}>
+          <Menu size={30} className="text-gray-400 hover:text-white " />
         </button>
-      }
+
+        {
+          !isSidebarOpen &&
+          <button onClick={() => navigate('/')} className="text-2xl hidden md:block cursor-pointer font-bold text-primary">
+            MusicGo
+          </button>
+        }
       </div>
 
       {/* Sidebar mobile */}
@@ -106,65 +106,67 @@ const Navbar = () => {
           <MobileSidebar closeSidebar={closeSidebar} />
         </div>
       )}
-      
-      {/* Search field and account button */}
-      <div className='flex w-full sm:w-[400px]'>      
-                {/* Search Bar */}
-                <div className="flex-1 mx-4 ">
-                  <div className="relative  w-full">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <OutsideClickHandler onOutsideClick={() => setIsTyping(false)}>  
-                    <input
-                      onFocus={() => setIsTyping(true)}
-                      type="text"
-                      onKeyDown={
-                        (e)=>{if(e.key === 'Enter') {
-                          setActiveTab('all')
-                          setIsTyping(false)
-                          navigate(`/search?q=${searchQuery}`)
-                      }else{
-                        setIsTyping(true)
-                      }}
-                      }
-                      placeholder="Search for songs, artists..."
-                      className=" placeholder:text-gray-400 text-white w-full bg-card border rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
 
-                    {/* Suggestions List */}
-                    <div className='w-full bg-gray-700 absolute translate-y-2 rounded'>
-                    {
-                      suggestions.length > 0 && isTyping && suggestions.map((suggestion, index) => (
-                        <button onClick={()=>{handleSelectSuggestion(suggestion)}} key={index} className="flex items-center justify-start gap-2 px-2 py-2 text-sm cursor-pointer hover:bg-secondary/20 w-full">
-                          <div>
-                            <Search className='text-gray-400 w-4 h-4' />
-                          </div>
-                          <p className="text-gray-300">{suggestion}</p>
-                        </button>
-                      ))
+      {/* Search field and account button */}
+      <div className='flex w-full sm:w-[400px]'>
+        {/* Search Bar */}
+        <div className="flex-1 mx-4 ">
+          <div className="relative  w-full">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <OutsideClickHandler onOutsideClick={() => setIsTyping(false)}>
+              <input
+                onFocus={() => setIsTyping(true)}
+                type="text"
+                onKeyDown={
+                  (e) => {
+                    if (e.key === 'Enter') {
+                      setActiveTab('all')
+                      setIsTyping(false)
+                      navigate(`/search?q=${searchQuery}`)
+                    } else {
+                      setIsTyping(true)
                     }
-                    </div>
-                    </OutsideClickHandler>
-                  </div>
-                </div>
-                
-                {/* {
-                  isAuthenticated === true ?
-                  <div className="flex items-center space-x-2">
-                    {user && <img referrerPolicy='no-referrer' src={user?.user?.profile_image || `https://avatar.iran.liara.run/public/boy?username=${user.name}`} className="w-8 bg-cover h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"></img>}
-                  </div>
-                  :
-                  isAuthenticated === false &&
-                  (
-                    <div className='flex gap-3 items-center'>
-                      <button onClick={()=>{window.location.href = '/signin'}} className='text-gray-400 cursor-pointer hover:text-gray-500'>Sign In</button>
-                    </div>
-                  )
-                } */}
-      </div>
+                  }
+                }
+                placeholder="Search for songs, artists..."
+                className=" placeholder:text-gray-400 text-white w-full bg-card border rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+
+              {/* Suggestions List */}
+              <div className='w-full bg-card absolute translate-y-2 rounded'>
+                {
+                  suggestions.length > 0 && isTyping && suggestions.map((suggestion, index) => (
+                    <button onClick={() => { handleSelectSuggestion(suggestion) }} key={index} className="flex items-center justify-start gap-2 px-2 py-2 text-sm cursor-pointer hover:bg-secondary/20 w-full">
+                      <div>
+                        <Search className='text-gray-400 w-4 h-4' />
+                      </div>
+                      <p className="text-gray-300">{suggestion}</p>
+                    </button>
+                  ))
+                }
+              </div>
+            </OutsideClickHandler>
           </div>
-        
+        </div>
+
+        {/* {
+          isAuthenticated === true ?
+            <div className="flex items-center space-x-2">
+              {user && <img referrerPolicy='no-referrer' src={user?.user?.profile_image || `https://avatar.iran.liara.run/public/boy?username=${user.name}`} className="w-8 bg-cover h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"></img>}
+            </div>
+            :
+            isAuthenticated === false &&
+            (
+              <div className='flex gap-3 items-center'>
+                <button onClick={() => { window.location.href = '/signin' }} className='text-gray-400 cursor-pointer hover:text-gray-500'>Sign In</button>
+              </div>
+            )
+        } */}
+      </div>
+    </div>
+
   )
 }
 

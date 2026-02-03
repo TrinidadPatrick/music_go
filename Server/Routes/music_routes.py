@@ -33,7 +33,7 @@ ytmusicPublic = YTMusic()
 @router.get("/charts")
 def get_charts():
     try:
-        results = ytmusicPublic.get_charts(country="US")
+        results = ytmusicPublic.get_charts(country="ZZ")
         return results
     except Exception as e:
         print(e)
@@ -56,10 +56,14 @@ def search_music(q: str = Query(...), filter=Query(...), limit : int =Query(...)
     filtered_results = ytmusicPublic.search(query=q, filter=filter, limit=limit)
     return filtered_results
 
-# @router.get("/song")
-# def get_song(videoId: str = Query(...)):
-#     results = ytmusic.get_song(videoId)
-#     return results
+@router.get("/song")
+def get_song(videoId: str = Query(...)):
+    try:
+        results = ytmusicPublic.get_song(videoId)
+        return results
+    except Exception as e:
+        print(f"Error in get_album: {e}")
+        return JSONResponse(content={"error": "Failed to fetch album"}, status_code=500)
 
 @router.get("/next_song_reco")
 def get_watch_playlist(videoId: str = Query(...)):

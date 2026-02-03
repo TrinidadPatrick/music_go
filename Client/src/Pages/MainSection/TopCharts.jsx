@@ -221,7 +221,7 @@ const TopCharts = () => {
                       <img src={chart.thumbnails[0].url} alt={chart.title} className='w-14 h-14 rounded-lg object-cover flex-none aspect-square' />
                     </div>
                     <div className='flex flex-col gap-1 justify-center'>
-                      <h1 className={`font-medium ${isCurrentSong ? 'text-green-500' : 'text-gray-200'} line-clamp-1 z-20`}>{chart.title}</h1>
+                      <h1 className={`font-medium ${isCurrentSong ? 'text-primary' : 'text-gray-200'} line-clamp-1 z-20`}>{chart.title}</h1>
                       <p className='text-gray-400 text-sm line-clamp-1'>{chart.artists.map((artist) => artist.name).join(', ')}</p>
                     </div>
                   </div>

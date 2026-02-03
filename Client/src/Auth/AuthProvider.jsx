@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 
 const stateContext = createContext({
     user: null,
-    setUser: () => {},
-    getUser: () => {},
+    setUser: () => { },
+    getUser: () => { },
     isAuthenticated: null,
-    setIsAuthenticated: () => {},
+    setIsAuthenticated: () => { },
 })
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(null)
 
@@ -22,19 +22,19 @@ export const AuthProvider = ({children}) => {
             setUser(result.data)
             setIsAuthenticated(true)
         } catch (error) {
-            if(error.status === 401){
+            if (error.status === 401) {
                 setIsAuthenticated(false)
             }
-            
+
         }
     }
 
-    useEffect(()=>{
-        getUser()
+    useEffect(() => {
+        // getUser()
     }, [])
 
     return (
-        <stateContext.Provider value={{user, setUser, getUser, isAuthenticated, setIsAuthenticated}}>
+        <stateContext.Provider value={{ user, setUser, getUser, isAuthenticated, setIsAuthenticated }}>
             {children}
         </stateContext.Provider>
     )

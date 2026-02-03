@@ -8,13 +8,13 @@ const useLibraryStore = create((set, get) => ({
   error: null,
   isLoading: true,
   batchSaveToLibrary: async (browseId) => {
-    const {getAlbum} = usePublicAlbumStore.getState()
+    const { getAlbum } = usePublicAlbumStore.getState()
     try {
       const songs = await getAlbum(browseId)
       console.log(songs)
-      // const result = await http.post('auth/music/batch_add_to_playlist', data)
-      // toast.success(result.data.message);
-      // return 'success'
+      const result = await http.post('auth/music/batch_add_to_playlist', data)
+      toast.success(result.data.message);
+      return 'success'
 
     } catch (error) {
       console.log(error)
@@ -22,7 +22,7 @@ const useLibraryStore = create((set, get) => ({
       set({ error: error.response.data.message })
       return 'error'
     } finally {
-        set({ isLoading: false })
+      set({ isLoading: false })
     }
   },
   saveToLibrary: async (song) => {
@@ -37,7 +37,7 @@ const useLibraryStore = create((set, get) => ({
       toast.error(error.response.data.message);
       set({ error: error.response.data.message })
     } finally {
-        set({ isLoading: false })
+      set({ isLoading: false })
     }
   },
   getLibrary: async () => {
@@ -49,7 +49,7 @@ const useLibraryStore = create((set, get) => ({
       console.log(error)
       set({ error: error.response.data.message })
     } finally {
-        set({ isLoading: false })
+      set({ isLoading: false })
     }
   }
 }))

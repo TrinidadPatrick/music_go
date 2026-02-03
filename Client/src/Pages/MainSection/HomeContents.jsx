@@ -68,7 +68,7 @@ const HomeContents = () => {
 
   const handleSaveToLibrary = async (track) => {
     if (!track?.videoId) return
-    
+
     try {
       setSelectedDropdown(null)
       const songDetails = await getSongDetails(track.videoId)
@@ -81,6 +81,7 @@ const HomeContents = () => {
         duration_seconds: data.lengthSeconds,
         thumbnails: data.thumbnail?.thumbnails || null,
       }
+
       await saveToLibrary(songData)
     } catch (error) {
       console.error('Failed to save to library:', error)
@@ -95,7 +96,7 @@ const HomeContents = () => {
 
   const handleSaveToPlaylist = async (track, playlist) => {
     setModalIsOpen(false)
-    
+
     try {
       if (track?.videoId) {
         // Single music
@@ -134,7 +135,7 @@ const HomeContents = () => {
     setModalIsOpen(false)
     setSearchValue('')
   }
-  
+
 
   const TrackItem = useCallback(({ track, index, isQuickPicks = false, isMobile = false }) => {
     const show = selectedDropdown === track
@@ -144,11 +145,11 @@ const HomeContents = () => {
       return (
         <div
           onClick={() => handleSelect(track)}
-          className={`group relative w-full cursor-pointer bg-secondary/50 hover:bg-secondary backdrop-blur-lg 
+          className={`group relative w-full cursor-pointer ${isCurrentSong ? 'bg-secondary/50' : 'bg-secondary/20'} hover:bg-secondary backdrop-blur-lg 
           rounded-2xl p-3 transition-all duration-500 hover:shadow-2xl
           flex gap-3 justify-between items-center ${show ? 'z-50' : 'z-10'}`}
         >
-          {show && 
+          {show &&
             <div className='absolute z-[100] right-10 top-9 mt-1'>
               <MainDropDown track={track} onSave={handleSaveToLibrary} onSelectPlaylist={selectPlaylist} isSaved={isSaved} />
             </div>
@@ -162,14 +163,14 @@ const HomeContents = () => {
               </div>
             )}
             <div className='flex-none'>
-              <img 
-                src={track?.thumbnails?.[0]?.url} 
-                alt={track.title} 
-                className='object-cover rounded-lg w-14 h-14 aspect-square' 
+              <img
+                src={track?.thumbnails?.[0]?.url}
+                alt={track.title}
+                className='object-cover rounded-lg w-14 h-14 aspect-square'
               />
             </div>
             <div className='flex flex-col justify-center flex-1 min-w-0 gap-1'>
-              <h1 className={`text-sm font-medium ${isCurrentSong ? 'text-green-500' : 'text-gray-200'} line-clamp-1`}>
+              <h1 className={`text-sm font-medium ${isCurrentSong ? 'text-primary' : 'text-gray-200'} line-clamp-1`}>
                 {track.title}
               </h1>
               <p className='text-sm text-gray-400 line-clamp-1'>
@@ -214,10 +215,10 @@ const HomeContents = () => {
             {show && (
               <div className="absolute right-0 top-full mt-1 z-[100]">
                 <MainDropDown
-                track={track}
-                onSave={handleSaveToLibrary}
-                onSelectPlaylist={selectPlaylist}
-                isSaved={isSaved}          
+                  track={track}
+                  onSave={handleSaveToLibrary}
+                  onSelectPlaylist={selectPlaylist}
+                  isSaved={isSaved}
                 />
               </div>
             )}
@@ -225,9 +226,8 @@ const HomeContents = () => {
         )}
 
         <button
-          className={`p-3 ${
-            isCurrentSong ? 'block' : 'hidden'
-          } cursor-pointer w-14 h-14 justify-center items-center group-hover:flex rounded-full bg-primary shadow-2xl absolute z-40 left-1/2 transform -translate-x-1/2 top-24`}
+          className={`p-3 ${isCurrentSong ? 'block' : 'hidden'
+            } cursor-pointer w-14 h-14 justify-center items-center group-hover:flex rounded-full bg-primary shadow-2xl absolute z-40 left-1/2 transform -translate-x-1/2 top-24`}
         >
           {isCurrentSong ? (
             <EqualizerAnimation />
@@ -235,14 +235,14 @@ const HomeContents = () => {
             <Play className="flex items-center justify-center text-gray-700 transition-transform duration-200 cursor-pointer" />
           )}
         </button>
-        
+
         <div className='overflow-hidden rounded-lg group-hover:brightness-75'>
-        <div
-          className="group-hover:scale-105 transition ease-in-out duration-300 flex items-center justify-center w-full bg-center bg-no-repeat bg-cover rounded-lg opacity-75 aspect-square"
-          style={{
-            backgroundImage: `url(${track?.thumbnails?.[1]?.url || track?.thumbnails?.[0]?.url})`,
-          }}
-        />
+          <div
+            className="group-hover:scale-105 transition ease-in-out duration-300 flex items-center justify-center w-full bg-center bg-no-repeat bg-cover rounded-lg opacity-75 aspect-square"
+            style={{
+              backgroundImage: `url(${track?.thumbnails?.[1]?.url || track?.thumbnails?.[0]?.url})`,
+            }}
+          />
         </div>
 
         <div className="flex flex-col gap-1 mt-2">
@@ -308,61 +308,61 @@ const HomeContents = () => {
       </ModalComponent>
 
       {
-      homeContents.length === 0 ? <HomeLoader /> :
-      homeContents.map((content, index) => {
-        const isQuickPicks = content?.title === "Quick picks"
-        
-        return (
-          <div key={`${content.title}-${index}`} className="flex flex-col gap-3">
-            <div>
-              <h2 className="font-semibold text-gray-200 sm:text-lg md:text-2xl">{content.title}</h2>
-            </div>
+        homeContents.length === 0 ? <HomeLoader /> :
+          homeContents.map((content, index) => {
+            const isQuickPicks = content?.title === "Quick picks"
 
-            {isQuickPicks ? (
-              <>
-                {/* Mobile: Single column */}
-                <div className="relative flex flex-col gap-3 md:hidden">
-                  {content?.contents?.map((track, trackIndex) => (
-                    <TrackItem 
-                      key={`mobile-${track.videoId || track.playlistId || track.browseId}-${trackIndex}`}
-                      track={track} 
-                      index={trackIndex} 
-                      isQuickPicks={true} 
-                      isMobile={true} 
-                    />
-                  ))}
+            return (
+              <div key={`${content.title}-${index}`} className="flex flex-col gap-3">
+                <div>
+                  <h2 className="font-semibold text-gray-200 sm:text-lg md:text-2xl">{content.title}</h2>
                 </div>
 
-                {/* Desktop: Grid layout */}
-                <div className="relative hidden gap-3 md:grid md:grid-cols-2">
-                  {content?.contents?.map((track, trackIndex) => (
-                    <TrackItem 
-                      key={`desktop-${track.videoId || track.playlistId || track.browseId}-${trackIndex}`}
-                      track={track} 
-                      index={trackIndex} 
-                      isQuickPicks={true} 
-                      isMobile={false} 
-                    />
-                  ))}
-                </div>
-              </>
-            ) : (
-              <div className="flex gap-3 overflow-x-auto md:p-3 hide-scrollbar">
-                <div className="flex gap-3 w-max">
-                  {content?.contents?.map((track, trackIndex) => (
-                    <TrackItem 
-                      key={`card-${track?.videoId || track?.playlistId || track?.browseId}-${trackIndex}`}
-                      track={track} 
-                      index={trackIndex} 
-                      isQuickPicks={false} 
-                    />
-                  ))}
-                </div>
+                {isQuickPicks ? (
+                  <>
+                    {/* Mobile: Single column */}
+                    <div className="relative flex flex-col gap-3 md:hidden">
+                      {content?.contents?.map((track, trackIndex) => (
+                        <TrackItem
+                          key={`mobile-${track.videoId || track.playlistId || track.browseId}-${trackIndex}`}
+                          track={track}
+                          index={trackIndex}
+                          isQuickPicks={true}
+                          isMobile={true}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Desktop: Grid layout */}
+                    <div className="relative hidden gap-3 md:grid md:grid-cols-2">
+                      {content?.contents?.map((track, trackIndex) => (
+                        <TrackItem
+                          key={`desktop-${track.videoId || track.playlistId || track.browseId}-${trackIndex}`}
+                          track={track}
+                          index={trackIndex}
+                          isQuickPicks={true}
+                          isMobile={false}
+                        />
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex gap-3 overflow-x-auto md:p-3 hide-scrollbar">
+                    <div className="flex gap-3 w-max">
+                      {content?.contents?.map((track, trackIndex) => (
+                        <TrackItem
+                          key={`card-${track?.videoId || track?.playlistId || track?.browseId}-${trackIndex}`}
+                          track={track}
+                          index={trackIndex}
+                          isQuickPicks={false}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        )
-      })
+            )
+          })
       }
       <Toaster position="bottom-right" />
     </main>

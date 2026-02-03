@@ -10,7 +10,7 @@ import { throttle, debounce } from 'lodash'
 import LyricsPlayer from './LyricsPlayer'
 
 const MusicPlayer = () => {
-      
+
   const {
     currentSong,
     isLoading,
@@ -25,7 +25,7 @@ const MusicPlayer = () => {
   } = useMusicPlayerStore()
 
   const bufferingTimeoutRef = useRef(null)
-  const {width} = useScreenSize(state => state.width)
+  const { width } = useScreenSize(state => state.width)
   const currentTime = useMusicPlayerStore(state => state.currentTime)
   const isPlaying = useMusicPlayerStore(state => state.isPlaying)
   const isReady = useMusicPlayerStore(state => state.isReady)
@@ -61,7 +61,7 @@ const MusicPlayer = () => {
   const handleStateChange = useCallback((event) => {
     const player = event.target
     playerRef.current = player
-  
+
     switch (event.data) {
       case 1: // Playing
         setIsPlaying(true)
@@ -70,15 +70,15 @@ const MusicPlayer = () => {
           clearTimeout(bufferingTimeoutRef.current)
         }
         break
-  
+
       case 2: // Paused
         setIsPlaying(false)
         break
-  
+
       case 0: // Ended
         playNextSong()
         break
-  
+
       case 3: // Buffering
         setIsLoading(true)
         bufferingTimeoutRef.current = setTimeout(() => {
@@ -89,7 +89,7 @@ const MusicPlayer = () => {
           })
         }, 5000) // 5 sec fallback
         break
-  
+
       default:
         break
     }
@@ -105,11 +105,11 @@ const MusicPlayer = () => {
     setIsLoading(false)
   }, [setIsLoading])
 
-  
+
   const togglePlayPause = useCallback(
     throttle(() => {
       if (!playerRef.current || !isReady) return;
-  
+
       try {
         if (isPlaying) {
           playerRef.current.pauseVideo();
@@ -140,7 +140,7 @@ const MusicPlayer = () => {
     [isReady, setCurrentTime]
   )
 
-  const YoutubePlayer = useCallback(({activeTab})=>{
+  const YoutubePlayer = useCallback(({ activeTab }) => {
     const YOUTUBE_OPTS = {
       height: width <= 640 ? '450' : '500',
       width: width <= 640 ? '350' : '500',
@@ -161,76 +161,74 @@ const MusicPlayer = () => {
     }
     return (
       <YouTube
-          className={`${activeTab === 'lyrics' && 'hidden'}`}
-          videoId={currentSong.videoId}
-          opts={YOUTUBE_OPTS}
-          onReady={handleReady}
-          onStateChange={handleStateChange}
-          onError={handleError}
-          onPlay={handlePlay}
-        />
+        className={`${activeTab === 'lyrics' && 'hidden'}`}
+        videoId={currentSong.videoId}
+        opts={YOUTUBE_OPTS}
+        onReady={handleReady}
+        onStateChange={handleStateChange}
+        onError={handleError}
+        onPlay={handlePlay}
+      />
     )
   }, [currentSong, width])
 
-  const Switcher = useCallback(()=>{
+  const Switcher = useCallback(() => {
     return (
       <div className="flex items-center gap-1 p-1 mb-8 text-xs rounded-full sm:text-sm md:text-base bg-white/10 backdrop-blur-md">
-        <button 
+        <button
           onClick={() => setActiveTab('video')}
-          className={`flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-3 rounded-full transition-all duration-300 ${
-            activeTab === 'video' 
-              ? 'bg-blue-500 text-white shadow-lg' 
-              : 'text-white/70 hover:text-white hover:bg-white/10'
-          }`}
+          className={`flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-3 rounded-full transition-all duration-300 ${activeTab === 'video'
+            ? 'bg-primary text-white shadow-lg'
+            : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
         >
           <Video size={16} />
           Video
         </button>
-        <button 
+        <button
           onClick={() => setActiveTab('lyrics')}
-          className={`flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-3 rounded-full transition-all duration-300 ${
-            activeTab === 'lyrics' 
-              ? 'bg-blue-500 text-white shadow-lg' 
-              : 'text-white/70 hover:text-white hover:bg-white/10'
-          }`}
+          className={`flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-3 rounded-full transition-all duration-300 ${activeTab === 'lyrics'
+            ? 'bg-primary text-white shadow-lg'
+            : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
         >
           <FileText size={16} />
           Lyrics
         </button>
       </div>
-  )
+    )
   }, [currentSong, activeTab])
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     const el = document.getElementById('sidebar')
-    if(!el) return;
+    if (!el) return;
 
     setSidebarWidth(el.offsetWidth)
 
-    const observer = new ResizeObserver((entries)=>{
-      for (let entry of entries){
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
         setSidebarWidth(entry.contentRect.width)
       }
     })
 
     observer.observe(el)
 
-    return ()=> observer.disconnect()
+    return () => observer.disconnect()
 
   }, [fullScreen])
 
   // Time update effect
   useEffect(() => {
     const interval = 250 // ms
-    
+
     if (playerRef.current && isPlaying && isReady) {
       timeUpdateIntervalRef.current = setInterval(() => {
         try {
           const time = playerRef.current.getCurrentTime()
-  
+
           if (typeof time === 'number' && !isNaN(time)) {
             const diff = Math.abs(time - lastTimeRef.current)
-  
+
             if (diff >= 0.01) {
               setCurrentTime(time)
               lastTimeRef.current = time
@@ -246,7 +244,7 @@ const MusicPlayer = () => {
         timeUpdateIntervalRef.current = null
       }
     }
-  
+
     return () => {
       if (timeUpdateIntervalRef.current) {
         clearInterval(timeUpdateIntervalRef.current)
@@ -268,52 +266,71 @@ const MusicPlayer = () => {
     return null
   }
 
-  return  (
+  return (
     <div className="bottom-0 right-0 flex w-full overflow-hidden bg-card">
-  <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col w-full h-full">
 
-    {/* Full Screen Player */}
-    <motion.div
-      initial={{ height: '0%' }}
-      animate={{ height: fullScreen ? '100%' : 0 }}
-      exit={{ height: '0%' }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      style={{ position: 'absolute', width: width <= 1023 ? '100%' : `calc(100% - ${sidebarWidth}px)` }}
-      className="bottom-0 right-0 z-50 flex overflow-hidden"
-    >
-      <div className="flex flex-col items-center justify-start w-full bg-card z-90">
+        {/* Full Screen Player */}
+        <motion.div
+          initial={{ height: '0%' }}
+          animate={{ height: fullScreen ? '100%' : 0 }}
+          exit={{ height: '0%' }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          style={{ position: 'absolute', width: width <= 1023 ? '100%' : `calc(100% - ${sidebarWidth}px)` }}
+          className="bottom-0 right-0 z-50 flex overflow-hidden"
+        >
+          <div className="flex flex-col items-center justify-start w-full bg-card z-90">
 
-        {/* Header */}
-        <div className="flex justify-between w-full p-5">
-          <button onClick={toggleFullScreen}>
-            <ChevronDown size={30} className="text-gray-200 hover:text-gray-300" />
-          </button>
+            {/* Header */}
+            <div className="flex justify-between w-full p-5">
+              <button onClick={toggleFullScreen}>
+                <ChevronDown size={30} className="text-gray-200 hover:text-gray-300" />
+              </button>
 
-          <button className="text-3xl font-bold text-transparent cursor-pointer bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
-            MusicGo
-          </button>
+              <button className="text-3xl font-bold cursor-pointer text-primary">
+                MusicGo
+              </button>
 
-          <button>
-            <MoreHorizontal size={30} className="text-gray-200 hover:text-gray-300" />
-          </button>
-        </div>
+              <button>
+                {/* <MoreHorizontal size={30} className="text-gray-200 hover:text-gray-300" /> */}
+              </button>
+            </div>
 
-        {/* Switcher */}
-        <div className="absolute translate-y-30 sm:translate-y-25 z-90">
-          <Switcher />
-        </div>
+            {/* Switcher */}
+            <div className="absolute translate-y-30 sm:translate-y-25 z-90">
+              <Switcher />
+            </div>
 
-        {/* YouTube Player */}
-        <div className='relative'>
-            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-card  top-0' />
-            <YoutubePlayer activeTab={activeTab} />
-            <LyricsPlayer activeTab={activeTab} currentTime={currentTime} />
-            <div style={{width : 'calc(100% + 2px)'}} className='absolute h-[120px] bg-card  bottom-0' />
-        </div>
+            {/* YouTube Player */}
+            <div className='relative'>
+              <div style={{ width: 'calc(100% + 2px)' }} className='absolute h-[120px] bg-card  top-0' />
+              <YoutubePlayer activeTab={activeTab} />
+              <LyricsPlayer activeTab={activeTab} currentTime={currentTime} />
+              <div style={{ width: 'calc(100% + 2px)' }} className='absolute h-[120px] bg-card  bottom-0' />
+            </div>
 
-        {/* FullScreenPlayer */}
-        {fullScreen && (
-          <FullScreenPlayer
+            {/* FullScreenPlayer */}
+            {fullScreen && (
+              <FullScreenPlayer
+                currentSong={currentSong}
+                isReady={isReady}
+                isPlaying={isPlaying}
+                isLoading={isLoading}
+                currentTime={currentTime}
+                duration={duration}
+                volume={volume}
+                onTogglePlayPause={togglePlayPause}
+                onVolumeChange={handleVolumeChange}
+                onSeek={handleSeek}
+              />
+            )}
+
+          </div>
+        </motion.div>
+
+        {/* Original Player */}
+        {!fullScreen && (
+          <Player
             currentSong={currentSong}
             isReady={isReady}
             isPlaying={isPlaying}
@@ -328,26 +345,7 @@ const MusicPlayer = () => {
         )}
 
       </div>
-    </motion.div>
-
-    {/* Original Player */}
-    {!fullScreen && (
-      <Player
-        currentSong={currentSong}
-        isReady={isReady}
-        isPlaying={isPlaying}
-        isLoading={isLoading}
-        currentTime={currentTime}
-        duration={duration}
-        volume={volume}
-        onTogglePlayPause={togglePlayPause}
-        onVolumeChange={handleVolumeChange}
-        onSeek={handleSeek}
-      />
-    )}
-    
-  </div>
-</div>
+    </div>
 
   )
 }

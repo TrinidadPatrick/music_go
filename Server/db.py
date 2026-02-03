@@ -10,6 +10,11 @@ DATABASE_URL = os.getenv("MYSQL_CONNECTION_URL")
 
 engine = create_engine(
     DATABASE_URL,
+    connect_args={
+        "ssl": {
+            "fake_config": True  # This tells PyMySQL to use the system's SSL certs
+        }
+    },
     pool_pre_ping=True,      # Check connection health before using
     pool_size=10,            # Optional: number of connections in the pool
     max_overflow=20,         # Optional: additional connections beyond pool_size

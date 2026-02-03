@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { 
-  Heart, 
-  Plus, 
-  Play, 
-  Pause, 
-  MoreHorizontal, 
-  Clock, 
+import {
+  Heart,
+  Plus,
+  Play,
+  Pause,
+  MoreHorizontal,
+  Clock,
   Download,
-  Share, 
-  ShuffleIcon, 
-  Music, 
-  PlayIcon, 
-  BookMinus, 
-  Library, 
-  Disc, 
-  X, 
+  Share,
+  ShuffleIcon,
+  Music,
+  PlayIcon,
+  BookMinus,
+  Library,
+  Disc,
+  X,
   Search
 } from 'lucide-react';
 import useFormatTimeStore from '../../Stores/FormatTimeStore';
@@ -55,7 +55,7 @@ const UserPlaylistDetail = () => {
   const removeFromPlaylist = useUserPlaylistStore(state => state.removeFromPlaylist)
   const getPlaylistDetail = useUserPlaylistStore(state => state.getPlaylistDetail)
   const playlistDetail = useUserPlaylistStore(state => state.playlistDetail)
-  
+
   const [selectedTrack, setSelectedTrack] = useState(null)
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [playlistSongs, setPlaylistSongs] = useState([])
@@ -68,33 +68,33 @@ const UserPlaylistDetail = () => {
       try {
         const result = await http.get(`auth/music/get_playlist_songs?playlistId=${playlistId}&limit=${limit}&offset=${offset}`);
         const fetchedSongs = result.data.data.songs;
-    
+
         if (fetchedSongs.length === 0) {
           stopFetching = true;
           break;
         }
-    
+
         setPlaylistSongs(prev => {
-            const existingIds = new Set(prev.map(song => song.videoId));
-            const uniqueNewSongs = fetchedSongs.filter((song) => !existingIds.has(song.videoId));
-            return [...prev, ...uniqueNewSongs];
+          const existingIds = new Set(prev.map(song => song.videoId));
+          const uniqueNewSongs = fetchedSongs.filter((song) => !existingIds.has(song.videoId));
+          return [...prev, ...uniqueNewSongs];
         })
 
         offset += limit;
-        
+
         await new Promise(resolve => setTimeout(resolve, 700));
-    
+
       } catch (error) {
         console.log(error);
         set({ error: error.response?.data?.message || 'An error occurred' });
         break;
       }
-    
+
     }
   }
 
   useEffect(() => {
-    if(playlistId){
+    if (playlistId) {
       getPlaylistDetail(playlistId)
       getAllPlaylistSongs(playlistId)
     }
@@ -115,7 +115,7 @@ const UserPlaylistDetail = () => {
     setCurrentSong(playlistSongs[index])
     toggleShuffle()
   }
-  
+
   const handlePlayPause = (track) => {
     if (currentSong?.videoId === track.videoId) {
       setIsPlaying(!isPlaying);
@@ -151,11 +151,11 @@ const UserPlaylistDetail = () => {
   const handleRemoveFromPlaylist = async (track) => {
     const index = playlistSongs.findIndex((song) => song.videoId === track.videoId)
 
-    if(index !== -1){
-        const newData = [...playlistSongs]
-        newData.splice(index, 1)
-        setPlaylistSongs(newData)
-        removeFromPlaylist(selectedTrack.videoId, playlistDetail.playlist_id)
+    if (index !== -1) {
+      const newData = [...playlistSongs]
+      newData.splice(index, 1)
+      setPlaylistSongs(newData)
+      removeFromPlaylist(selectedTrack.videoId, playlistDetail.playlist_id)
     }
   }
 
@@ -170,25 +170,25 @@ const UserPlaylistDetail = () => {
       <div className="w-48 bg-gray-800 rounded-lg shadow-lg z-[100]">
         <ul className="p-2 space-y-2 text-sm text-white">
           {selectedTrack?.videoId && (
-            <li 
-              onClick={(e) => { e.stopPropagation(); handleSaveSong(selectedTrack) }} 
+            <li
+              onClick={(e) => { e.stopPropagation(); handleSaveSong(selectedTrack) }}
               className={`hover:bg-gray-700 ${isSaved ? 'text-red-500' : ''} p-2 rounded flex items-center gap-2`}
             >
               {isSaved ?
-                <BookMinus size={16} className='text-red-500' /> : 
+                <BookMinus size={16} className='text-red-500' /> :
                 <Library size={16} className='text-gray-400' />
               }
               {isSaved ? 'Remove from Library' : 'Add to Library'}
             </li>
           )}
-          <li 
-            onClick={(e) => { e.stopPropagation();handleRemoveFromPlaylist(selectedTrack) }} 
+          <li
+            onClick={(e) => { e.stopPropagation(); handleRemoveFromPlaylist(selectedTrack) }}
             className="flex items-center gap-2 p-2 rounded hover:bg-gray-700"
           >
             <Disc size={16} className='text-gray-400' />
             Remove from Playlist
           </li>
-          <li onClick={(e) => { e.stopPropagation();navigator.clipboard.writeText(``) }}  className="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+          <li onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(``) }} className="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
             <Share size={16} className='text-gray-400' />
             Share
           </li>
@@ -234,9 +234,9 @@ const UserPlaylistDetail = () => {
           <div className='flex flex-col p-4 gap-4 max-h-[400px] overflow-y-auto'>
             {user && user?.user?.playlists.map((playlist, index) => {
               return (
-                <button 
-                  key={index} 
-                  onClick={() => handleSaveToPlaylist(selectedTrack, playlist)} 
+                <button
+                  key={index}
+                  onClick={() => handleSaveToPlaylist(selectedTrack, playlist)}
                   className='flex w-full gap-2 p-1 rounded cursor-pointer hover:bg-gray-700'
                 >
                   {/* Thumbnail */}
@@ -266,155 +266,154 @@ const UserPlaylistDetail = () => {
     <div className="flex w-full h-full sm:px-5 overflow-hidden text-white">
       <Modal />
       {
-      
-      playlistDetail === null ? (
-        <ListLoader />
-      ) : 
-      
-      (
-        <div className="flex-1 h-full overflow-auto">
-          {/* Playlist Header */}
-          <div className="flex w-full p-3 rounded sm:p-8 sm: h-fith-60">
-            <div className="flex flex-row items-center w-full gap-6 sm:items-end">
-            <div className="items-center justify-center hidden h-full bg-cover rounded-lg shadow-2xl aspect-square sm:w-44 sm:h-44 bg-gradient-to-br from-purple-500 to-pink-500 sm:flex"> 
-              <Music size={width >= 640 ? 110 : 25} className="text-white" />
-            </div>
-              
-              <div className="flex flex-col justify-center w-full h-full gap-4 sm:justify-end">
-                {/* Title */}
-                <p className="text-4xl sm:text-[2.5rem] md:text-[2.9rem] font-medium line-clamp-1">
-                  {playlistDetail?.title}
-                </p>
-                {/* Additional Info */}
-                <div className="flex flex-row items-start space-x-2 text-sm text-gray-300 sm:items-center">
-                  <span className='hidden text-green-500 sm:block'>•</span>
-                  <span>{playlistDetail?.song_count} songs</span>
-                  <span className='hidden sm:block'>•</span>
-                  <span>about {playlistDetail?.total_duration}</span>
-                </div>
-                {/* Controls */}
-                <div className="flex items-center space-x-3">
-                  <button 
-                  disabled={playlistDetail?.song_count === 0}
-                    onClick={() => playAll()} 
-                    className="flex items-center justify-center w-12 h-12 transition-colors transform bg-green-500 rounded-full cursor-pointer hover:bg-green-400 hover:scale-105"
-                  >
-                    <Play size={20} className="ml-1" />
-                  </button>
-                  <button 
-                  disabled={playlistDetail?.song_count === 0}
-                    onClick={() => playAllShuffled()} 
-                    className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white"
-                  >
-                    <ShuffleIcon size={20} />
-                  </button>
-                  {
-                    playlistDetail?.privacy === 'public' &&
-                    <button onClick={handleShare} className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white">
-                      <Share size={20} className="text-gray-200 hover:text-white" />
-                    </button>
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Track List */}
-          <div className="px-0 mt-10 sm:px-6">
-            {/* Table Header – Hidden on mobile */}
-            <div className="hidden grid-cols-11 gap-4 px-4 py-2 mb-4 text-xs tracking-wide text-gray-400 uppercase border-b border-gray-800 sm:grid md:grid-cols-12">
-              <div className="col-span-1">#</div>
-              <div className="col-span-8">Title</div>
-              <div className="flex justify-center col-span-1">
-                <Clock size={16} />
-              </div>
-              <div className="flex justify-center col-span-1"></div>
-            </div>
+        playlistDetail === null ? (
+          <ListLoader />
+        ) :
 
-            {/* Track Rows */}
-            <div className="space-y-1 px-2">
-              {playlistSongs?.map((track, index) => {
-              return (
-                <div
-                  onClick={() => handleSelectSong(track)}
-                  key={index}
-                  className={`${
-                    (currentSong?.videoId || "") === track?.videoId ? "bg-gray-800" : ""
-                  } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-3 sm:px-4 py-3 rounded-lg hover:bg-secondary/20 transition-colors group cursor-pointer`}
-                >
-                  {/* Index - hidden on mobile */}
-                  <div className="items-center hidden col-span-1 sm:flex">
-                    <span className="text-gray-400 group-hover:hidden">{index + 1}</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handlePlayPause(track);
-                      }}
-                      className="hidden text-white group-hover:block hover:text-green-400"
-                    >
-                      {(currentSong?.videoId || "") === track.videoId && isPlaying ? (
-                        <Pause size={16} />
-                      ) : (
-                        <Play size={16} />
-                      )}
-                    </button>
+          (
+            <div className="flex-1 h-full overflow-auto">
+              {/* Playlist Header */}
+              <div className="flex w-full p-3 rounded sm:p-8 sm: h-fith-60">
+                <div className="flex flex-row items-center w-full gap-6 sm:items-end">
+                  <div className="items-center justify-center hidden h-full bg-cover rounded-lg shadow-2xl aspect-square sm:w-44 sm:h-44 bg-gradient-to-br from-purple-500 to-pink-500 sm:flex">
+                    <Music size={width >= 640 ? 110 : 25} className="text-white" />
                   </div>
 
-                  {/* Title – always visible */}
-                  <div className="flex items-center min-w-0 col-span-11 space-x-3 sm:col-span-8 md:col-span-8">
-                    {/* Image */}
-                    <div className="relative flex items-center justify-center flex-none w-10 h-10 overflow-hidden bg-gray-700 rounded sm:w-12 sm:h-12">
-                      {
-                        track.thumbnail ?
-                        <img referrerPolicy='no-referrer' src={track.thumbnail} alt={track.title} className="object-cover w-full h-full" />
-                        :
-                            <Music size={16} className="text-white" />
-                      }
-                      </div>
-                    <div className="min-w-0">
-                      <p
-                        className={`font-medium ${
-                          (currentSong?.videoId || "") === track.videoId
-                            ? "text-green-400"
-                            : "text-white"
-                        } line-clamp-1 text-sm sm:text-base`}
-                      >
-                        {track.title}
-                      </p>
-
-                      {/* Artist – hidden on small screens */}
-                      <p className="text-xs text-gray-400 truncate sm:text-sm">
-                        {track.artists}
-                      </p>
+                  <div className="flex flex-col justify-center w-full h-full gap-4 sm:justify-end">
+                    {/* Title */}
+                    <p className="text-4xl sm:text-[2.5rem] md:text-[2.9rem] font-medium line-clamp-1">
+                      {playlistDetail?.title}
+                    </p>
+                    {/* Additional Info */}
+                    <div className="flex flex-row items-start space-x-2 text-sm text-gray-300 sm:items-center">
+                      <span className='hidden text-primary sm:block'>•</span>
+                      <span>{playlistDetail?.song_count} songs</span>
+                      <span className='hidden sm:block'>•</span>
+                      <span>about {playlistDetail?.total_duration}</span>
                     </div>
-                  </div>
-
-                  {/* Duration & Heart – only More shown on mobile */}
-                  <div className="relative flex items-center justify-center col-span-1 space-x-2 md:justify-center ">
-                      <p className="hidden text-sm text-gray-400 sm:block">
-                        {formatTime(track.duration_seconds)}
-                      </p>
-                      <button onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }} className="items-center justify-center p-2 text-gray-400 transition-all rounded-full cursor-pointer md:hidden md:group-hover:flex hover:text-white group-hover:opacity-100 hover:bg-gray-900">
-                        <MoreHorizontal size={16} />
+                    {/* Controls */}
+                    <div className="flex items-center space-x-3">
+                      <button
+                        disabled={playlistDetail?.song_count === 0}
+                        onClick={() => playAll()}
+                        className="flex items-center justify-center w-12 h-12 transition-colors transform bg-green-500 rounded-full cursor-pointer hover:bg-green-400 hover:scale-105"
+                      >
+                        <Play size={20} className="ml-1" />
+                      </button>
+                      <button
+                        disabled={playlistDetail?.song_count === 0}
+                        onClick={() => playAllShuffled()}
+                        className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white"
+                      >
+                        <ShuffleIcon size={20} />
                       </button>
                       {
-                      showDropdown(track) && 
-                      (
-                        <div className='absolute z-[10] block right-10 bottom-0 origin-bottom'>
-                          <DropDown />
-                        </div>
-                      )
+                        playlistDetail?.privacy === 'public' &&
+                        <button onClick={handleShare} className="p-2 text-white transition-colors rounded-full cursor-pointer hover:bg-white/20 bg-white/10 hover:text-white">
+                          <Share size={20} className="text-gray-200 hover:text-white" />
+                        </button>
                       }
                     </div>
-
-                  
+                  </div>
                 </div>
-              )})}
+              </div>
+
+              {/* Track List */}
+              <div className="px-0 mt-10 sm:px-6">
+                {/* Table Header – Hidden on mobile */}
+                <div className="hidden grid-cols-11 gap-4 px-4 py-2 mb-4 text-xs tracking-wide text-gray-400 uppercase border-b border-gray-800 sm:grid md:grid-cols-12">
+                  <div className="col-span-1">#</div>
+                  <div className="col-span-8">Title</div>
+                  <div className="flex justify-center col-span-1">
+                    <Clock size={16} />
+                  </div>
+                  <div className="flex justify-center col-span-1"></div>
+                </div>
+
+                {/* Track Rows */}
+                <div className="space-y-1 px-2">
+                  {playlistSongs?.map((track, index) => {
+                    return (
+                      <div
+                        onClick={() => handleSelectSong(track)}
+                        key={index}
+                        className={`${(currentSong?.videoId || "") === track?.videoId ? "bg-secondary/80" : ""
+                          } grid grid-cols-12 sm:grid-cols-11 md:grid-cols-12 gap-4 px-3 sm:px-4 py-3 rounded-lg hover:bg-secondary/20 transition-colors group cursor-pointer`}
+                      >
+                        {/* Index - hidden on mobile */}
+                        <div className="items-center hidden col-span-1 sm:flex">
+                          <span className="text-gray-400 group-hover:hidden">{index + 1}</span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handlePlayPause(track);
+                            }}
+                            className="hidden text-white group-hover:block hover:text-green-400"
+                          >
+                            {(currentSong?.videoId || "") === track.videoId && isPlaying ? (
+                              <Pause size={16} />
+                            ) : (
+                              <Play size={16} />
+                            )}
+                          </button>
+                        </div>
+
+                        {/* Title – always visible */}
+                        <div className="flex items-center min-w-0 col-span-11 space-x-3 sm:col-span-8 md:col-span-8">
+                          {/* Image */}
+                          <div className="relative flex items-center justify-center flex-none w-10 h-10 overflow-hidden bg-gray-700 rounded sm:w-12 sm:h-12">
+                            {
+                              track.thumbnail ?
+                                <img referrerPolicy='no-referrer' src={track.thumbnail} alt={track.title} className="object-cover w-full h-full" />
+                                :
+                                <Music size={16} className="text-white" />
+                            }
+                          </div>
+                          <div className="min-w-0">
+                            <p
+                              className={`font-medium ${(currentSong?.videoId || "") === track.videoId
+                                ? "text-green-400"
+                                : "text-white"
+                                } line-clamp-1 text-sm sm:text-base`}
+                            >
+                              {track.title}
+                            </p>
+
+                            {/* Artist – hidden on small screens */}
+                            <p className="text-xs text-gray-400 truncate sm:text-sm">
+                              {track.artists}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Duration & Heart – only More shown on mobile */}
+                        <div className="relative flex items-center justify-center col-span-1 space-x-2 md:justify-center ">
+                          <p className="hidden text-sm text-gray-400 sm:block">
+                            {formatTime(track.duration_seconds)}
+                          </p>
+                          <button onClick={(e) => { e.stopPropagation(); handleMoreOption(track) }} className="items-center justify-center p-2 text-gray-400 transition-all rounded-full cursor-pointer md:hidden md:group-hover:flex hover:text-white group-hover:opacity-100 hover:bg-gray-900">
+                            <MoreHorizontal size={16} />
+                          </button>
+                          {
+                            showDropdown(track) &&
+                            (
+                              <div className='absolute z-[10] block right-10 bottom-0 origin-bottom'>
+                                <DropDown />
+                              </div>
+                            )
+                          }
+                        </div>
+
+
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )
-      
+          )
+
       }
     </div>
   )

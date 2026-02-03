@@ -144,6 +144,7 @@ const ArtistView = () => {
         getArtist()
     }, [artistId])
 
+    
   return loading ? <Loader /> : (
     <main style={{width: width <= 1023 ? '100vw' : '93.5vw'}} className='flex flex-col flex-1 gap-5 p-5'>
         {/* Header */}
@@ -165,7 +166,7 @@ const ArtistView = () => {
                 <p className="text-4xl sm:text-[2.5rem] md:text-[2.9rem] font-medium line-clamp-1 text-white">
                   {artist?.name}
                 </p>
-                <p className="text-sm font-medium text-gray-300 line-clamp-1">
+                <p className="text-sm font-medium text-gray-300 line-clamp-2">
                   {artist?.description}
                 </p>
                 {/* Additional Info */}

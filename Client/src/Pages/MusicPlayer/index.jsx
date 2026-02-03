@@ -119,7 +119,7 @@ const MusicPlayer = () => {
       } catch (error) {
         console.error('Error toggling play/pause:', error);
       }
-    }, 300, { trailing: false }), // No trailing call — instant toggle
+    }, 300, { trailing: false }),
     [isPlaying, isReady]
   );
 
@@ -302,7 +302,7 @@ const MusicPlayer = () => {
             </div>
 
             {/* YouTube Player */}
-            <div className='relative'>
+            <div className='relative xl:mt-20'>
               <div style={{ width: 'calc(100% + 2px)' }} className='absolute h-[120px] bg-card  top-0' />
               <YoutubePlayer activeTab={activeTab} />
               <LyricsPlayer activeTab={activeTab} currentTime={currentTime} />

@@ -259,7 +259,6 @@ const HomeContents = () => {
 
   return (
     <main className="flex flex-col w-full gap-4 p-2 md:p-6">
-      {/* Move Modal outside of conditional rendering */}
       <ModalComponent open={modalIsOpen} setOpen={handleModalClose}>
         <div className="flex flex-col gap-2 bg-gray-800 max-w-[500px] w-[400px] sm:w-[500px]">
           <header className="relative p-5 border-b border-b-slate-700">
@@ -347,7 +346,7 @@ const HomeContents = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="flex gap-3 overflow-x-auto md:p-3 hide-scrollbar">
+                  <div className="flex gap-3 overflow-x-auto md:p-3 hover-scrollbar">
                     <div className="flex gap-3 w-max">
                       {content?.contents?.map((track, trackIndex) => (
                         <TrackItem

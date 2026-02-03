@@ -93,7 +93,7 @@ const PlayButton = memo(({ isReady, isPlaying, isLoading, onToggle }) => {
     if (isLoading) {
       return (
         <div className="animate-spin">
-          <Loader className="text-gray-200" />
+          <Loader className="text-gray-900" />
         </div>
       )
     }
@@ -193,21 +193,6 @@ const FullScreenPlayer = memo(({
           <p className="text-sm text-center text-gray-400 truncate sm:text-base">
             {artistNames}
           </p>
-          {/* Other info */}
-          {/* <div className='flex items-center gap-3 mx-auto mt-5 sm:mt-2'>
-            <div className='flex items-center gap-3 px-3 py-2 text-[0.6rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
-                <Clock className='w-3 h-3 text-blue-400 sm:w-h sm:h-4' />
-                <span>{formatTime(songDetails?.videoDetails?.lengthSeconds)}</span>
-            </div>
-            <div className='flex items-center gap-3 px-3 py-2 text-[0.6rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
-                <Headset className='w-3 h-3 text-green-400 sm:w-h sm:h-4' />
-                <span>{formatViews(songDetails?.videoDetails?.viewCount)}</span>
-            </div>
-            <div className='flex items-center gap-3 px-3 py-2 text-[0.6rem] sm:text-xs text-white bg-gray-800 border border-gray-700 rounded-full w-fit'>
-                <Calendar className='w-3 h-3 text-orange-400 sm:w-h sm:h-4' />
-                <span>{publishDate}</span>
-            </div>
-          </div> */}
         </div>
       </div>
 

@@ -175,7 +175,6 @@ const Playlist = () => {
               <div className="w-32 h-32 rounded-lg sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gray-700/70 animate-pulse"></div>
             </div>
 
-            {/* Playlist Info Skeleton */}
             <div className="flex-1 min-w-0 space-y-3 md:space-y-4">
               {/* Title */}
               <div className="w-full h-8 max-w-xs rounded sm:h-10 md:h-12 bg-gray-600/70 animate-pulse"></div>
@@ -314,11 +313,9 @@ const Playlist = () => {
         <div className="flex-1 h-full overflow-auto bg-background p-10">
           {/* Playlist Header */}
           <div className="relative mb-8 z-10">
-            {/* Background gradient based on playlist */}
             <div className="absolute h-[250px] w-[90%] left-20 top-20 bg-gradient-to-b from-primary/20 via-primary/5 to-transparent rounded-3xl blur-3xl -z-10" />
 
             <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-end p-6 md:p-8">
-              {/* Album Art Collage */}
               <div style={{
                 backgroundImage: `url(${playlist?.thumbnails ? (playlist?.thumbnails[1]?.url || playlist?.thumbnails[0]?.url) : ''})`
               }} className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group">

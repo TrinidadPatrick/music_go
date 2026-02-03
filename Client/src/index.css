@@ -46,6 +46,30 @@ html, body, #root {
   display: none;
 }
 
+.hover-scrollbar::-webkit-scrollbar {
+  height: 8px; 
+  width: 8px;
+}
+
+.hover-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent; /* Invisible by default */
+  border-radius: 10px;
+}
+
+
+.hover-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #4B5563 !important;
+}
+
+.hover-scrollbar {
+  scrollbar-width: none; /* Hide by default */
+}
+
+.hover-scrollbar:hover {
+  scrollbar-width: thin; /* Show on hover */
+  scrollbar-color: #4B5563 transparent !important;
+}
+
 /* Animations */
   @keyframes float {
     0%, 100% {

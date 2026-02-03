@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import http from '../../http'
 
 const usePublicAlbumStore = create((set) => ({
-  album: [],
+  album: null,
   error: null,
   isLoading: false,
   getAlbum: async (browseId, navigate) => {

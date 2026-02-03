@@ -67,6 +67,9 @@ const MainVideos = () => {
                                     </>
                                 }
                                 <img referrerPolicy='no-referrer' src={thumbnal} alt={video.title} className="object-cover w-full h-full" />
+                                <span className="absolute bottom-2 right-2 px-1.5 py-0.5 bg-black/80 rounded text-xs text-foreground">
+                                {video.duration}
+                                </span>
                             </div>
 
                             {/* Title and artists */}
@@ -79,7 +82,7 @@ const MainVideos = () => {
                             {/* More button */}
                             <div className='flex items-center w-full gap-2'>
                             <span className='w-full text-xs text-gray-400 md:text-sm'>
-                                {video?.duration} { video?.views ? ' • ' + video?.views + 'views' : ''}
+                                {video?.views + ' views'}
                             </span>
                             <button onClick={(e)=>{e.stopPropagation();handleMoreOption(video)}} className="p-2 transition-opacity rounded-full opacity-0 cursor-pointer w-fit group-hover:opacity-100 hover:bg-white/10">
                                 <MoreHorizontal className="w-5 h-5 text-gray-400" />

@@ -78,7 +78,7 @@ const PlayButton = memo(({ isReady, isPlaying, isLoading, onToggle }) => {
     if (isLoading) {
       return (
         <div className="animate-spin">
-          <Loader className="text-gray-200" />
+          <Loader className="text-gray-900" />
         </div>
       )
     }
@@ -157,7 +157,7 @@ const Player = memo(({
               <ChevronUp size={20} className="text-gray-200 hover:text-gray-300 " />
           }
         </button>
-        <div className="hidden sm:flex items-center justify-center h-10 overflow-hidden rounded aspect-square bg-gradient-to-br from-purple-500 to-pink-500">
+        <div className="hidden sm:flex items-center justify-center h-10 overflow-hidden rounded aspect-square bg-primary">
           {thumbnailUrl ? (
             <img
               src={thumbnailUrl}

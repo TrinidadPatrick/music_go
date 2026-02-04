@@ -20,7 +20,7 @@ const Home = () => {
   const hero_bg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23764ba2;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='400' fill='url(%23bg)'/%3E%3Cg opacity='0.1'%3E%3Ccircle cx='200' cy='100' r='60' fill='white'/%3E%3Ccircle cx='800' cy='200' r='80' fill='white'/%3E%3Ccircle cx='1000' cy='80' r='40' fill='white'/%3E%3C/g%3E%3C/svg%3E";
 
   return (
-    <div className='w-full h-full overflow-y-auto min-w-0 min-h-0'>
+    <div className='w-full h-full overflow-y-auto min-w-0 min-h-0 pb-20'>
       <div className='grid grid-cols-1'>
         {/* Hero Section */}
         <div className='flex flex-col md:flex-row p-2 lg:p-10 gap-4 md:gap-5'>
@@ -71,7 +71,7 @@ const Home = () => {
         </section>
 
         {/* HomeContents Section - no individual scrolling */}
-        <section className='flex-shrink-0 flex gap-3 overflow-x-scroll'>
+        <section className='flex-shrink-0 flex gap-3 '>
           <HomeContents />
         </section>
       </div>

@@ -23,8 +23,8 @@ const Home = () => {
     <div className='w-full h-full overflow-y-auto min-w-0 min-h-0'>
       <div className='grid grid-cols-1'>
         {/* Hero Section */}
-        <div className='flex p-10 gap-5'>
-          <section className=" relative overflow-hidden rounded-2xl mb-8 w-full h-full">
+        <div className='flex flex-col md:flex-row p-2 lg:p-10 gap-4 md:gap-5'>
+          <section className=" relative overflow-hidden rounded-2xl md:mb-8 w-full h-full">
             {/* Gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-secondary to-background" />
             <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent" />
@@ -59,7 +59,7 @@ const Home = () => {
             </div>
           </section>
 
-          <section className='w-full max-w-[15rem]'>
+          <section className='w-full md:max-w-[15rem]'>
             <Moods />
           </section>
         </div>

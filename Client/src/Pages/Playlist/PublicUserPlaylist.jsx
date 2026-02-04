@@ -22,10 +22,10 @@ import useFormatTimeStore from '../../Stores/FormatTimeStore';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
 import ModalComponent from '../../Components/Modal';
-import { useAuth } from '../../Auth/AuthProvider';
+import { useAuth } from '../../Providers/AuthProvider';
 import useSongDetails from '../../Stores/SongDetailStore';
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore';
-import useScreenSize from '../../Auth/ScreenSizeProvider';
+import useScreenSize from '../../Providers/ScreenSizeProvider';
 import http from '../../../http';
 import ListLoader from '../../Components/ListLoader';
 

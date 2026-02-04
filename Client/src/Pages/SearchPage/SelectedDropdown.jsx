@@ -4,7 +4,7 @@ import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore'
 import { BookMinus, Disc, Library, Music, Search, Share, X } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
 import ModalComponent from '../../Components/Modal'
-import { useAuth } from '../../Auth/AuthProvider'
+import { useAuth } from '../../Providers/AuthProvider'
 import useSongDetails from '../../Stores/SongDetailStore'
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore'
 

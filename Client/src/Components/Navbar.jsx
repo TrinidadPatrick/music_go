@@ -1,14 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import OutsideClickHandler from 'react-outside-click-handler';
-import { Hamburger, Menu, Search, SidebarOpenIcon, SquareMenu, X } from 'lucide-react'
-import http from '../../../http'
-import { useAuth } from '../../Auth/AuthProvider';
-import Sidebar from '../../Components/Sidebar';
+import { Menu, Search} from 'lucide-react'
+import http from '../../http'
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import useScreenSize from '../../Auth/ScreenSizeProvider';
-import MobileSidebar from '../../Components/MobileSidebar';
-import useSidebarStore from '../../Stores/sidebarStore';
-import useSearchPageStore from '../../Stores/SearchPageStore';
+import useScreenSize from '../Providers/ScreenSizeProvider';
+import MobileSidebar from './MobileSidebar';
+import useSidebarStore from '../Stores/sidebarStore';
+import useSearchPageStore from '../Stores/SearchPageStore';
 
 const Navbar = () => {
   const [params, setParams] = useSearchParams()
@@ -175,20 +173,6 @@ const Navbar = () => {
             </OutsideClickHandler>
           </div>
         </div>
-
-        {/* {
-          isAuthenticated === true ?
-            <div className="flex items-center space-x-2">
-              {user && <img referrerPolicy='no-referrer' src={user?.user?.profile_image || `https://avatar.iran.liara.run/public/boy?username=${user.name}`} className="w-8 bg-cover h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"></img>}
-            </div>
-            :
-            isAuthenticated === false &&
-            (
-              <div className='flex gap-3 items-center'>
-                <button onClick={() => { window.location.href = '/signin' }} className='text-gray-400 cursor-pointer hover:text-gray-500'>Sign In</button>
-              </div>
-            )
-        } */}
       </div>
     </div>
 

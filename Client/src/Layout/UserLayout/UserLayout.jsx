@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import { useAuth } from '../../Auth/AuthProvider'
-import Navbar from '../../Pages/Navbar/Navbar'
-import MusicPlayer from '../../Pages/MusicPlayer'
+import { useAuth } from '../../Providers/AuthProvider'
+import Navbar from '../../Components/Navbar'
+import MusicPlayer from '../../Components/MusicPlayer'
 import Sidebar from '../../Components/Sidebar'
-import useScreenSize from '../../Auth/ScreenSizeProvider'
+import useScreenSize from '../../Providers/ScreenSizeProvider'
 
 const UserLayout = () => {
   const {isAuthenticated, user} = useAuth()

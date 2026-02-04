@@ -6,7 +6,7 @@ import http from '../../../http';
 import useSongDetails from '../../Stores/SongDetailStore';
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
 import toast, { Toaster } from 'react-hot-toast';
-import { useAuth } from '../../Auth/AuthProvider';
+import { useAuth } from '../../Providers/AuthProvider';
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore';
 import ModalComponent from '../../Components/Modal';
 

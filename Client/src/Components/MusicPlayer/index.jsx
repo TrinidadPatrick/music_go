@@ -5,7 +5,7 @@ import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
 import { motion, AnimatePresence } from 'framer-motion'
 import FullScreenPlayer from './FullScreenPlayer'
 import { ChevronDown, FileText, MoreHorizontal, Video } from 'lucide-react'
-import useScreenSize from '../../Auth/ScreenSizeProvider'
+import useScreenSize from '../../Providers/ScreenSizeProvider'
 import { throttle, debounce } from 'lodash'
 import LyricsPlayer from './LyricsPlayer'
 

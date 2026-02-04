@@ -15,7 +15,7 @@ import MainAlbums from './MainAlbums'
 import AlbumsTab from './AlbumsTab'
 import MainPlaylists from './MainPlaylists'
 import PlaylistsTab from './PlaylistsTab'
-import useScreenSize from '../../Auth/ScreenSizeProvider'
+import useScreenSize from '../../Providers/ScreenSizeProvider'
 
 const SearchPage = () => {
     // Stores

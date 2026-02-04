@@ -5,7 +5,7 @@ import { Heart, Plus, Play, Pause, MoreHorizontal, Clock, Download, Share, Shuff
 import useFormatTimeStore from '../../Stores/FormatTimeStore';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
 import usePublicAlbumStore from '../../Stores/PublicAlbumStore';
-import useScreenSize from '../../Auth/ScreenSizeProvider';
+import useScreenSize from '../../Providers/ScreenSizeProvider';
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
 import { Button } from '@/Components/ui/button.jsx';
 import ListLoader from '@/Components/ListLoader';

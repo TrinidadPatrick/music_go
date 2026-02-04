@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Play, Volume2, Headphones } from 'lucide-react';
 import TopCharts from './TopCharts'
-import Navbar from '../Navbar/Navbar'
+import Navbar from '../../Components/Navbar'
 import HomeContents from './HomeContents'
 import useChartsStore from '../../Stores/TopChartsStore';
 import { useNavigate } from 'react-router-dom';

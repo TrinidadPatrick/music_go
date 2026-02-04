@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import MusicPlayer from './src/Pages/MusicPlayer'
+import MusicPlayer from './src/Components/MusicPlayer'
 import UserLayout from './src/Layout/UserLayout/UserLayout'
 import MainSection from './src/Pages/MainSection'
 import GuestLayout from './src/Layout/GuestLayout/GuestLayout'

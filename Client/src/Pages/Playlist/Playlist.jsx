@@ -33,7 +33,7 @@ const Playlist = () => {
   const [params] = useSearchParams()
   const list = params.get('list')
   const { formatTime } = useFormatTimeStore()
-  const { getPlaylist, playlist } = usePublicPlaylistStore()
+  const { getPlaylist, playlist, isLoading } = usePublicPlaylistStore()
   const saveToLibrary = useLibraryStore(state => state.saveToLibrary)
   const library = useLibraryStore(state => state.library)
   const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
@@ -302,7 +302,7 @@ const Playlist = () => {
     )
   }, [modalIsOpen, selectedTrack])
 
-  return playlist === null ? (
+  return isLoading ? (
     <ListLoader />
   ) : (
     <div className="flex w-full h-full sm:px-5 bg-background overflow-hidden text-white">
@@ -333,10 +333,10 @@ const Playlist = () => {
                 <div>
                   <span className="text-xs uppercase tracking-wider text-primary font-medium">Playlist</span>
                   <h1 className="text-3xl md:text-5xl font-display font-bold text-foreground mt-1">
-                    {playlist.title}
+                    {playlist?.title}
                   </h1>
                   <p className="text-muted-foreground mt-2 max-w-lg">
-                    {playlist.description}
+                    {playlist?.description}
                   </p>
                 </div>
                 {/* Stats */}

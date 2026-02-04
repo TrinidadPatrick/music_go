@@ -30,18 +30,41 @@ router = APIRouter()
 # ytmusic = YTMusic("oauth.json", oauth_credentials=oauth_credentials)
 ytmusicPublic = YTMusic()
 
+
+@router.get('/mood_categories')
+def get_mood_categories():
+    try:
+        results = ytmusicPublic.get_mood_categories()
+        return results
+    except Exception as e:
+        print(e)
+        return JSONResponse(content={"error": "Something went wrong"}, status_code=500)
+
+@router.get('/mood_playlist')
+def get_mood_playlists(params: str = Query(...)):
+    try:
+        results = ytmusicPublic.get_mood_playlists(params)
+        return results
+    except Exception as e:
+        print(e)
+        return JSONResponse(content={"error": "Something went wrong"}, status_code=500)
+
 @router.get("/charts")
 def get_charts():
     try:
-        results = ytmusicPublic.get_charts(country="ZZ")
+        results = ytmusicPublic.get_charts()
         return results
     except Exception as e:
         print(e)
 
 @router.get("/home")
 def get_homes():
-    results = ytmusicPublic.get_home()
-    return results
+    try:
+        results = ytmusicPublic.get_home()
+        return results
+    except Exception as e:
+        print(e)
+        return JSONResponse(content={"error": "Something went wrong"}, status_code=500)
 
 @router.get("/autoComplete")
 def auto_complete_search(q: str = Query(...)):
@@ -50,6 +73,7 @@ def auto_complete_search(q: str = Query(...)):
         return results
     except Exception as e:
         print(e)
+        return JSONResponse(content={"error": "Something went wrong"}, status_code=500)
 
 @router.get("/search")
 def search_music(q: str = Query(...), filter=Query(...), limit : int =Query(...)):
@@ -63,7 +87,7 @@ def get_song(videoId: str = Query(...)):
         return results
     except Exception as e:
         print(f"Error in get_album: {e}")
-        return JSONResponse(content={"error": "Failed to fetch album"}, status_code=500)
+        return JSONResponse(content={"error": "Failed to fetch song"}, status_code=500)
 
 @router.get("/next_song_reco")
 def get_watch_playlist(videoId: str = Query(...)):

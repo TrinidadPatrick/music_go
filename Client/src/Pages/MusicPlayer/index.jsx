@@ -303,6 +303,7 @@ const MusicPlayer = () => {
 
             {/* YouTube Player */}
             <div className='relative xl:mt-20'>
+              {activeTab === 'video' && <div className='w-full h-full absolute bg-transparent' />}
               <div style={{ width: 'calc(100% + 2px)' }} className='absolute h-[120px] bg-card  top-0' />
               <YoutubePlayer activeTab={activeTab} />
               <LyricsPlayer activeTab={activeTab} currentTime={currentTime} />

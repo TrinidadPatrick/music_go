@@ -20,7 +20,7 @@ const ArtistTabs = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`text-xs sm:text-sm md:text-base pb-3 px-1 border-b-2 font-medium transition-colors cursor-pointer ${
                   activeTab === tab.id
-                    ? 'border-blue-400 text-blue-400'
+                    ? 'border-primary text-primary'
                     : 'border-transparent text-gray-400 hover:text-white'
                 }`}
               >

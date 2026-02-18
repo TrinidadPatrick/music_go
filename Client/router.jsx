@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import MusicPlayer from './src/Pages/MusicPlayer'
+import MusicPlayer from './src/Components/MusicPlayer'
 import UserLayout from './src/Layout/UserLayout/UserLayout'
 import MainSection from './src/Pages/MainSection'
 import GuestLayout from './src/Layout/GuestLayout/GuestLayout'
@@ -13,6 +13,7 @@ import SearchPage from './src/Pages/SearchPage/SearchPage'
 import UserPlaylistDetail from './src/Pages/Playlist/UserPlaylistDetails'
 import ArtistView from './src/Pages/Artist/ArtistView'
 import PublicUserPlaylist from './src/Pages/Playlist/PublicUserPlaylist'
+import MoodPlaylists from '@/Pages/MoodPlaylists/MoodPlaylists'
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <MainSection />
+            },
+            {
+                path: '/mood-playlists',
+                element: <MoodPlaylists />
             },
             {
                 path: '/public/playlist',

@@ -20,7 +20,7 @@ import useFormatTimeStore from '../../Stores/FormatTimeStore';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
 import ModalComponent from '../../Components/Modal';
-import { useAuth } from '../../Auth/AuthProvider';
+import { useAuth } from '../../Providers/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
 import useSongDetails from '../../Stores/SongDetailStore';
 import useUserPlaylistStore from '../../Stores/AuthMusicStores/UserPlaylistStore';
@@ -33,7 +33,7 @@ const Playlist = () => {
   const [params] = useSearchParams()
   const list = params.get('list')
   const { formatTime } = useFormatTimeStore()
-  const { getPlaylist, playlist } = usePublicPlaylistStore()
+  const { getPlaylist, playlist, isLoading } = usePublicPlaylistStore()
   const saveToLibrary = useLibraryStore(state => state.saveToLibrary)
   const library = useLibraryStore(state => state.library)
   const setCurrentSong = useMusicPlayerStore(state => state.setCurrentSong)
@@ -175,7 +175,6 @@ const Playlist = () => {
               <div className="w-32 h-32 rounded-lg sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gray-700/70 animate-pulse"></div>
             </div>
 
-            {/* Playlist Info Skeleton */}
             <div className="flex-1 min-w-0 space-y-3 md:space-y-4">
               {/* Title */}
               <div className="w-full h-8 max-w-xs rounded sm:h-10 md:h-12 bg-gray-600/70 animate-pulse"></div>
@@ -303,7 +302,7 @@ const Playlist = () => {
     )
   }, [modalIsOpen, selectedTrack])
 
-  return playlist === null ? (
+  return isLoading ? (
     <ListLoader />
   ) : (
     <div className="flex w-full h-full sm:px-5 bg-background overflow-hidden text-white">
@@ -314,11 +313,9 @@ const Playlist = () => {
         <div className="flex-1 h-full overflow-auto bg-background p-10">
           {/* Playlist Header */}
           <div className="relative mb-8 z-10">
-            {/* Background gradient based on playlist */}
             <div className="absolute h-[250px] w-[90%] left-20 top-20 bg-gradient-to-b from-primary/20 via-primary/5 to-transparent rounded-3xl blur-3xl -z-10" />
 
             <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-end p-6 md:p-8">
-              {/* Album Art Collage */}
               <div style={{
                 backgroundImage: `url(${playlist?.thumbnails ? (playlist?.thumbnails[1]?.url || playlist?.thumbnails[0]?.url) : ''})`
               }} className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group">
@@ -336,10 +333,10 @@ const Playlist = () => {
                 <div>
                   <span className="text-xs uppercase tracking-wider text-primary font-medium">Playlist</span>
                   <h1 className="text-3xl md:text-5xl font-display font-bold text-foreground mt-1">
-                    {playlist.title}
+                    {playlist?.title}
                   </h1>
                   <p className="text-muted-foreground mt-2 max-w-lg">
-                    {playlist.description}
+                    {playlist?.description}
                   </p>
                 </div>
                 {/* Stats */}

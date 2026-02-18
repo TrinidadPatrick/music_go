@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {Outlet, useNavigate} from 'react-router-dom'
-import { useAuth } from '../../Auth/AuthProvider'
-import Navbar from '../../Pages/Navbar/Navbar'
-import useScreenSize from '../../Auth/ScreenSizeProvider'
+import { useAuth } from '../../Providers/AuthProvider'
+import Navbar from '../../Components/Navbar'
+import useScreenSize from '../../Providers/ScreenSizeProvider'
 import Sidebar from '../../Components/Sidebar'
-import MusicPlayer from '../../Pages/MusicPlayer'
+import MusicPlayer from '../../Components/MusicPlayer'
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore'
 import localforage from 'localforage'
 
@@ -28,10 +28,6 @@ const GuestLayout = () => {
     return setIsLoading(false);
   }, [isAuthenticated, path, navigate]);
 
-  useEffect(() => {
-    getLibrary()
-  }, [])
-
   if (isLoading) {
     return null;
   }
@@ -40,10 +36,10 @@ const GuestLayout = () => {
   const showSidebar = path !== '/signin' && path !== '/signup';
 
   return (
-    <main className='flex flex-col h-screen'>
+    <main className='flex flex-col h-screen w-full'>
       <section className='flex h-full'>
           {showSidebar && width >= 900 && (
-            <section className='relative flex-none hidden z-90 lg:flex h-full'>
+            <section className={`flex-none hidden z-90 lg:flex h-full`}>
               <Sidebar />
             </section>
           )}
@@ -51,7 +47,7 @@ const GuestLayout = () => {
           {/* Navbar */}
           {showNavbar && <Navbar />}
 
-          {/* Children - Fix: Ensure proper height flow */}
+          {/* Children */}
           <div className='relative flex flex-1 min-h-0 p-1 overflow-hidden'>
             <Outlet />
           </div>

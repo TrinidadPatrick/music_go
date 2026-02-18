@@ -41,7 +41,7 @@ const ArtistMainVideos = () => {
   return artistData?.videos?.partial?.length > 0 && (
     <div className="flex flex-col flex-1 space-y-2">
         <h2 className="mb-4 text-2xl font-bold text-white">Videos</h2>
-        <div  className='flex gap-3 overflow-x-scroll hide-scrollbar'>
+        <div  className='flex gap-3 overflow-x-scroll hover-scrollbar'>
             {
                 artistData?.videos?.partial?.map((video, index) => {
                     const thumbnal = video.thumbnails && (video.thumbnails[1]?.url || video.thumbnails[0]?.url)

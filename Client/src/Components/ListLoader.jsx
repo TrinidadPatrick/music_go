@@ -21,7 +21,7 @@ const ListLoader = () => {
               
               {/* Control Buttons Skeleton */}
               <div className="flex items-center gap-4 pt-2 md:pt-4">
-                <div className="w-12 h-12 bg-green-500 rounded-full md:w-14 md:h-14 animate-pulse"></div>
+                <div className="w-12 h-12 bg-primary rounded-full md:w-14 md:h-14 animate-pulse"></div>
                 <div className="w-8 h-8 rounded-full md:w-10 md:h-10 bg-gray-600/70 animate-pulse"></div>
               </div>
             </div>

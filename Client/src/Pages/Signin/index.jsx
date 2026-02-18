@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import http from '../../../http'
 import Loader from '../../Components/Loader'
-import { useAuth } from '../../Auth/AuthProvider'
+import { useAuth } from '../../Providers/AuthProvider'
 
 const Signin = () => {
   const {isAuthenticated} = useAuth()

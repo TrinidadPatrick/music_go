@@ -82,7 +82,8 @@ const MainSongs = () => {
                             <div className="w-6 h-6 bg-gray-600 rounded"></div>
                         }
                     </div>
-
+                    
+                    <div className='flex-1 flex justify-between'>
                     {/* Title and artists */}
                     <div className="flex-1">
                           <p className="text-xs sm:text-sm font-medium text-gray-100 line-clamp-1">{song.title}</p>
@@ -90,19 +91,15 @@ const MainSongs = () => {
                     </div>
 
                     {/* Album */}
-                    <div className="text-sm text-gray-400 hidden md:block">
+                    <div className="text-sm flex-1 text-gray-400 hidden md:block  text-center">
                           {song.album ? song.album.name : ''}
                     </div>
                     
                     {/* Duration */}
-                    <div className="text-xs sm:text-sm text-gray-400 w-12 text-right">
+                    <div className="text-xs sm:text-sm text-gray-400 w-12 text-right flex-1">
                           {song.duration}
                     </div>
-
-                    {/* More button */}
-                    <button onClick={(e)=>{e.stopPropagation();handleMoreOption(song)}} className="hidden md:block p-2 md:opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full hover:bg-gray-900">
-                          <MoreHorizontal className="w-5 h-5 text-gray-400" />
-                    </button>
+                    </div>
                 </div>
             )})}
         </div>

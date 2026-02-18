@@ -5,7 +5,7 @@ import useMusicPlayerStore from '../../Stores/MusicPlayerStore'
 import { motion, AnimatePresence } from 'framer-motion'
 import FullScreenPlayer from './FullScreenPlayer'
 import { ChevronDown, FileText, MoreHorizontal, Video } from 'lucide-react'
-import useScreenSize from '../../Auth/ScreenSizeProvider'
+import useScreenSize from '../../Providers/ScreenSizeProvider'
 import { throttle, debounce } from 'lodash'
 import LyricsPlayer from './LyricsPlayer'
 
@@ -119,7 +119,7 @@ const MusicPlayer = () => {
       } catch (error) {
         console.error('Error toggling play/pause:', error);
       }
-    }, 300, { trailing: false }), // No trailing call — instant toggle
+    }, 300, { trailing: false }),
     [isPlaying, isReady]
   );
 
@@ -302,7 +302,8 @@ const MusicPlayer = () => {
             </div>
 
             {/* YouTube Player */}
-            <div className='relative'>
+            <div className='relative xl:mt-20'>
+              {activeTab === 'video' && <div className='w-full h-full absolute bg-transparent' />}
               <div style={{ width: 'calc(100% + 2px)' }} className='absolute h-[120px] bg-card  top-0' />
               <YoutubePlayer activeTab={activeTab} />
               <LyricsPlayer activeTab={activeTab} currentTime={currentTime} />

@@ -5,14 +5,14 @@ import { Heart, Plus, Play, Pause, MoreHorizontal, Clock, Download, Share, Shuff
 import useFormatTimeStore from '../../Stores/FormatTimeStore';
 import useMusicPlayerStore from '../../Stores/MusicPlayerStore';
 import usePublicAlbumStore from '../../Stores/PublicAlbumStore';
-import useScreenSize from '../../Auth/ScreenSizeProvider';
+import useScreenSize from '../../Providers/ScreenSizeProvider';
 import useLibraryStore from '../../Stores/AuthMusicStores/LibraryStore';
 import { Button } from '@/Components/ui/button.jsx';
+import ListLoader from '@/Components/ListLoader';
 
 
 const Album = () => {
     const navigate = useNavigate()
-    const { width } = useScreenSize()
     const [params] = useSearchParams()
     const list = params.get('list')
     const { formatTime } = useFormatTimeStore()
@@ -67,7 +67,7 @@ const Album = () => {
         saveToLibrary(track)
     }
 
-
+    if(!album) return <ListLoader />
     return (
         <div className="flex w-full h-full px-5 overflow-hidden text-white ">
             {/* Main Content */}
@@ -75,11 +75,9 @@ const Album = () => {
 
                 {/* Album Header */}
                 <div className="relative mb-8 z-10">
-                    {/* Background gradient based on playlist */}
                     <div className="absolute h-[250px] w-[90%] left-20 top-20 bg-gradient-to-b from-primary/20 via-primary/5 to-transparent rounded-3xl blur-3xl -z-10" />
 
                     <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-end p-6 md:p-8">
-                        {/* Album Art Collage */}
                         <div style={{
                             backgroundImage: `url(${album?.thumbnails ? (album?.thumbnails[1]?.url || album?.thumbnails[0]?.url) : ''})`
                         }} className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group">
@@ -196,30 +194,10 @@ const Album = () => {
 
                                     {/* Duration & Heart – only More shown on mobile */}
                                     <div className="flex items-center justify-center col-span-1 space-x-2 md:justify-center">
-                                        {/* <button
-                    onClick={(e) => {e.stopPropagation(); handleSaveSong(track)}}
-                    className="items-center justify-center hidden text-gray-400 transition-all md:group-hover:flex hover:text-white group-hover:opacity-100"
-                    >
-                    <Heart fill={`${isSaved(track.videoId) ? 'white' : ''}`} size={16} />
-                    </button> */}
                                         <p className="hidden text-sm text-gray-400 sm:block">
                                             {formatTime(track.duration_seconds)}
                                         </p>
-                                        {/* <button
-                    onClick={(e) => e.stopPropagation()}
-                    className="items-center justify-center hidden text-gray-400 transition-all md:group-hover:flex hover:text-white group-hover:opacity-100"
-                    >
-                    <MoreHorizontal size={16} />
-                    </button> */}
                                     </div>
-
-                                    {/* More */}
-                                    {/* <button
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex items-center justify-center text-gray-400 transition-all md:hidden hover:text-white group-hover:opacity-100"
-                    >
-                    <MoreHorizontal size={16} />
-                </button> */}
                                 </div>
                             )
                         })}

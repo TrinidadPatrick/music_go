@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Play, Pause, Heart, MoreHorizontal, Music, Search, Home, Library, Plus, Clock, ChevronLeft, ChevronRight, ListMusic, Disc, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useSidebarStore from '../Stores/sidebarStore';
-import useScreenSize from '../Auth/ScreenSizeProvider';
+import useScreenSize from '../Providers/ScreenSizeProvider';
 import localforage from 'localforage';
 import useMusicPlayerStore from '@/Stores/MusicPlayerStore.js';
 import useGetSongRecommendation from '@/Stores/NextSongRecommendationStore.js';

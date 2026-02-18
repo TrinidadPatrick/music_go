@@ -11,7 +11,6 @@ const useLibraryStore = create((set, get) => ({
     const { getAlbum } = usePublicAlbumStore.getState()
     try {
       const songs = await getAlbum(browseId)
-      console.log(songs)
       const result = await http.post('auth/music/batch_add_to_playlist', data)
       toast.success(result.data.message);
       return 'success'
